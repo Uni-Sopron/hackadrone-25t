@@ -1,0 +1,15 @@
+# To see a live preview of the documentation in the browser, enter this command (after installing mkdocs):
+# mkdocs serve
+
+site_name: HackaDrone Docs
+nav:
+  - Kezdőlap: index.md
+  - rules.md
+  - API: api.md
+theme:
+  name: mkdocs
+  navigation_depth: 5
+  user_color_mode_toggle: true
+plugins:
+  - search:
+      lang: hu
