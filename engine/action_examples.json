@@ -1,0 +1,40 @@
+[
+    {
+        "action_type" : "company",
+        "company_id" : "Trallala",
+        "action" : "new_drone",
+    },
+    {
+        "action_type" : "drone", 
+        "company_id" : "Trallala",
+        "drone_id" : 12,
+        "action" : "move",
+        "coordinates" : [12.1, -3.4]   
+    },
+    {
+        "action_type" : "drone", 
+        "company_id" : "Trallala",
+        "drone_id" : 12,
+        "action" : "rescue"  
+    },
+    {
+        "action_type" : "drone", 
+        "company_id" : "Trallala",
+        "drone_id" : 12,
+        "action" : "charge",
+        "charging_station_id": 1111 
+    },
+    {
+        "action_type" : "drone", 
+        "company_id" : "Trallala",
+        "drone_id" : 12,
+        "action" : "pickup_package",
+        "package_id" : 2342342
+    },
+    {
+        "action_type" : "drone", 
+        "company_id" : "Trallala",
+        "drone_id" : 12,
+        "action" : "rest"
+    }
+]

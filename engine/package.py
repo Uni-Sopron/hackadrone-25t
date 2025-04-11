@@ -19,5 +19,4 @@ class Package:
     weight_kg: float
     revenue_HUF: float
     latest_delivery_datetime: datetime
-    status: Status = Status.AVAILABLE
-    #TODO maybe company reference
+    status:Status = Status.AVAILABLE

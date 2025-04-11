@@ -14,7 +14,6 @@ BASE_LOAD_CAPACITY__KG = 3
 BATTERY_DISCHARGE__W_PER_KG = 1
 BATTERY_CAPACITY_DAMAGE__PERCENT = 1
 BATTERY_SWAPPING_TIME__S = 7200
-CLOSE_ENOUGH_DISTANCE__M = 1
 
 
 class Drone:
@@ -26,7 +25,7 @@ class Drone:
         SWAPPING = "swapping" 
 
     _id: int
-    _team_id: int
+    _company: Company
     _position: Coordinate
     _target: Coordinate | None
     _battery_J: float 
@@ -50,9 +49,9 @@ class Drone:
         return cls.__next_id
 
     
-    def __init__(self, team_id:int, position:Coordinate):
+    def __init__(self, company:Company, position:Coordinate):
         self._id = self._generate_next_id()
-        self._team_id = team_id
+        self._company = company
         self._position = position
         self._target = None
         self._battery_J = BASE_BATTERY_CAPACITY__J
@@ -62,14 +61,10 @@ class Drone:
         self._state = Drone.State.IDLE
         self._packages = set()
         self._max_load_kg = BASE_LOAD_CAPACITY__KG
-        self._swap_time_remaining_s = None
-        #TODO company injection for money stuff
+        self._swap_time_remaining_s:int|None = None
     
     def is_operational(self) -> bool:
         return self._state in {Drone.State.IDLE, Drone.State.MOVING, Drone.State.CHARGING}
-    
-    def close_enough(self, pos:Coordinate) -> bool:
-        return distance_in_meters(self._position,pos) < CLOSE_ENOUGH_DISTANCE__M
     
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
         match(self._state):
@@ -127,10 +122,10 @@ class Drone:
         self._packages.remove(package)
         if datetime.now() < package.latest_delivery_datetime and self._position != package.destination:
             package.status = Package.Status.DELIVERED
-            # TODO completion logic
+            self._company.complete_package_delivery(package)
         else:
             package.status = Package.Status.FAILED
-            # TODO failed delivery logic
+            self._company.fail_package_delivery(package)
         return True
     
     def set_destination(self, position:Coordinate) -> bool:
@@ -146,7 +141,27 @@ class Drone:
         return True
 
     def start_swap_waiting(self) -> None:
-        self._state = Drone.State.SWAPPING
+        if self._company.order_drone_rescue():
+            self._state = Drone.State.SWAPPING
+            self._target = None
+            self._swap_time_remaining_s = BATTERY_SWAPPING_TIME__S
+    
+    def rest(self) -> bool:
+        if not self.is_operational(): return False
+        self._state = Drone.State.IDLE
         self._target = None
-        self._swap_time_remaining_s = BATTERY_SWAPPING_TIME__S
-        # TODO swap cost logic
+        
+
+
+        
+
+
+
+
+
+
+
+            
+    
+
+    
