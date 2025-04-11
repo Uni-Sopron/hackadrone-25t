@@ -40,12 +40,14 @@ class Drone:
 
 
     __next_id = 0
-
-    @staticmethod
-    def _generate_next_id():
-        while True:
-            Drone.__next_id += 1
-            yield Drone._id_counter
+    @classmethod
+    def _generate_next_id(cls):
+        cls.__next_id += 1
+        return cls.__next_id
+    
+    @classmethod
+    def drone_count(cls) -> int:
+        return cls.__next_id
 
     
     def __init__(self, team_id:int, position:Coordinate):
@@ -79,7 +81,7 @@ class Drone:
                     self._swap_time_remaining_s = None
                     self._battery_J = self._battery_max_J
             case Drone.State.CHARGING:
-                self._battery_J + BASE_CHARGE_SPEED__W * seconds
+                self._battery_J += BASE_CHARGE_SPEED__W * seconds
                 if self._battery_J > self._battery_max_J:
                     self._battery_J = self._battery_max_J
                     self._state = Drone.State.IDLE
@@ -146,7 +148,7 @@ class Drone:
         self._target = None
         self._swap_time_remaining_s = BATTERY_SWAPPING_TIME__S
         # TODO swap cost logic
-        return True
+        
 
 
         
