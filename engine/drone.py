@@ -1,9 +1,9 @@
 from enum import Enum
 from datetime import datetime
 
-from utils import *
-from package import *
-from charging_station import *
+from utils import Coordinate, distance_in_meters, inbetween_coordinate
+from package import Package
+from charging_station import ChargingStation
 
 # TODO reasonable constants
 BASE_BATTERY_CAPACITY__J = 1000 
@@ -62,7 +62,7 @@ class Drone:
         self._state = Drone.State.IDLE
         self._packages = set()
         self._max_load_kg = BASE_LOAD_CAPACITY__KG
-        self._swap_time_remaining_s:int|None = None
+        self._swap_time_remaining_s = None
         #TODO company injection for money stuff
     
     def is_operational(self) -> bool:
@@ -74,7 +74,8 @@ class Drone:
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
         match(self._state):
             case Drone.State.IDLE | Drone.State.DEAD : return
-            case Drone.State.SWAPPING: 
+            case Drone.State.SWAPPING:
+                assert self._swap_time_remaining_s is not None
                 self._swap_time_remaining_s -= seconds
                 if self._swap_time_remaining_s < 0:
                     self._state = Drone.State.IDLE
@@ -87,9 +88,10 @@ class Drone:
                     self._state = Drone.State.IDLE
             case Drone.State.MOVING:
                 # TODO weather conditions logic
-                seconds_to_target:int = int(distance_in_meters(self._position, self._target) / self._speed_m_per_s)
-                seconds_to_discharge:int = int(self._battery_J / (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg()))
-                seconds_to_apply:int = min(seconds, seconds_to_target, seconds_to_discharge)
+                assert self._target is not None
+                seconds_to_target = int(distance_in_meters(self._position, self._target) / self._speed_m_per_s)
+                seconds_to_discharge = int(self._battery_J / (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg()))
+                seconds_to_apply = min(seconds, seconds_to_target, seconds_to_discharge)
                 self._battery_max_J -= seconds_to_apply * (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg())
                 if seconds_to_apply == seconds_to_target:
                     self._position = self._target
@@ -148,18 +150,3 @@ class Drone:
         self._target = None
         self._swap_time_remaining_s = BATTERY_SWAPPING_TIME__S
         # TODO swap cost logic
-        
-
-
-        
-
-
-
-
-
-
-
-            
-    
-
-    

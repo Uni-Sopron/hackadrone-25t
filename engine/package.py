@@ -19,5 +19,5 @@ class Package:
     weight_kg: float
     revenue_HUF: float
     latest_delivery_datetime: datetime
-    status:Status = Package.Status.AVAILABLE
+    status: Status = Status.AVAILABLE
     #TODO maybe company reference
