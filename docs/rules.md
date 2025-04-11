@@ -28,15 +28,17 @@ A virtuális világban az alábbi elemek lehetnek jelen, a felsorolt jellemzőik
 - Úticél
 - Max. sebesség
 - Szállítás alatt lévő [Csomagok](#csomagok)
-- Csomagkapacitás
+- Teherbírás
 - Akkumulátor
     - Töltöttségi szint
     - Repülési fogyasztási ráta (állóhelyzetben nem merül)
+    - Kapacitáscsökkenés lemerülés esetén
 - Állapot
     - Tétlen
     - Repül
     - Töltődik
     - Lemerült
+    - Mentésre vár
 
 ### Csomagok
 
@@ -44,9 +46,7 @@ A virtuális világban az alábbi elemek lehetnek jelen, a felsorolt jellemzőik
 - Feladás helye
 - Kiszállítás helye
 - Jutalom a kiszállításért
-- *Tömeg?*
-
-Ha egy csomaghoz még nem indult el egy drón sem, akkor növekedhet az érte járó jutalom, vagy visszavonásra kerülhet a megrendelt szállítás.
+- Tömeg
 
 ### Töltőállomások
 
@@ -68,15 +68,16 @@ A gyorsítás/lassítás is azonnal megtörténik 0-ról maxra, vagy fordítva.
 
 - Mozgás adott pozícióra
     - A pozíció beállításra kerül úticélnak, ami felé maximális sebességgel fog haladni, míg el nem éri, vagy más utasítást nem kap
+    - Az akkumulátor a drón és a szállított csomagok össztömegével arányosan merül a repülés során
     - Ha útközben lemerül, akkor *30(?) percet* kell várni, hogy egy karbantartó odamenjen és kicserélje az akksiját egy 100%-osra (addig más műveletre nem képes)
 - Megadott csomag felvétele
-    - A csomagnak kellő távolságon belül kell lennie
-    - A drónnak kell, hogy legyen elegendő szabad kapacitása
+    - A drónnak a csomag pozícióján kell várakoznia
+    - A csomagnak gazdátlannak kell lennie
+    - A drónnak kell, hogy legyen elegendő szabad teherkapacitása
 - Megadott csomag lerakása
     - A csomagnak a drón tulajdonában kell lennie
     - A csomag úticéljától kellő távolságon belül kell lennie *(vagy nem? ott lehet hagyni az útszélen büntetlenül?)*
 - Töltés indítása megadott állomáson
-    - A töltőállomásnak kellő távolságon belül kell lennie
+    - A drónnak a töltőállomás felett kell lennie
     - Lehet csomag a drónnál *(vagy nem? itt pl. érdekes lenne, hogy a töltés idejére el kell engednie, és egy másik elhappolhatja)*
     - Tetszőleges egyéb művelet megadása vagy 100%-os töltöttség elérése megszakítja a töltést
-        - *Vagy muszáj legyen teljesen feltölteni?*
