@@ -5,6 +5,8 @@ from utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J
 from package import Package
 from charging_station import ChargingStation
 
+DRONE_ID_PREFIX = "D"
+
 # TODO reasonable constants
 BASE_BATTERY_CAPACITY__J = Wh_to_J(1600)
 BASE_WEIGHT__KG = 5 
@@ -24,7 +26,7 @@ class Drone:
         DEAD = "dead"
         SWAPPING = "swapping" 
 
-    _id: int
+    _id: str
     _company: Company
     _position: Coordinate
     _target: Coordinate | None
@@ -40,19 +42,19 @@ class Drone:
 
     __next_id = 0
     @classmethod
-    def _generate_next_id(cls):
+    def _generate_next_id(cls) -> str:
         cls.__next_id += 1
-        return cls.__next_id
+        return f"{DRONE_ID_PREFIX}{cls.__next_id:04}"
     
     @classmethod
     def drone_count(cls) -> int:
         return cls.__next_id
 
     
-    def __init__(self, company:Company, position:Coordinate):
+    def __init__(self, company:Company):
         self._id = self._generate_next_id()
         self._company = company
-        self._position = position
+        self._position = company.location()
         self._target = None
         self._battery_J = BASE_BATTERY_CAPACITY__J
         self._battery_max_J = BASE_BATTERY_CAPACITY__J
@@ -63,8 +65,14 @@ class Drone:
         self._max_load_kg = BASE_LOAD_CAPACITY__KG
         self._swap_time_remaining_s:int|None = None
     
+    def id(self) -> str:
+        return self._id
+    
     def is_operational(self) -> bool:
         return self._state in {Drone.State.IDLE, Drone.State.MOVING, Drone.State.CHARGING}
+
+    def is_owned_by(self, company:Company) -> bool:
+        return company == self._company
     
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
         match(self._state):

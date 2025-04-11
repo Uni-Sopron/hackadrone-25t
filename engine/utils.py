@@ -1,7 +1,9 @@
 from collections import namedtuple
+from datetime import datetime
 
 LATITUDE_SECOND_DISTANCE_M = 30.89
 LONGITUDE_SECOND_DISTANCE_M = 20.79
+LOGFILE = f"{datetime.now().isoformat()}.txt"
 
 
 Coordinate = namedtuple('Coordinate', ['latitude', 'longitude'])
@@ -23,3 +25,17 @@ def J_to_Wh(joules:float) -> float:
 
 def Wh_to_J(watthours:float) -> float:
     return watthours * 3600
+
+
+def log(message:str):
+    with open(LOGFILE, "a") as f:
+        f.write(f"{datetime.now().isoformat()}: {message}\n")
+
+def log_try(message:str):
+    with open(LOGFILE, "a") as f:
+        f.write(f"{datetime.now().isoformat()}: {message}... ")
+
+def log_outcome(success:bool, message:str = ""):
+    with open(LOGFILE, "a") as f:
+        f.write(f" [{'SUCCESS' if success else 'FAILURE'}] {message}\n")
+
