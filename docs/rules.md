@@ -1,6 +1,6 @@
 # Szabályok
 
-A Hackathon során a [Csapatok](#csapatok) a saját (virtuális) szállító drónjaikat irányítják egy közös pályán.
+A Hackathon során a csapatok ([Cégek](#cegek)) a saját (virtuális) szállító drónjaikat irányítják egy közös pályán.
 
 A cél a legtöbb pontszám elérése a Hackathon végéig, [Csomagok](#csomagok) leszállításával.
 
@@ -13,10 +13,10 @@ A Föld görbületét elhanyagoljuk.
 
 A virtuális világban az alábbi elemek lehetnek jelen, a felsorolt jellemzőikkel.
 
-### Csapatok
+### Cégek
 
-- Csapat ID
-- Csapatnév
+- Cég ID
+- Cégnév
 - Titkos kulcs (az utasítások adásához)
 - Pontszám
 - [Drónok](#dronok) flottája
