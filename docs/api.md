@@ -1,3 +1,0 @@
-# Szerver API dokumentáció
-
-Under construction...

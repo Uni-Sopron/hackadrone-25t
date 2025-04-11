@@ -3,9 +3,8 @@
 
 site_name: HackaDrone Docs
 nav:
-  - Kezdőlap: index.md
-  - rules.md
-  - API: api.md
+    - Kezdőlap: index.md
+    - rules.md
 theme:
   name: mkdocs
   navigation_depth: 5
