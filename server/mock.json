@@ -1,0 +1,45 @@
+[
+  {
+    "drone_id": "drone_01",
+    "team_id": "team_red",
+    "position": {
+      "latitude": 47.680268,
+      "longitude": 16.575547
+    },
+    "destination": {
+      "latitude": 47.6625,
+      "longitude": 16.5531
+    },
+    "status": "flying",
+    "speed": 25.0,
+    "path": {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [16.56, 47.68],
+          [16.575547, 47.680268],
+          [16.58, 47.69]
+        ]
+      }
+    },
+    "battery": {
+      "level": 78,
+      "consumption_rate": 1.2,
+      "capacity_penalty": false
+    },
+    "carrying_packages": [
+      {
+        "package_id": "pkg_102",
+        "weight": 3.2,
+        "destination": {
+          "latitude": 47.665,
+          "longitude": 16.5599
+        },
+        "reward": 12
+      }
+    ],
+    "payload_capacity": 10.0,
+    "current_payload": 3.2
+  }
+]
