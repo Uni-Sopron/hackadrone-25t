@@ -14,9 +14,10 @@ class Package:
         DELIVERED = "delivered"
         FAILED = "failed"
 
+    id: str
     origin: Coordinate
     destination: Coordinate
     weight_kg: float
-    revenue_HUF: float
+    revenue_HUF: int
     latest_delivery_datetime: datetime
     status:Status = Status.AVAILABLE

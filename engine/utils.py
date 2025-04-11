@@ -18,6 +18,8 @@ def inbetween_coordinate(pos1:Coordinate, pos2:Coordinate, progress:float) -> Co
         longitude = pos1.longitude * (1-progress) + pos2.longitude * progress
     )
 
-
 def J_to_Wh(joules:float) -> float:
     return joules / 3600
+
+def Wh_to_J(watthours:float) -> float:
+    return watthours * 3600
