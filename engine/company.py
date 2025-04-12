@@ -1,5 +1,5 @@
-from utils import Coordinate
-from package import Package
+from .utils import Coordinate
+from .package import Package
 
 DRONE_PRICE__HUF = 40000
 INITIAL_BALANCE__HUF = 100000
@@ -46,6 +46,3 @@ class Company:
 
 
         
-
-
-

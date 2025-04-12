@@ -3,7 +3,7 @@ from datetime import datetime
 
 LATITUDE_SECOND_DISTANCE_M = 30.89
 LONGITUDE_SECOND_DISTANCE_M = 20.79
-LOGFILE = f"{datetime.now().isoformat()}.txt"
+LOGFILE = f"{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}.txt"
 
 
 Coordinate = namedtuple('Coordinate', ['latitude', 'longitude'])
@@ -38,4 +38,3 @@ def log_try(message:str):
 def log_outcome(success:bool, message:str = ""):
     with open(LOGFILE, "a") as f:
         f.write(f" [{'SUCCESS' if success else 'FAILURE'}] {message}\n")
-
