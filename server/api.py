@@ -4,13 +4,16 @@ from flask_openapi3.blueprint import APIBlueprint
 from flask_openapi3.types import ResponseDict
 from pydantic import BaseModel, Field
 
+from .instance import world
+from engine.drone import Drone
+
 api = APIBlueprint("public api", __name__, url_prefix="/api")
 
 
 @api.get("/state")
 def state():
     """Get world state"""
-    return {"state": "active"}
+    return world.status("Foo", { Drone })
 
 
 class DroneBody(BaseModel):
