@@ -4,6 +4,8 @@ from pprint import pprint
 from .world import World
 from .drone import Drone
 from .utils import Coordinate
+from .company import Company
+from .package import Package
 
 
 test = World()
@@ -30,6 +32,6 @@ test.action({
 })
 
 for _ in range(10):
-    pprint(test.status("Foo", {Drone}))
-    #print(test.status("Bar", {Drone}))
+    pprint(test.status("Foo", {Drone,Company,Package}))
+    print(test.status("Bar", {Drone,Company}))
     sleep(2)

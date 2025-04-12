@@ -5,10 +5,11 @@ from .company import Company
 from .drone import Drone
 from .package import Package
 from .utils import Coordinate, log, log_try, log_outcome
+from .entity import Entity
 
 class World:
     __entity_types = {Drone, Company, Package} # TODO Charging stations
-    _entities: dict[type,dict[str,Any]]
+    _entities: dict[type,dict[str,Entity]]
     _last_event: datetime
 
     @staticmethod
@@ -20,22 +21,18 @@ class World:
         self._last_event = World.now()
     
 
-    def _try_to_get_entity(self, entity:type, id:str) -> Any: 
+    def _try_to_get_entity(self, entity:type, id:str) -> Entity: 
         if id not in self._entities[entity]: raise ValueError(f"No {entity.__name__} with id {id}")
         return self._entities[entity][id]
     
     def status(self,company_name:str, entities:set[type]) -> dict[str,list[dict]]:
         self._apply_time_delay()
-        try:
-            company = self._try_to_get_entity(Company, company_name)
-        except ValueError as e:
-            return {"ERROR" : e.args[0]}
         return {
             entity.__name__ : [
-                item.status(company)
+                item.status(company_id = company_name)
                 for item in self._entities[entity].values()
             ]
-            for entity in entities # TODO does not work for anything besides Drone yet
+            for entity in entities
         }
 
     def try_to_register_company(self, name:str, location:Coordinate) -> None:

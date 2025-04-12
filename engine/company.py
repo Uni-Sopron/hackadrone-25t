@@ -1,5 +1,6 @@
 from .utils import Coordinate
 from .package import Package
+from .entity import Entity
 
 DRONE_PRICE__HUF = 40000
 INITIAL_BALANCE__HUF = 100000
@@ -7,7 +8,7 @@ FAILURE_PENALTY__PERCENT = 120
 DRONE_RESCUE_COST__HUF = 10000
 RELOCATION_COST__HUF = 5000
  
-class Company:
+class Company(Entity):
     _balance_HUF : int
     _name : str
     _base_location : Coordinate 
@@ -38,6 +39,20 @@ class Company:
         if self._balance_HUF < RELOCATION_COST__HUF: raise ValueError("Cannot relocate: not enough money.")
         self._balance_HUF -= RELOCATION_COST__HUF
         self._base_location = new_location
+
+    def _can_access_private(self, **kargs) -> bool:
+        return "comapny_id" in kargs and kargs["comapany_id"] == self._name
+    
+    def _public_status(self) -> dict:
+        return {
+            "company name" : self._name,
+            "base location" : self._base_location
+        }
+    
+    def _private_status(self) -> dict:
+        return {
+            "money (HUF)" : self._balance_HUF
+        }
     
 
     
