@@ -25,3 +25,15 @@ def add_package():
 def add_station():
     # TODO
     return "Station added", 200
+
+
+@admin.post("/toggle_scoreboard")
+def toggle_scoreboard():
+    # TODO
+    return "Scoreboard toggled", 200
+
+
+@admin.post("/deduct_score")
+def deduct_score():
+    # TODO
+    return "Score deducted", 200
