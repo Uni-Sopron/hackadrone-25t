@@ -8,11 +8,17 @@ import Details from './Details'
 const DroneMap = ({ data }) => {
   const [ZOOM, setZoom] = useState(15)
   const [selectedDrone, setSelectedDrone] = useState(false)
-  const [pinned, setPinned] = useState(null)
+  const [pinnedDrone, setPinnedDrone] = useState(null)
 
   const teams = data?.teams
 
-  const details = data?.drones.find((drone) => drone.drone_id === selectedDrone)
+  const details = data?.drones.find((drone) => {
+    if (selectedDrone) {
+      return drone.drone_id === selectedDrone
+    } else if (pinnedDrone) {
+      return drone.drone_id === pinnedDrone
+    }
+  })
 
   const lines = data?.drones.map((drone) => ({
     id: drone.drone_id,
@@ -50,10 +56,10 @@ const DroneMap = ({ data }) => {
   }
 
   const handlePin = (id) => {
-    if (pinned === id) {
-      setPinned()
+    if (id === pinnedDrone) {
+      setPinnedDrone()
     } else {
-      setPinned(id)
+      setPinnedDrone(id)
     }
   }
 
@@ -79,7 +85,7 @@ const DroneMap = ({ data }) => {
               strokeLinecap: 'round',
               filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.2))',
               pathLength: '1',
-              className: !pinned && 'drone-path',
+              className: pinnedDrone !== line.id && 'drone-path',
             }}
           >
             <GeoJsonFeature feature={line.path} />
@@ -96,7 +102,7 @@ const DroneMap = ({ data }) => {
               data={drone}
               onHover={handleHover}
               onPin={handlePin}
-              pinned={drone.drone_id === pinned}
+              pinned={drone.drone_id === pinnedDrone}
             />
           </Overlay>
         ))}
