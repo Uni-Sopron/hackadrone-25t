@@ -1,10 +1,12 @@
 from collections import namedtuple
 from datetime import datetime
+import os
 
 LATITUDE_SECOND_DISTANCE_M = 30.89
 LONGITUDE_SECOND_DISTANCE_M = 20.79
-LOGFILE = f"{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}.txt"
+LOGFILE = f"logs/{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}.log"
 
+os.makedirs("logs", exist_ok=True)
 
 Coordinate = namedtuple('Coordinate', ['latitude', 'longitude'])
 
