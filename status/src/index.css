@@ -11,31 +11,49 @@ body {
   box-sizing: border-box;
 }
 
-:fullscreen {
-  display: flex;
+.fullscreen {
   width: 100dvw;
   height: 100dvh;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background:
-    linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
+  position: relative;
 }
 
-.fullscreen {
+.fullscreen-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  margin: 0;
+  cursor: pointer;
+  z-index: 10000;
   display: flex;
-  width: 100vw;
-  height: 100vh;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  outline: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+  transform: scale(1);
+}
+
+.fullscreen-button:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .drone-path {
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
-  /*remove 'infinite' if you don't want the animation to repeat*/
-  /* animation: dash 3s linear infinite; */
+  animation: dash 3s linear infinite;
 }
 
 @keyframes dash {
@@ -46,4 +64,34 @@ body {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+@keyframes hover {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-3px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  75% {
+    transform: translateY(-2px) rotate(0.25deg);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.detail-line {
+  margin-bottom: 8px;
+}
+
+.detail-line > strong {
+  color: #80deea;
+}
+
+.detail-line > span {
+  float: right;
 }
