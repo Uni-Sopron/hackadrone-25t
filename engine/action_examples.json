@@ -28,7 +28,7 @@
         "company_id" : "Trallala",
         "drone_id" : 12,
         "action" : "charge",
-        "charging_station_id": 1111 
+        "charging_station_id": "tupturupp" 
     },
     {
         "action_type" : "drone", 

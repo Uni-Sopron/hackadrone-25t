@@ -13,7 +13,6 @@ DRONE_ID_PREFIX = "D"
 BASE_BATTERY_CAPACITY__J = Wh_to_J(1)
 BASE_WEIGHT__KG = 5 
 BASE_SPEED__M_PER_S = 10
-BASE_CHARGE_SPEED__W = 2000
 BASE_LOAD_CAPACITY__KG = 3
 BATTERY_DISCHARGE__W_PER_KG = 50
 BATTERY_CAPACITY_DAMAGE__PERCENT = 1
@@ -40,6 +39,7 @@ class Drone(Entity):
     _packages: set[Package]
     _max_load_kg: float
     _swap_time_remaining_s: int | None
+    _charging_station: ChargingStation | None
 
 
     __next_id = 0
@@ -65,7 +65,8 @@ class Drone(Entity):
         self._state = Drone.State.IDLE
         self._packages = set()
         self._max_load_kg = BASE_LOAD_CAPACITY__KG
-        self._swap_time_remaining_s:int|None = None
+        self._swap_time_remaining_s = None
+        self._charging_station = None
     
     def id(self) -> str:
         return self._id
@@ -105,7 +106,8 @@ class Drone(Entity):
                     self._swap_time_remaining_s = None
                     self._battery_J = self._battery_max_J
             case Drone.State.CHARGING:
-                self._battery_J += BASE_CHARGE_SPEED__W * seconds
+                assert self._charging_station is not None
+                self._battery_J += self._charging_station.charging_speed_W() * seconds
                 if self._battery_J > self._battery_max_J:
                     self._battery_J = self._battery_max_J
                     self._state = Drone.State.IDLE
@@ -160,19 +162,24 @@ class Drone(Entity):
         self.__check_operational()
         self._target = position
         self._state = Drone.State.MOVING
+        self._charging_station = None
     
     def try_to_land_to_charger(self, charger:ChargingStation) -> None:
         self.__check_operational()
-        if self._position != charger.location: raise ValueError(f"Cannot start charging at {charger.location}: not there.")
+        if self._position != charger.location: raise ValueError(f"Cannot start charging at {charger.id}: not there.")
         self._state = Drone.State.CHARGING
+        self._charging_station = charger
 
     def try_to_start_rescue(self) -> None:
         self._company.try_to_pay_for_drone_rescue()
         self._state = Drone.State.SWAPPING
         self._target = None
+        self._charging_station = None
         self._swap_time_remaining_s = BATTERY_SWAPPING_TIME__S
     
     def try_to_rest(self) -> None:
         self.__check_operational()
         self._state = Drone.State.IDLE
         self._target = None
+        self._charging_station = None
+    

@@ -4,11 +4,12 @@ from typing import Any
 from .company import Company
 from .drone import Drone
 from .package import Package
+from .charging_station import ChargingStation
 from .utils import Coordinate, log, log_try, log_outcome
 from .entity import Entity
 
 class World:
-    __entity_types = {Drone, Company, Package} # TODO Charging stations
+    __entity_types = {Drone, Company, Package, ChargingStation} # TODO Charging stations
     _entities: dict[type,dict[str,Entity]]
     _last_event: datetime
 
@@ -41,6 +42,22 @@ class World:
             log_outcome(False, "Name already used.")
             raise ValueError(f"Company with name {name} already exists.")
         self._entities[Company][name] = Company(name, location)
+        log_outcome(True)
+
+    def try_to_add_charging_station(self, name:str, location:Coordinate, max_charging_speed_W:float|None = None) -> None:
+        log_try(f" WORLD | ADD CHARGING STATION | trying to add charging station {name} at {location}")
+        if name in self._entities[ChargingStation]: 
+            log_outcome(False, "Name already used.")
+            raise ValueError(f"Charging station with name {name} already exists.")
+        self._entities[ChargingStation][name] = ChargingStation(name, location, max_charging_speed_W)
+        log_outcome(True)
+    
+    def try_to_close_down_charging_station(self, name:str) -> None:
+        log_try(f" WORLD | CLOSE CHARGING STATION | trying to close charging station {name}")
+        if name not in self._entities[ChargingStation]: 
+            log_outcome(False, "Station does not exist.")
+            raise ValueError(f"Charging station with name {name} does not exist.")
+        del self._entities[ChargingStation][name]
         log_outcome(True)
 
     def action(self, action:dict) -> None:
@@ -91,6 +108,12 @@ class World:
                             package:Package = self._try_to_get_entity(Package, p_id)
                             if a == "pickup_package": drone.try_to_pickup_package(package)
                             elif a == "drop_package": drone.try_to_drop_off_package(package)
+                        case "charge":
+                            try:
+                                ch_id:str = action["charging_station_id"]
+                            except KeyError:
+                                raise ValueError("Missing charging station id.")
+                            drone.try_to_land_to_charger(self._try_to_get_entity(ChargingStation, ch_id))
         except ValueError as e:
             log_outcome(False, e.args[0])
             raise e
