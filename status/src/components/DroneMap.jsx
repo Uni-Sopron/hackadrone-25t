@@ -52,8 +52,20 @@ const DroneMap = ({ data }) => {
   const getCharginStationSize = (zoom) => {
     const minZoom = 13
     const maxZoom = 18
+    const minSize = 60
+    const maxSize = 150
+
+    const t = (zoom - minZoom) / (maxZoom - minZoom)
+    const clampedT = Math.max(0, Math.min(1, t))
+
+    return minSize + clampedT * (maxSize - minSize)
+  }
+
+  const getPackageSize = (zoom) => {
+    const minZoom = 13
+    const maxZoom = 18
     const minSize = 40
-    const maxSize = 130
+    const maxSize = 120
 
     const t = (zoom - minZoom) / (maxZoom - minZoom)
     const clampedT = Math.max(0, Math.min(1, t))
@@ -87,6 +99,7 @@ const DroneMap = ({ data }) => {
         }}
         animate
         attribution={false}
+        zoomSnap={false}
       >
         {lines.map((line) => (
           <GeoJson
@@ -131,12 +144,9 @@ const DroneMap = ({ data }) => {
         </Overlay>
         <Overlay
           anchor={[47.670268, 16.6]}
-          offset={[
-            getCharginStationSize(ZOOM) / 2,
-            getCharginStationSize(ZOOM) / 2,
-          ]}
+          offset={[getPackageSize(ZOOM) / 2, getPackageSize(ZOOM) / 2]}
         >
-          <PackageIcon color="#E6A23C" size={48} />
+          <PackageIcon size={getPackageSize(ZOOM)} />
         </Overlay>
       </Map>
       <Details details={details} />
