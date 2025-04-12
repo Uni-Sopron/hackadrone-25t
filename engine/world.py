@@ -1,9 +1,10 @@
-from company import Company
-from drone import Drone
-from package import Package
-from utils import Coordinate, log, log_try, log_outcome
 from datetime import datetime,timedelta
 from typing import Any
+
+from .company import Company
+from .drone import Drone
+from .package import Package
+from .utils import Coordinate, log, log_try, log_outcome
 
 class World:
     __entity_types = {Drone, Company, Package} # TODO Charging stations

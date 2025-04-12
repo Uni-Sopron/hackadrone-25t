@@ -1,9 +1,10 @@
 from enum import Enum
 from datetime import datetime
-from company import Company
-from utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J, J_to_Wh
-from package import Package
-from charging_station import ChargingStation
+
+from .company import Company
+from .utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J, J_to_Wh
+from .package import Package
+from .charging_station import ChargingStation
 
 DRONE_ID_PREFIX = "D"
 
