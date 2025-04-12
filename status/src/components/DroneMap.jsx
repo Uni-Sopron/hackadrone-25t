@@ -4,6 +4,8 @@ import Drone from './Drone'
 import Teams from './Teams'
 import { colorgenerator } from '../utils'
 import Details from './Details'
+import ChargingStation from './ChargingStation'
+import PackageIcon from './PackageIcon'
 
 const DroneMap = ({ data }) => {
   const [ZOOM, setZoom] = useState(15)
@@ -40,6 +42,18 @@ const DroneMap = ({ data }) => {
     const maxZoom = 18
     const minSize = 24
     const maxSize = 96
+
+    const t = (zoom - minZoom) / (maxZoom - minZoom)
+    const clampedT = Math.max(0, Math.min(1, t))
+
+    return minSize + clampedT * (maxSize - minSize)
+  }
+
+  const getCharginStationSize = (zoom) => {
+    const minZoom = 13
+    const maxZoom = 18
+    const minSize = 40
+    const maxSize = 130
 
     const t = (zoom - minZoom) / (maxZoom - minZoom)
     const clampedT = Math.max(0, Math.min(1, t))
@@ -106,6 +120,24 @@ const DroneMap = ({ data }) => {
             />
           </Overlay>
         ))}
+        <Overlay
+          anchor={[47.680268, 16.6]}
+          offset={[
+            getCharginStationSize(ZOOM) / 2,
+            getCharginStationSize(ZOOM) / 2,
+          ]}
+        >
+          <ChargingStation size={getCharginStationSize(ZOOM)} color="#1E88E5" />
+        </Overlay>
+        <Overlay
+          anchor={[47.670268, 16.6]}
+          offset={[
+            getCharginStationSize(ZOOM) / 2,
+            getCharginStationSize(ZOOM) / 2,
+          ]}
+        >
+          <PackageIcon color="#E6A23C" size={48} />
+        </Overlay>
       </Map>
       <Details details={details} />
       <Teams teams={teams} />

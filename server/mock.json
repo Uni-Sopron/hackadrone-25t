@@ -99,5 +99,81 @@
       "current_payload": 0.0,
       "packages": []
     }
+  ],
+  "packages": [
+    {
+      "package_id": "pkg_301",
+      "weight": 4.5,
+      "position": {
+        "latitude": 47.67905,
+        "longitude": 16.57321
+      },
+      "destination": {
+        "latitude": 47.6845,
+        "longitude": 16.581
+      },
+      "reward": 15
+    },
+    {
+      "package_id": "pkg_302",
+      "weight": 2.8,
+      "position": {
+        "latitude": 47.6773,
+        "longitude": 16.5801
+      },
+      "destination": {
+        "latitude": 47.6765,
+        "longitude": 16.5715
+      },
+      "reward": 9
+    },
+    {
+      "package_id": "pkg_303",
+      "weight": 6.2,
+      "position": {
+        "latitude": 47.6812,
+        "longitude": 16.5785
+      },
+      "destination": {
+        "latitude": 47.685,
+        "longitude": 16.5741
+      },
+      "reward": 22
+    },
+    {
+      "package_id": "pkg_304",
+      "weight": 1.5,
+      "position": {
+        "latitude": 47.6769,
+        "longitude": 16.5755
+      },
+      "destination": {
+        "latitude": 47.68321,
+        "longitude": 16.58261
+      },
+      "reward": 7
+    }
+  ],
+  "chargingStations": [
+    {
+      "station_id": "station_01",
+      "position": {
+        "latitude": 47.680268,
+        "longitude": 16.577
+      },
+      "capacity": 3,
+      "available_slots": 2,
+      "charging_speed": 10.0
+    },
+    {
+      "station_id": "station_02",
+      "position": {
+        "latitude": 47.6772,
+        "longitude": 16.5753
+      },
+      "capacity": 2,
+      "available_slots": 1,
+      "charging_speed": 8.5
+    }
   ]
 }
