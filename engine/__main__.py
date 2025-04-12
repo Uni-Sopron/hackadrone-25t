@@ -11,7 +11,7 @@ test.try_to_register_company("Foo", Coordinate(1.2, 3.4))
 sleep(1)
 test.try_to_register_company("Bar", Coordinate(11.21, 13.41))
 sleep(2)
-for _ in range(1):
+for _ in range(3):
     sleep(0.7)
     try: 
         test.action({
