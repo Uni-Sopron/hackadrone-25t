@@ -133,21 +133,30 @@ const DroneMap = ({ data }) => {
             />
           </Overlay>
         ))}
-        <Overlay
-          anchor={[47.680268, 16.6]}
-          offset={[
-            getCharginStationSize(ZOOM) / 2,
-            getCharginStationSize(ZOOM) / 2,
-          ]}
-        >
-          <ChargingStation size={getCharginStationSize(ZOOM)} color="#1E88E5" />
-        </Overlay>
-        <Overlay
-          anchor={[47.670268, 16.6]}
-          offset={[getPackageSize(ZOOM) / 2, getPackageSize(ZOOM) / 2]}
-        >
-          <PackageIcon size={getPackageSize(ZOOM)} />
-        </Overlay>
+        {data?.chargingStations.map((station) => (
+          <Overlay
+            key={station.station_id}
+            anchor={[station.position.latitude, station.position.longitude]}
+            offset={[
+              getCharginStationSize(ZOOM) / 2,
+              getCharginStationSize(ZOOM) / 2,
+            ]}
+          >
+            <ChargingStation
+              size={getCharginStationSize(ZOOM)}
+              color="#1E88E5"
+            />
+          </Overlay>
+        ))}
+        {data?.packages.map((pkg) => (
+          <Overlay
+            key={pkg.package_id}
+            anchor={[pkg.position.latitude, pkg.position.longitude]}
+            offset={[getPackageSize(ZOOM) / 2, getPackageSize(ZOOM) / 2]}
+          >
+            <PackageIcon size={getPackageSize(ZOOM)} />
+          </Overlay>
+        ))}
       </Map>
       <Details details={details} />
       <Teams teams={teams} />
