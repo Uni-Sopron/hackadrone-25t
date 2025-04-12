@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "framer-motion": "^12.6.5",
+    "id-to-color": "^1.0.6",
     "pigeon-maps": "^0.22.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
