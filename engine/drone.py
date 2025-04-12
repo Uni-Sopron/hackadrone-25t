@@ -141,7 +141,7 @@ class Drone:
         self.__check_operational()
         if package not in self._packages: raise ValueError(f"Cannot drop package {package.id}: don't have it.")
         self._packages.remove(package)
-        if datetime.now() < package.latest_delivery_datetime and self._position != package.destination:
+        if datetime.now() < package.latest_delivery_datetime and self._position == package.destination:
             package.status = Package.Status.DELIVERED
             self._company.earn_for_successful_delivery(package)
         else:

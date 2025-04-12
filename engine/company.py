@@ -37,7 +37,7 @@ class Company:
     def try_to_relocate(self, new_location:Coordinate) -> None:
         if self._balance_HUF < RELOCATION_COST__HUF: raise ValueError("Cannot relocate: not enough money.")
         self._balance_HUF -= RELOCATION_COST__HUF
-        self.location = new_location
+        self._base_location = new_location
     
 
     
