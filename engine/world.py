@@ -6,7 +6,7 @@ from datetime import datetime,timedelta
 from typing import Any
 
 class World:
-    __entity_types = {Drone, Company, Package}
+    __entity_types = {Drone, Company, Package} # TODO Charging stations
     _entities: dict[type,dict[str,Any]]
     _last_event: datetime
 
@@ -20,7 +20,7 @@ class World:
     
 
     def _try_to_get_entity(self, entity:type, id:str) -> Any: 
-        if id not in self._entities[entity]: raise ValueError(f"No {type.__name__} with id {id}")
+        if id not in self._entities[entity]: raise ValueError(f"No {entity.__name__} with id {id}")
         return self._entities[entity][id]
     
     def status(self,company_name:str, entities:set[type]) -> dict[type,list[dict]]:
@@ -60,7 +60,7 @@ class World:
     def _try_to_get_coordinates(self, action:dict) -> Coordinate:
         try: [lat,lon] = action["coordinates"]
         except KeyError: raise ValueError("Missing coordinates.")
-        except ValueError: raise ValueError(f"Incorrenct coordinate format: {action['coordinates']}")
+        except ValueError: raise ValueError(f"Incorrect coordinate format: {action['coordinates']}")
         return Coordinate(lat,lon)
 
     def _apply_action(self, action:dict) -> None:
