@@ -83,16 +83,19 @@ class Drone(Entity):
     def _public_status(self) -> dict:
         return {
             "company" : self._company._name,
-            "position" : self._position,
+            "position" : str(self._position),
             "operational" : self.is_operational()
         }
     
     def _private_status(self) -> dict:
         return {
             "id" : self._id,
-            "position" : self._position,
             "status" : str(self._state),
-            "battery (Wh)" : J_to_Wh(self._battery_J)
+            "battery (Wh)" : J_to_Wh(self._battery_J),
+            "packages" : [package.get_status() for package in self._packages],
+            "moving towards" : str(self._target) if self._target is not None else None,
+            "charging speed (W)" : 0 if self._charging_station is None else self._charging_station.charging_speed_W(),
+            "discharching speed (W)" : BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg() 
         }    
 
     def apply_time_pass(self, seconds:int, conditions = None) -> None:

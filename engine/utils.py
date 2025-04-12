@@ -9,7 +9,9 @@ LOGFILE = f"logs/{datetime.now().strftime(TIMEFORMAT)}.log"
 
 os.makedirs("logs", exist_ok=True)
 
-Coordinate = namedtuple('Coordinate', ['latitude', 'longitude'])
+class Coordinate(namedtuple('Coordinate', ['latitude', 'longitude'])):
+    def __str__(self):
+        return f"{self.latitude}{'N' if self.latitude >= 0 else 'S'}, {self.longitude}{'E' if self.longitude >=0 else 'W'}"
 
 def distance_in_meters(pos1:Coordinate, pos2:Coordinate) -> float:
     return (

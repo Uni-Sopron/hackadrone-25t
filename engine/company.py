@@ -46,7 +46,7 @@ class Company(Entity):
     def _public_status(self) -> dict:
         return {
             "company name" : self._name,
-            "base location" : self._base_location
+            "base location" : str(self._base_location)
         }
     
     def _private_status(self) -> dict:
