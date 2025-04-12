@@ -1,19 +1,19 @@
 from enum import Enum
 from datetime import datetime
 from company import Company
-from utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J
+from utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J, J_to_Wh
 from package import Package
 from charging_station import ChargingStation
 
 DRONE_ID_PREFIX = "D"
 
 # TODO reasonable constants
-BASE_BATTERY_CAPACITY__J = Wh_to_J(1600)
+BASE_BATTERY_CAPACITY__J = Wh_to_J(1)
 BASE_WEIGHT__KG = 5 
 BASE_SPEED__M_PER_S = 10
 BASE_CHARGE_SPEED__W = 2000
 BASE_LOAD_CAPACITY__KG = 3
-BATTERY_DISCHARGE__W_PER_KG = 1
+BATTERY_DISCHARGE__W_PER_KG = 50
 BATTERY_CAPACITY_DAMAGE__PERCENT = 1
 BATTERY_SWAPPING_TIME__S = 7200
 
@@ -74,6 +74,18 @@ class Drone:
     def is_owned_by(self, company:Company) -> bool:
         return company == self._company
     
+    def status(self, requester:Company) -> dict:
+        return {
+            "id" : self._id,
+            "position" : self._position,
+            "status" : str(self._state),
+            "battery (Wh)" : J_to_Wh(self._battery_J)
+        } if requester == self._company else {
+            "company" : self._company._name,
+            "position" : self._position,
+            "operational" : self.is_operational()
+        } 
+    
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
         match(self._state):
             case Drone.State.IDLE | Drone.State.DEAD : return
@@ -95,7 +107,7 @@ class Drone:
                 seconds_to_target = int(distance_in_meters(self._position, self._target) / self._speed_m_per_s)
                 seconds_to_discharge = int(self._battery_J / (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg()))
                 seconds_to_apply = min(seconds, seconds_to_target, seconds_to_discharge)
-                self._battery_max_J -= seconds_to_apply * (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg())
+                self._battery_J -= seconds_to_apply * (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg())
                 if seconds_to_apply == seconds_to_target:
                     self._position = self._target
                     self._target = None

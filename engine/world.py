@@ -22,6 +22,20 @@ class World:
     def _try_to_get_entity(self, entity:type, id:str) -> Any: 
         if id not in self._entities[entity]: raise ValueError(f"No {type.__name__} with id {id}")
         return self._entities[entity][id]
+    
+    def status(self,company_name:str, entities:set[type]) -> dict[type,list[dict]]:
+        self._apply_time_delay()
+        try:
+            company = self._try_to_get_entity(Company, company_name)
+        except ValueError as e:
+            return {"ERROR" : e.args[0]}
+        return {
+            entity.__name__ : [
+                item.status(company)
+                for item in self._entities[entity].values()
+            ]
+            for entity in entities # TODO does not work for anything besides Drone yet
+        }
 
     def try_to_register_company(self, name:str, location:Coordinate) -> None:
         log_try(f" WORLD | REGISTER | trying to register {name} at {location}")
