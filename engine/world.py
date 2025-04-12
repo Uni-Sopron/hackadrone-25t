@@ -23,7 +23,7 @@ class World:
         if id not in self._entities[entity]: raise ValueError(f"No {entity.__name__} with id {id}")
         return self._entities[entity][id]
     
-    def status(self,company_name:str, entities:set[type]) -> dict[type,list[dict]]:
+    def status(self,company_name:str, entities:set[type]) -> dict[str,list[dict]]:
         self._apply_time_delay()
         try:
             company = self._try_to_get_entity(Company, company_name)
@@ -68,24 +68,28 @@ class World:
         log_try(f" WORLD | ACTION | trying {action}")
         try: 
             company:Company = self._try_to_get_entity(Company, action["company_id"])
-            match(action):
+            match action:
                 case {"action_type":"company", "company_id" : c_id, "action" : a}:
-                    match(a):
-                        case "new_drone": 
+                    match a:
+                        case "new_drone":
                             company.try_to_pay_for_new_drone()
                             new_drone:Drone = Drone(company)
                             self._entities[Drone][new_drone.id()] = new_drone
-                        case "relocate":  company.try_to_relocate(self._try_to_get_coordinates(action))
+                        case "relocate":
+                            company.try_to_relocate(self._try_to_get_coordinates(action))
                 case {"action_type":"drone", "company_id": c_id, "drone_id" : d_id, "action" : a}:
                     drone:Drone = self._try_to_get_entity(Drone, d_id)
-                    if not drone.is_owned_by(company): raise ValueError(f"Drone {d_id} is not owned by company {c_id}.")
-                    match(a):
+                    if not drone.is_owned_by(company):
+                        raise ValueError(f"Drone {d_id} is not owned by company {c_id}.")
+                    match a:
                         case "rest": drone.try_to_rest()
                         case "rescue": drone.try_to_start_rescue()
                         case "move": drone.try_to_set_destination(self._try_to_get_coordinates(action))
                         case "pickup_package" | "drop_package":
-                            try: p_id:str = action["package_id"]
-                            except KeyError: raise ValueError("Missing package id.")
+                            try: 
+                                p_id:str = action["package_id"]
+                            except KeyError:
+                                raise ValueError("Missing package id.")
                             package:Package = self._try_to_get_entity(Package, p_id)
                             if a == "pickup_package": drone.try_to_pickup_package(package)
                             elif a == "drop_package": drone.try_to_drop_off_package(package)
@@ -93,7 +97,3 @@ class World:
             log_outcome(False, e.args[0])
             raise e
         log_outcome(True)
-
-
-    
-

@@ -37,7 +37,7 @@ class Drone:
     _state: State
     _packages: set[Package]
     _max_load_kg: float
-    _swap_time_remaining_s: float | None
+    _swap_time_remaining_s: int | None
 
 
     __next_id = 0
@@ -92,7 +92,7 @@ class Drone:
             case Drone.State.SWAPPING:
                 assert self._swap_time_remaining_s is not None
                 self._swap_time_remaining_s -= seconds
-                if self._swap_time_remaining_s < 0:
+                if self._swap_time_remaining_s <= 0:
                     self._state = Drone.State.IDLE
                     self._swap_time_remaining_s = None
                     self._battery_J = self._battery_max_J
