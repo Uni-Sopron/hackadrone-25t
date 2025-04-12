@@ -30,7 +30,7 @@ class World:
         self._apply_time_delay()
         return {
             entity.__name__ : [
-                item.status(company_id = company_name)
+                item.get_status(company_id = company_name)
                 for item in self._entities[entity].values()
             ]
             for entity in entities
@@ -60,6 +60,17 @@ class World:
         del self._entities[ChargingStation][name]
         log_outcome(True)
 
+    def try_to_advertise_package(self, package:Package) -> None:
+        log_try(f" WORLD | ADD PACKAGE | trying to advertise package station {package}")
+        if package.id in self._entities[Package]: 
+            log_outcome(False, "Package already advertised.")
+            raise ValueError("Package already advertised.")
+        if package.latest_delivery_datetime <= World.now():
+            log_outcome(False, "Deadline already over.")
+            raise ValueError("Deadline already over.")
+        self._entities[Package][package.id] = package
+        log_outcome(True)
+
     def action(self, action:dict) -> None:
         self._apply_time_delay()
         self._apply_action(action)
@@ -71,6 +82,9 @@ class World:
             self._last_event += time_delay
             for drone in self._entities[Drone].values():
                 drone.apply_time_pass(int(time_delay.total_seconds()))
+            for id, package in self._entities[Package].items():
+                if package.status in {Package.Status.FAILED, Package.Status.DELIVERED} or package.status == Package.Status.AVAILABLE and package.latest_delivery_datetime < World.now():
+                    del self._entities[Package][id]
     
     def _try_to_get_coordinates(self, action:dict) -> Coordinate:
         try: [lat,lon] = action["coordinates"]
