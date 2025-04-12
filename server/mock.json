@@ -1,45 +1,103 @@
-[
-  {
-    "drone_id": "drone_01",
-    "team_id": "team_red",
-    "position": {
-      "latitude": 47.680268,
-      "longitude": 16.575547
+{
+  "teams": [
+    { "teams_id": "team_red", "name": "Red Team", "score": 0 },
+    { "teams_id": "team_blue", "name": "Blue Team", "score": 0 }
+  ],
+  "drones": [
+    {
+      "drone_id": "drone_01",
+      "team_id": "team_red",
+      "position": {
+        "latitude": 47.680267,
+        "longitude": 16.575547
+      },
+      "destination": {
+        "latitude": 47.6825,
+        "longitude": 16.569
+      },
+      "source": {
+        "latitude": 47.6826,
+        "longitude": 16.5732
+      },
+      "status": "flying",
+      "speed": 25.0,
+      "battery": 70,
+      "payload_capacity": 10.0,
+      "current_payload": 3.2,
+      "packages": [
+        {
+          "package_id": "pkg_102",
+          "weight": 3.2,
+          "destination": {
+            "latitude": 47.665,
+            "longitude": 16.5599
+          },
+          "reward": 12
+        }
+      ]
     },
-    "destination": {
-      "latitude": 47.6625,
-      "longitude": 16.5531
-    },
-    "status": "flying",
-    "speed": 25.0,
-    "path": {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [16.56, 47.68],
-          [16.575547, 47.680268],
-          [16.58, 47.69]
-        ]
-      }
-    },
-    "battery": {
-      "level": 78,
-      "consumption_rate": 1.2,
-      "capacity_penalty": false
-    },
-    "carrying_packages": [
-      {
-        "package_id": "pkg_102",
-        "weight": 3.2,
-        "destination": {
-          "latitude": 47.665,
-          "longitude": 16.5599
+    {
+      "drone_id": "drone_02",
+      "team_id": "team_blue",
+      "position": {
+        "latitude": 47.68241,
+        "longitude": 16.57392
+      },
+      "destination": {
+        "latitude": 47.6783,
+        "longitude": 16.5805
+      },
+      "source": {
+        "latitude": 47.6835,
+        "longitude": 16.5712
+      },
+      "status": "delivering",
+      "speed": 22.5,
+      "battery": 85,
+      "payload_capacity": 8.0,
+      "current_payload": 6.7,
+      "packages": [
+        {
+          "package_id": "pkg_203",
+          "weight": 4.2,
+          "destination": {
+            "latitude": 47.6783,
+            "longitude": 16.5805
+          },
+          "reward": 18
         },
-        "reward": 12
-      }
-    ],
-    "payload_capacity": 10.0,
-    "current_payload": 3.2
-  }
-]
+        {
+          "package_id": "pkg_204",
+          "weight": 2.5,
+          "destination": {
+            "latitude": 47.6768,
+            "longitude": 16.5823
+          },
+          "reward": 11
+        }
+      ]
+    },
+    {
+      "drone_id": "drone_03",
+      "team_id": "team_red",
+      "position": {
+        "latitude": 47.6785,
+        "longitude": 16.5778
+      },
+      "destination": {
+        "latitude": 47.6751,
+        "longitude": 16.5762
+      },
+      "source": {
+        "latitude": 47.6812,
+        "longitude": 16.5789
+      },
+      "status": "returning",
+      "speed": 28.5,
+      "battery": 42,
+      "payload_capacity": 12.0,
+      "current_payload": 0.0,
+      "packages": []
+    }
+  ]
+}
