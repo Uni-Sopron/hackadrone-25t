@@ -4,7 +4,8 @@ import os
 
 LATITUDE_SECOND_DISTANCE_M = 30.89
 LONGITUDE_SECOND_DISTANCE_M = 20.79
-LOGFILE = f"logs/{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}.log"
+TIMEFORMAT = "%Y_%m_%d_%H_%M_%S"
+LOGFILE = f"logs/{datetime.now().strftime(TIMEFORMAT)}.log"
 
 os.makedirs("logs", exist_ok=True)
 

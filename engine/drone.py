@@ -5,6 +5,7 @@ from .company import Company
 from .utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J, J_to_Wh
 from .package import Package
 from .charging_station import ChargingStation
+from .entity import Entity
 
 DRONE_ID_PREFIX = "D"
 
@@ -19,7 +20,7 @@ BATTERY_CAPACITY_DAMAGE__PERCENT = 1
 BATTERY_SWAPPING_TIME__S = 7200
 
 
-class Drone:
+class Drone(Entity):
     class State(Enum):
         IDLE = "idle"
         MOVING = "moving"
@@ -74,19 +75,25 @@ class Drone:
 
     def is_owned_by(self, company:Company) -> bool:
         return company == self._company
+
+    def _can_access_private(self, **kargs):
+        return "company_id" in kargs and kargs["company_id"] == self._company._name
+
+    def _public_status(self) -> dict:
+        return {
+            "company" : self._company._name,
+            "position" : self._position,
+            "operational" : self.is_operational()
+        }
     
-    def status(self, requester:Company) -> dict:
+    def _private_status(self) -> dict:
         return {
             "id" : self._id,
             "position" : self._position,
             "status" : str(self._state),
             "battery (Wh)" : J_to_Wh(self._battery_J)
-        } if requester == self._company else {
-            "company" : self._company._name,
-            "position" : self._position,
-            "operational" : self.is_operational()
-        } 
-    
+        }    
+
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
         match(self._state):
             case Drone.State.IDLE | Drone.State.DEAD : return
