@@ -11,6 +11,10 @@ from engine.world import Company, Drone, Package, ChargingStation
 api = APIBlueprint("public api", __name__, url_prefix="/api")
 
 
+class StateRequest(BaseModel):
+    company_id: str = Field(..., min_length=1)
+
+
 class DroneRequest(BaseModel):
     company_id: str = Field(..., min_length=1)
     drone_id: str = Field(..., min_length=1)
@@ -53,10 +57,18 @@ def authenticate(company_id: str, api_key: str):
 
 
 @api.get("/state")
-def state():
-    """Get world state"""
-    # TODO authentication for private data
+def public_state():
+    """Get world state (public)"""
     return world.status("", {Drone, Company, Package, ChargingStation})
+
+
+@api.get("/state/<string:company_id>", security=security)
+def state(path: StateRequest):
+    """Get world knowledge of a company"""
+    auth_response = authenticate(path.company_id, request.headers.get("Api-Key", ""))
+    if auth_response != HTTPStatus.OK:
+        return auth_response
+    return world.status(path.company_id, {Drone, Company, Package, ChargingStation})
 
 
 @api.post("/move", security=security)
