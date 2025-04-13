@@ -1,5 +1,4 @@
 from datetime import datetime,timedelta
-from typing import Any
 
 from .company import Company
 from .drone import Drone
@@ -44,14 +43,12 @@ class World:
         self._entities[Company][name] = Company(name, location)
         log_outcome(True)
 
-    def try_to_add_charging_station(self, name:str, location:Coordinate, max_charging_speed_W:float|None = None) -> None:
-        log_try(f" WORLD | ADD CHARGING STATION | trying to add charging station {name} at {location}")
-        if name in self._entities[ChargingStation]: 
-            log_outcome(False, "Name already used.")
-            raise ValueError(f"Charging station with name {name} already exists.")
-        self._entities[ChargingStation][name] = ChargingStation(name, location, max_charging_speed_W)
+    def try_to_add_charging_station(self, location:Coordinate, max_charging_speed_W:float|None = None) -> None:
+        log_try(f" WORLD | ADD CHARGING STATION | trying to add charging station at {location}")
+        station = ChargingStation(location, max_charging_speed_W)
+        self._entities[ChargingStation][station._id] = station
         log_outcome(True)
-    
+
     def try_to_close_down_charging_station(self, name:str) -> None:
         log_try(f" WORLD | CLOSE CHARGING STATION | trying to close charging station {name}")
         if name not in self._entities[ChargingStation]: 
@@ -62,13 +59,13 @@ class World:
 
     def try_to_advertise_package(self, package:Package) -> None:
         log_try(f" WORLD | ADD PACKAGE | trying to advertise package station {package}")
-        if package.id in self._entities[Package]: 
+        if package._id in self._entities[Package]: 
             log_outcome(False, "Package already advertised.")
             raise ValueError("Package already advertised.")
         if package.latest_delivery_datetime <= World.now():
             log_outcome(False, "Deadline already over.")
             raise ValueError("Deadline already over.")
-        self._entities[Package][package.id] = package
+        self._entities[Package][package._id] = package
         log_outcome(True)
 
     def action(self, action:dict) -> None:

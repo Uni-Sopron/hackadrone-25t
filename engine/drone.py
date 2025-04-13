@@ -7,8 +7,6 @@ from .package import Package
 from .charging_station import ChargingStation
 from .entity import Entity
 
-DRONE_ID_PREFIX = "D"
-
 # TODO reasonable constants
 BASE_BATTERY_CAPACITY__J = Wh_to_J(1)
 BASE_WEIGHT__KG = 5 
@@ -25,9 +23,9 @@ class Drone(Entity):
         MOVING = "moving"
         CHARGING = "charging"
         DEAD = "dead"
-        SWAPPING = "swapping" 
+        SWAPPING = "swapping"
 
-    _id: str
+    ENTITY_ID_PREFIX = "D"
     _company: Company
     _position: Coordinate
     _target: Coordinate | None
@@ -41,19 +39,8 @@ class Drone(Entity):
     _swap_time_remaining_s: int | None
     _charging_station: ChargingStation | None
 
-
-    __next_id = 0
-    @classmethod
-    def _generate_next_id(cls) -> str:
-        cls.__next_id += 1
-        return f"{DRONE_ID_PREFIX}{cls.__next_id:04}"
-    
-    @classmethod
-    def drone_count(cls) -> int:
-        return cls.__next_id
-
-    
-    def __init__(self, company:Company):
+    def __init__(self, company: Company):
+        super().__init__()
         self._id = self._generate_next_id()
         self._company = company
         self._position = company.location()
@@ -144,15 +131,15 @@ class Drone(Entity):
 
     def try_to_pickup_package(self, package:Package) -> None:
         self.__check_operational()
-        if self._position != package.origin: raise ValueError(f"Cannot pick up package {package.id}: it is not here.")
-        if package.status != Package.Status.AVAILABLE: raise ValueError(f"Cannot pick up package {package.id}: already taken.")
-        if package.weight_kg + self._current_load_kg() > self._max_load_kg: raise ValueError(f"Cannot pick up package {package.id}: too heavy.")
+        if self._position != package.origin: raise ValueError(f"Cannot pick up package {package._id}: it is not here.")
+        if package.status != Package.Status.AVAILABLE: raise ValueError(f"Cannot pick up package {package._id}: already taken.")
+        if package.weight_kg + self._current_load_kg() > self._max_load_kg: raise ValueError(f"Cannot pick up package {package._id}: too heavy.")
         package.status = Package.Status.TAKEN
         self._packages.add(package)
     
     def try_to_drop_off_package(self, package:Package) -> None:
         self.__check_operational()
-        if package not in self._packages: raise ValueError(f"Cannot drop package {package.id}: don't have it.")
+        if package not in self._packages: raise ValueError(f"Cannot drop package {package._id}: don't have it.")
         self._packages.remove(package)
         if datetime.now() < package.latest_delivery_datetime and self._position == package.destination:
             package.status = Package.Status.DELIVERED
@@ -169,7 +156,8 @@ class Drone(Entity):
     
     def try_to_land_to_charger(self, charger:ChargingStation) -> None:
         self.__check_operational()
-        if self._position != charger.location: raise ValueError(f"Cannot start charging at {charger.id}: not there.")
+        if self._position != charger.location:
+            raise ValueError(f"Cannot start charging at {charger._id}: not there.")
         self._state = Drone.State.CHARGING
         self._charging_station = charger
 

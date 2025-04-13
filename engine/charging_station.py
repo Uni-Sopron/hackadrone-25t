@@ -1,25 +1,28 @@
-from .utils import *
+from .utils import Coordinate
 from .entity import Entity
-from dataclasses import dataclass
-
 
 DEFAULT_CHARGING_SPEED__W = 20
 
-@dataclass
+
 class ChargingStation(Entity):
-    id: str
-    location: Coordinate
-    max_charging_speed_W: float|None
-    # TODO maybe later max charging speed / capacity   
-    # TODO maybe later open hours logic
+    ENTITY_ID_PREFIX = "S"
+
+    def __init__(self, location: Coordinate, max_charging_speed_W: float|None = None):
+        super().__init__()
+        self.location = location
+        self.max_charging_speed_W = max_charging_speed_W
+        # TODO maybe later max charging speed / capacity   
+        # TODO maybe later open hours logic
 
     def charging_speed_W(self) -> float:
-        if self.max_charging_speed_W is None: return DEFAULT_CHARGING_SPEED__W
-        else: return self.charging_speed_W 
+        if self.max_charging_speed_W is None:
+            return DEFAULT_CHARGING_SPEED__W
+        else:
+            return self.max_charging_speed_W
 
     def _public_status(self) -> dict:
         return {
-            "id" : self.id,
+            "id" : self._id,
             "location" : str(self.location),
             "max charging speed (W)": self.max_charging_speed_W
         }
