@@ -1,7 +1,9 @@
+import os
 import pickle
 
 from engine.world import World, BACKUP_FILE
 
+os.makedirs(os.path.dirname(BACKUP_FILE), exist_ok=True)
 
 try:
     with open(BACKUP_FILE, "rb") as file:
