@@ -8,7 +8,6 @@ services:
     ports:
       - 8000:8000
     environment:
-      - SERVER_URL=127.0.0.1
       - SERVER_PORT=8000
     secrets:
       - my_secret
