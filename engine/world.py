@@ -35,13 +35,15 @@ class World:
             for entity in entities
         }
 
-    def try_to_register_company(self, name:str, location:Coordinate) -> None:
+    def try_to_register_company(self, name:str, location:Coordinate) -> str:
         log_try(f" WORLD | REGISTER | trying to register {name} at {location}")
         if name in self._entities[Company]: 
             log_outcome(False, "Name already used.")
             raise ValueError(f"Company with name {name} already exists.")
-        self._entities[Company][name] = Company(name, location)
+        company = Company(name, location)
+        self._entities[Company][name] = company
         log_outcome(True)
+        return company._secret
 
     def try_to_add_charging_station(self, location:Coordinate, max_charging_speed_W:float|None = None) -> None:
         log_try(f" WORLD | ADD CHARGING STATION | trying to add charging station at {location}")

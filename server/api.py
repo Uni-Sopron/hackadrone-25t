@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from flask import request
 from flask_openapi3.blueprint import APIBlueprint
 from flask_openapi3.types import ResponseDict
 from pydantic import BaseModel, Field
@@ -36,6 +37,20 @@ responses: ResponseDict = {
     HTTPStatus.FORBIDDEN: None,
 }
 
+security = [{"Api-Key": []}]
+
+
+def authenticate(company_id: str, api_key: str):
+    """Authenticate the company"""
+    try:
+        found_company = world._try_to_get_entity(Company, company_id)
+    except ValueError:
+        return {"error": "Company not found"}, HTTPStatus.NOT_FOUND
+    assert isinstance(found_company, Company)
+    if api_key != found_company._secret:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
+    return HTTPStatus.OK
+
 
 @api.get("/state")
 def state():
@@ -44,9 +59,12 @@ def state():
     return world.status("", {Drone, Company, Package, ChargingStation})
 
 
-@api.post("/move")
+@api.post("/move", security=security)
 def move(body: MoveRequest):
     """Move the drone to a location"""
+    auth_response = authenticate(body.company_id, request.headers.get("Api-Key", ""))
+    if auth_response != HTTPStatus.OK:
+        return auth_response
     action = {
         "action_type": "drone",
         "company_id": body.company_id,
@@ -61,9 +79,12 @@ def move(body: MoveRequest):
         return {"error": str(e)}, HTTPStatus.BAD_REQUEST
 
 
-@api.post("/pickup", responses=responses)
+@api.post("/pickup", responses=responses, security=security)
 def pickup(body: PackageRequest):
     """Pick up a package"""
+    auth_response = authenticate(body.company_id, request.headers.get("Api-Key", ""))
+    if auth_response != HTTPStatus.OK:
+        return auth_response
     action = {
         "action_type": "drone",
         "company_id": body.company_id,
@@ -78,9 +99,12 @@ def pickup(body: PackageRequest):
         return {"error": str(e)}, HTTPStatus.BAD_REQUEST
 
 
-@api.post("/drop", responses=responses)
+@api.post("/drop", responses=responses, security=security)
 def drop(body: PackageRequest):
     """Drop off a package"""
+    auth_response = authenticate(body.company_id, request.headers.get("Api-Key", ""))
+    if auth_response != HTTPStatus.OK:
+        return auth_response
     action = {
         "action_type": "drone",
         "company_id": body.company_id,
@@ -95,9 +119,12 @@ def drop(body: PackageRequest):
         return {"error": str(e)}, HTTPStatus.BAD_REQUEST
 
 
-@api.post("/charge", responses=responses)
+@api.post("/charge", responses=responses, security=security)
 def charge(body: StationRequest):
     """Charge the drone"""
+    auth_response = authenticate(body.company_id, request.headers.get("Api-Key", ""))
+    if auth_response != HTTPStatus.OK:
+        return auth_response
     action = {
         "action_type": "drone",
         "company_id": body.company_id,
@@ -112,9 +139,12 @@ def charge(body: StationRequest):
         return {"error": str(e)}, HTTPStatus.BAD_REQUEST
 
 
-@api.post("/rescue", responses=responses)
+@api.post("/rescue", responses=responses, security=security)
 def rescue(body: DroneRequest):
     """Rescue the drone"""
+    auth_response = authenticate(body.company_id, request.headers.get("Api-Key", ""))
+    if auth_response != HTTPStatus.OK:
+        return auth_response
     action = {
         "action_type": "drone",
         "company_id": body.company_id,
@@ -128,9 +158,12 @@ def rescue(body: DroneRequest):
         return {"error": str(e)}, HTTPStatus.BAD_REQUEST
 
 
-@api.post("/rest", responses=responses)
+@api.post("/rest", responses=responses, security=security)
 def rest(body: DroneRequest):
     """Rest the drone"""
+    auth_response = authenticate(body.company_id, request.headers.get("Api-Key", ""))
+    if auth_response != HTTPStatus.OK:
+        return auth_response
     action = {
         "action_type": "drone",
         "company_id": body.company_id,

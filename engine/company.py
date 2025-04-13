@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from .utils import Coordinate
 from .package import Package
 from .entity import Entity
@@ -12,11 +14,13 @@ class Company(Entity):
     _balance_HUF : int
     _name : str
     _base_location : Coordinate 
+    _secret : str
 
     def __init__(self, name:str, base_location:Coordinate):
         self._base_location = base_location
         self._name = name
         self._balance_HUF = INITIAL_BALANCE__HUF
+        self._secret = str(uuid4())
     
     def location(self) -> Coordinate:
         return self._base_location

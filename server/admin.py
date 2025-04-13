@@ -63,10 +63,10 @@ responses: ResponseDict = {
 def add_company(body: CompanyBody):
     """Add a new company"""
     try:
-        world.try_to_register_company(body.company_name, body.base_location)
+        api_key = world.try_to_register_company(body.company_name, body.base_location)
     except ValueError as e:
         return {"message": str(e)}, HTTPStatus.BAD_REQUEST
-    return {"message": "Company added"}  # TODO return secret key
+    return {"message": f"Company added, {api_key=}"}
 
 
 @admin.post("/add_drone", responses=responses)
