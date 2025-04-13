@@ -1,6 +1,6 @@
 class Entity:
 
-    def status(self, **kargs) -> dict:
+    def get_status(self, **kargs) -> dict:
         return {
             **self._public_status(),
             **(self._private_status() if self._can_access_private(**kargs) else {})

@@ -13,7 +13,6 @@ DRONE_ID_PREFIX = "D"
 BASE_BATTERY_CAPACITY__J = Wh_to_J(1)
 BASE_WEIGHT__KG = 5 
 BASE_SPEED__M_PER_S = 10
-BASE_CHARGE_SPEED__W = 2000
 BASE_LOAD_CAPACITY__KG = 3
 BATTERY_DISCHARGE__W_PER_KG = 50
 BATTERY_CAPACITY_DAMAGE__PERCENT = 1
@@ -40,6 +39,7 @@ class Drone(Entity):
     _packages: set[Package]
     _max_load_kg: float
     _swap_time_remaining_s: int | None
+    _charging_station: ChargingStation | None
 
 
     __next_id = 0
@@ -65,7 +65,8 @@ class Drone(Entity):
         self._state = Drone.State.IDLE
         self._packages = set()
         self._max_load_kg = BASE_LOAD_CAPACITY__KG
-        self._swap_time_remaining_s:int|None = None
+        self._swap_time_remaining_s = None
+        self._charging_station = None
     
     def id(self) -> str:
         return self._id
@@ -82,16 +83,19 @@ class Drone(Entity):
     def _public_status(self) -> dict:
         return {
             "company" : self._company._name,
-            "position" : self._position,
+            "position" : str(self._position),
             "operational" : self.is_operational()
         }
     
     def _private_status(self) -> dict:
         return {
             "id" : self._id,
-            "position" : self._position,
             "status" : str(self._state),
-            "battery (Wh)" : J_to_Wh(self._battery_J)
+            "battery (Wh)" : J_to_Wh(self._battery_J),
+            "packages" : [package.get_status() for package in self._packages],
+            "moving towards" : str(self._target) if self._target is not None else None,
+            "charging speed (W)" : 0 if self._charging_station is None else self._charging_station.charging_speed_W(),
+            "discharching speed (W)" : BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg() 
         }    
 
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
@@ -105,7 +109,8 @@ class Drone(Entity):
                     self._swap_time_remaining_s = None
                     self._battery_J = self._battery_max_J
             case Drone.State.CHARGING:
-                self._battery_J += BASE_CHARGE_SPEED__W * seconds
+                assert self._charging_station is not None
+                self._battery_J += self._charging_station.charging_speed_W() * seconds
                 if self._battery_J > self._battery_max_J:
                     self._battery_J = self._battery_max_J
                     self._state = Drone.State.IDLE
@@ -160,19 +165,24 @@ class Drone(Entity):
         self.__check_operational()
         self._target = position
         self._state = Drone.State.MOVING
+        self._charging_station = None
     
     def try_to_land_to_charger(self, charger:ChargingStation) -> None:
         self.__check_operational()
-        if self._position != charger.location: raise ValueError(f"Cannot start charging at {charger.location}: not there.")
+        if self._position != charger.location: raise ValueError(f"Cannot start charging at {charger.id}: not there.")
         self._state = Drone.State.CHARGING
+        self._charging_station = charger
 
     def try_to_start_rescue(self) -> None:
         self._company.try_to_pay_for_drone_rescue()
         self._state = Drone.State.SWAPPING
         self._target = None
+        self._charging_station = None
         self._swap_time_remaining_s = BATTERY_SWAPPING_TIME__S
     
     def try_to_rest(self) -> None:
         self.__check_operational()
         self._state = Drone.State.IDLE
         self._target = None
+        self._charging_station = None
+    
