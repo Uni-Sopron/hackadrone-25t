@@ -1,5 +1,6 @@
 import os
 
+from flask_cors import CORS
 from flask_openapi3.models.info import Info
 from flask_openapi3.models.server import Server
 from flask_openapi3.openapi import OpenAPI
@@ -24,6 +25,7 @@ servers = [
     )
 ]
 app = OpenAPI("HackaDrone server", info=info, servers=servers, security_schemes=security_schemes)
+CORS(app, supports_credentials=True)
 
 app.register_api(api)
 app.register_api(admin)
