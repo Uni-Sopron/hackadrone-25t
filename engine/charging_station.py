@@ -1,7 +1,7 @@
 from .utils import Coordinate
 from .entity import Entity
 
-DEFAULT_CHARGING_SPEED__W = 20
+DEFAULT_CHARGING_SPEED__W = 120
 
 
 class ChargingStation(Entity):

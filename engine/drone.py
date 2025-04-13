@@ -8,11 +8,11 @@ from .charging_station import ChargingStation
 from .entity import Entity
 
 # TODO reasonable constants
-BASE_BATTERY_CAPACITY__J = Wh_to_J(5)
+BASE_BATTERY_CAPACITY__J = Wh_to_J(100)
 BASE_WEIGHT__KG = 5
 BASE_SPEED__M_PER_S = 10
-BASE_LOAD_CAPACITY__KG = 10
-BATTERY_DISCHARGE__W_PER_KG = 9
+BASE_LOAD_CAPACITY__KG = 5
+BATTERY_DISCHARGE__W_PER_KG = 21
 BATTERY_CAPACITY_DAMAGE__PERCENT = 5
 BATTERY_SWAPPING_TIME__S = 3600
 
@@ -73,7 +73,7 @@ class Drone(Entity):
             "position" : str(self._position),
             "operational" : self.is_operational()
         }
-    
+
     def _private_status(self) -> dict:
         return {
             "id" : self._id,
@@ -82,8 +82,9 @@ class Drone(Entity):
             "packages" : [package.get_status() for package in self._packages],
             "moving towards" : str(self._target) if self._target is not None else None,
             "charging speed (W)" : 0 if self._charging_station is None else self._charging_station.charging_speed_W(),
-            "discharching speed (W)" : BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg() 
-        }    
+            "discharging speed (W)" : BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg(),
+            "load capacity (kg)" : self._max_load_kg,
+        }
 
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
         match(self._state):
