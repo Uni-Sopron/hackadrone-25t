@@ -2,7 +2,6 @@ import os
 from datetime import datetime
 from http import HTTPStatus
 
-from dotenv import load_dotenv
 from flask import request
 from flask_openapi3.blueprint import APIBlueprint
 from flask_openapi3.models.tag import Tag
@@ -15,8 +14,6 @@ from engine.package import Package
 from engine.utils import Coordinate
 
 ADMIN_APIDOC_VISIBLE = False
-
-load_dotenv()
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
 if not ADMIN_API_KEY:
     raise ValueError("ADMIN_API_KEY environment variable is not set.")

@@ -1,0 +1,13 @@
+*/__pycache__
+venv
+Dockerfile
+docker-compose.yml
+run_server.sh
+logs
+*.pyc
+*.pyo
+*.pyd
+instance
+.git
+.mypy_cache
+.vscode

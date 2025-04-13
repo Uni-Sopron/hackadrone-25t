@@ -1,0 +1,12 @@
+services:
+  server:
+    build: .
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    ports:
+      - 8000:8000
+    environment:
+      - SERVER_URL=127.0.0.1
+      - SERVER_PORT=8000
