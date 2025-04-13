@@ -79,7 +79,8 @@ class World:
             self._last_event += time_delay
             for drone in self._entities[Drone].values():
                 drone.apply_time_pass(int(time_delay.total_seconds()))
-            for id, package in self._entities[Package].items():
+            for id in list(self._entities[Package]):
+                package: Package = self._entities[Package][id]
                 if package.status in {Package.Status.FAILED, Package.Status.DELIVERED} or package.status == Package.Status.AVAILABLE and package.latest_delivery_datetime < World.now():
                     del self._entities[Package][id]
     
