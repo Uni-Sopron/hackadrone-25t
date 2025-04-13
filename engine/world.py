@@ -1,4 +1,5 @@
 from datetime import datetime,timedelta
+import pickle
 
 from .company import Company
 from .drone import Drone
@@ -6,6 +7,8 @@ from .package import Package
 from .charging_station import ChargingStation
 from .utils import Coordinate, log, log_try, log_outcome
 from .entity import Entity
+
+BACKUP_FILE = "instance/world.pickle"
 
 class World:
     __entity_types = {Drone, Company, Package, ChargingStation}
@@ -73,7 +76,9 @@ class World:
     def action(self, action:dict) -> None:
         self._apply_time_delay()
         self._apply_action(action)
-    
+        with open(BACKUP_FILE, "wb") as file:
+            pickle.dump(self, file)
+
     def _apply_time_delay(self) -> None:
         time_delay:timedelta = World.now() - self._last_event
         log(f" WORLD | DELAY | {time_delay.total_seconds()} s") 

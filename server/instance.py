@@ -1,4 +1,15 @@
-from engine.world import World
+import pickle
 
-world = World()
-print("World initialized.")
+from engine.world import World, BACKUP_FILE
+
+
+try:
+    with open(BACKUP_FILE, "rb") as file:
+        world: World = pickle.load(file)
+    print("World state loaded from backup.")
+except FileNotFoundError:
+    print("No backup file found, starting with a new world.")
+    world = World()
+    print("World initialized.")
+except Exception as e:
+    print(f"Error loading world state: {e}")
