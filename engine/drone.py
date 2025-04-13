@@ -8,13 +8,13 @@ from .charging_station import ChargingStation
 from .entity import Entity
 
 # TODO reasonable constants
-BASE_BATTERY_CAPACITY__J = Wh_to_J(1)
-BASE_WEIGHT__KG = 5 
+BASE_BATTERY_CAPACITY__J = Wh_to_J(5)
+BASE_WEIGHT__KG = 5
 BASE_SPEED__M_PER_S = 10
-BASE_LOAD_CAPACITY__KG = 3
-BATTERY_DISCHARGE__W_PER_KG = 50
-BATTERY_CAPACITY_DAMAGE__PERCENT = 1
-BATTERY_SWAPPING_TIME__S = 7200
+BASE_LOAD_CAPACITY__KG = 10
+BATTERY_DISCHARGE__W_PER_KG = 9
+BATTERY_CAPACITY_DAMAGE__PERCENT = 5
+BATTERY_SWAPPING_TIME__S = 3600
 
 
 class Drone(Entity):
@@ -107,7 +107,7 @@ class Drone(Entity):
                 seconds_to_target = int(distance_in_meters(self._position, self._target) / self._speed_m_per_s)
                 seconds_to_discharge = int(self._battery_J / (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg()))
                 seconds_to_apply = min(seconds, seconds_to_target, seconds_to_discharge)
-                self._battery_J -= seconds_to_apply * (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg())
+                self._battery_J -= seconds_to_apply * BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg()
                 if seconds_to_apply == seconds_to_target:
                     self._position = self._target
                     self._target = None
