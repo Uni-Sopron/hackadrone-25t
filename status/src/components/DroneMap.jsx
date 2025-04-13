@@ -1,26 +1,37 @@
 import { useState } from 'react'
 import { GeoJson, GeoJsonFeature, Map, Overlay } from 'pigeon-maps'
-import Drone from './Drone'
 import Teams from './Teams'
 import { colorgenerator } from '../utils'
 import Details from './Details'
+import Selectable from './Selectable.jsx'
 import ChargingStation from './ChargingStation'
 import PackageIcon from './PackageIcon'
+import DroneIcon from './DroneIcon'
 
 const DroneMap = ({ data }) => {
   const [ZOOM, setZoom] = useState(15)
-  const [selectedDrone, setSelectedDrone] = useState(false)
-  const [pinnedDrone, setPinnedDrone] = useState(null)
+  const [selectedId, setSelectedId] = useState(false)
+  const [pinnedId, setPinnedId] = useState(null)
 
   const teams = data?.teams
 
-  const details = data?.drones.find((drone) => {
-    if (selectedDrone) {
-      return drone.drone_id === selectedDrone
-    } else if (pinnedDrone) {
-      return drone.drone_id === pinnedDrone
-    }
-  })
+  const search = (data, id) => {
+    const result = data.find((d) => {
+      if (selectedId) {
+        return d[id] === selectedId
+      } else if (pinnedId) {
+        return d[id] === pinnedId
+      }
+    })
+    return result
+  }
+
+  const details = (() => {
+    const drone = search(data?.drones, 'drone_id')
+    const pkg = search(data?.packages, 'package_id')
+
+    return drone || pkg
+  })()
 
   const lines = data?.drones.map((drone) => ({
     id: drone.drone_id,
@@ -40,8 +51,8 @@ const DroneMap = ({ data }) => {
   const getDroneSize = (zoom) => {
     const minZoom = 13
     const maxZoom = 18
-    const minSize = 24
-    const maxSize = 96
+    const minSize = 40
+    const maxSize = 120
 
     const t = (zoom - minZoom) / (maxZoom - minZoom)
     const clampedT = Math.max(0, Math.min(1, t))
@@ -64,7 +75,7 @@ const DroneMap = ({ data }) => {
   const getPackageSize = (zoom) => {
     const minZoom = 13
     const maxZoom = 18
-    const minSize = 40
+    const minSize = 30
     const maxSize = 120
 
     const t = (zoom - minZoom) / (maxZoom - minZoom)
@@ -75,17 +86,17 @@ const DroneMap = ({ data }) => {
 
   const handleHover = (id) => {
     if (id) {
-      setSelectedDrone(id)
+      setSelectedId(id)
     } else {
-      setSelectedDrone()
+      setSelectedId()
     }
   }
 
   const handlePin = (id) => {
-    if (id === pinnedDrone) {
-      setPinnedDrone()
+    if (id === pinnedId) {
+      setPinnedId()
     } else {
-      setPinnedDrone(id)
+      setPinnedId(id)
     }
   }
 
@@ -112,26 +123,11 @@ const DroneMap = ({ data }) => {
               strokeLinecap: 'round',
               filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.2))',
               pathLength: '1',
-              className: pinnedDrone !== line.id && 'drone-path',
+              className: pinnedId !== line.id ? 'drone-path' : '',
             }}
           >
             <GeoJsonFeature feature={line.path} />
           </GeoJson>
-        ))}
-        {data?.drones.map((drone) => (
-          <Overlay
-            key={drone.drone_id}
-            anchor={[drone.position.latitude, drone.position.longitude]}
-            offset={[getDroneSize(ZOOM) / 2, getDroneSize(ZOOM) / 2]}
-          >
-            <Drone
-              size={getDroneSize(ZOOM)}
-              data={drone}
-              onHover={handleHover}
-              onPin={handlePin}
-              pinned={drone.drone_id === pinnedDrone}
-            />
-          </Overlay>
         ))}
         {data?.chargingStations.map((station) => (
           <Overlay
@@ -154,7 +150,34 @@ const DroneMap = ({ data }) => {
             anchor={[pkg.position.latitude, pkg.position.longitude]}
             offset={[getPackageSize(ZOOM) / 2, getPackageSize(ZOOM) / 2]}
           >
-            <PackageIcon size={getPackageSize(ZOOM)} />
+            <Selectable
+              id={pkg.package_id}
+              icon={PackageIcon}
+              size={getPackageSize(ZOOM)}
+              colorId={pkg.package_id}
+              onHover={handleHover}
+              onPin={handlePin}
+              pinned={pkg.package_id === pinnedId}
+            />
+          </Overlay>
+        ))}
+        {data?.drones.map((drone) => (
+          <Overlay
+            key={drone.drone_id}
+            anchor={[drone.position.latitude, drone.position.longitude]}
+            offset={[getDroneSize(ZOOM) / 2, getDroneSize(ZOOM) / 2]}
+          >
+            <Selectable
+              id={drone.drone_id}
+              icon={DroneIcon}
+              size={getDroneSize(ZOOM)}
+              colorId={drone.team_id}
+              onHover={handleHover}
+              onPin={handlePin}
+              pinned={drone.drone_id === pinnedId}
+              hasBox={drone.packages.length > 0}
+              padding
+            />
           </Overlay>
         ))}
       </Map>
