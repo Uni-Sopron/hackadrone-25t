@@ -1,6 +1,9 @@
+import os
 from datetime import datetime
 from http import HTTPStatus
 
+from dotenv import load_dotenv
+from flask import request
 from flask_openapi3.blueprint import APIBlueprint
 from flask_openapi3.models.tag import Tag
 from flask_openapi3.types import ResponseDict
@@ -11,7 +14,12 @@ from engine.charging_station import DEFAULT_CHARGING_SPEED__W
 from engine.package import Package
 from engine.utils import Coordinate
 
-ADMIN_APIDOC_VISIBLE = True
+ADMIN_APIDOC_VISIBLE = False
+
+load_dotenv()
+ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
+if not ADMIN_API_KEY:
+    raise ValueError("ADMIN_API_KEY environment variable is not set.")
 
 admin_tag = Tag(name="Admin Operations", description="Admin functionalities.")
 admin = APIBlueprint(
@@ -20,6 +28,7 @@ admin = APIBlueprint(
     url_prefix="/admin",
     abp_tags=[admin_tag],
     doc_ui=ADMIN_APIDOC_VISIBLE,
+    abp_security=[{"Api-Key": []}],
 )
 
 
@@ -62,6 +71,8 @@ responses: ResponseDict = {
 @admin.post("/add_company", responses=responses)
 def add_company(body: CompanyBody):
     """Add a new company"""
+    if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
     try:
         api_key = world.try_to_register_company(body.company_name, body.base_location)
     except ValueError as e:
@@ -72,6 +83,8 @@ def add_company(body: CompanyBody):
 @admin.post("/add_drone", responses=responses)
 def add_drone(body: DroneBody):
     """Add a new drone"""
+    if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
     try:
         world.action(
             {
@@ -85,9 +98,11 @@ def add_drone(body: DroneBody):
     return {"message": "Drone added"}
 
 
-@admin.post("/add_package")
+@admin.post("/add_package", responses=responses)
 def add_package(body: PackageBody):
     """Add a new package"""
+    if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
     if body.origin == body.destination:
         return {
             "message": "Origin and destination cannot be the same"
@@ -106,9 +121,11 @@ def add_package(body: PackageBody):
     return {"message": f"Package {package._id} added"}
 
 
-@admin.post("/add_station")
+@admin.post("/add_station", responses=responses)
 def add_station(body: StationBody):
     """Add a new charging station"""
+    if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
     try:
         world.try_to_add_charging_station(body.location, body.max_charging_speed_W)
     except ValueError as e:
@@ -116,15 +133,21 @@ def add_station(body: StationBody):
     return {"message": "Station added"}
 
 
-@admin.post("/set_scoreboard_visibility/<int:visible>")
+@admin.post(
+    "/set_scoreboard_visibility/<int:visible>", responses=responses
+)
 def set_scoreboard_visibility(visible: int):
     """Set scoreboard visibility"""
+    if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
     # TODO
     return {"message": "Scoreboard visibility set"}
 
 
-@admin.post("/adjust_score")
+@admin.post("/adjust_score", responses=responses)
 def adjust_score():
     """Adjust score of a company"""
+    if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
     # TODO
     return {"message": "Score adjusted"}
