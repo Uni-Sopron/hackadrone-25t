@@ -13,6 +13,10 @@ const Details = ({ details }) => {
     return null
   }
 
+  const isDrone = details.drone_id
+  const isPackage = details.package_id
+  const weight = details?.weight || details?.current_payload
+
   return (
     <div
       style={{
@@ -38,77 +42,87 @@ const Details = ({ details }) => {
           marginBottom: 10,
         }}
       >
-        Drone Status
+        {isDrone ? 'Drone Status' : 'Package Details'}
       </h3>
 
       <div className="detail-line">
-        <strong>Drone ID:</strong>
-        <span>{details.drone_id}</span>
+        <strong>{isDrone ? 'Drone ID' : 'Package ID'}:</strong>
+        <span>{isDrone ? details.drone_id : details.package_id}</span>
       </div>
 
-      <div className="detail-line">
-        <strong>Battery:</strong>
-        <span>
-          <div
-            style={{
-              width: 100,
-              height: 18,
-              background: 'rgba(255, 255, 255, 0.2)',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-              boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.2)',
-            }}
-          >
-            <span
-              style={{
-                zIndex: 10,
-                color: details.battery < 30 ? 'white' : 'black',
-                fontSize: 13,
-                marginTop: 2,
-                fontWeight: 'bold',
-                textShadow:
-                  details.battery < 30 ? '0 0 2px rgba(0,0,0,0.5)' : 'none',
-              }}
-            >
-              {details.battery}%
+      {isDrone && (
+        <>
+          <div className="detail-line">
+            <strong>Battery:</strong>
+            <span>
+              <div
+                style={{
+                  width: 100,
+                  height: 18,
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'relative',
+                  boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.2)',
+                }}
+              >
+                <span
+                  style={{
+                    zIndex: 10,
+                    color: details.battery < 30 ? 'white' : 'black',
+                    fontSize: 13,
+                    marginTop: 2,
+                    fontWeight: 'bold',
+                    textShadow:
+                      details.battery < 30 ? '0 0 2px rgba(0,0,0,0.5)' : 'none',
+                  }}
+                >
+                  {details.battery}%
+                </span>
+                <div
+                  style={{
+                    width: `${details.battery}%`,
+                    height: '100%',
+                    backgroundColor: battery_color(details.battery),
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    transition: 'width 0.5s ease-in-out',
+                    backgroundImage:
+                      'linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%)',
+                  }}
+                />
+              </div>
             </span>
-            <div
-              style={{
-                width: `${details.battery}%`,
-                height: '100%',
-                background: battery_color(details.battery),
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                transition: 'width 0.5s ease-in-out',
-                backgroundImage:
-                  'linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%)',
-              }}
-            />
           </div>
-        </span>
-      </div>
+          <div className="detail-line">
+            <strong>Status:</strong>
+            <span>{details.status}</span>
+          </div>
 
-      <div className="detail-line">
-        <strong>Status:</strong>
-        <span>{details.status}</span>
-      </div>
+          <div className="detail-line">
+            <strong>Team ID:</strong>
+            <span>{details.team_id}</span>
+          </div>
 
-      <div className="detail-line">
-        <strong>Team ID:</strong>
-        <span>{details.team_id}</span>
-      </div>
+          <div className="detail-line">
+            <strong>Package count:</strong>
+            <span>{details.packages.length}</span>
+          </div>
+        </>
+      )}
 
-      <div className="detail-line">
-        <strong>Package count:</strong>
-        <span>{details.packages.length}</span>
-      </div>
+      {isPackage && (
+        <div className="detail-line">
+          <strong>Package reward:</strong>
+          <span>{details.reward}</span>
+        </div>
+      )}
 
       <div className="detail-line" style={{ marginBottom: 0 }}>
         <strong>Package weight:</strong>
-        <span>{details.current_payload} kg</span>
+        <span>{weight} kg</span>
       </div>
     </div>
   )
