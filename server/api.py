@@ -5,7 +5,7 @@ from flask_openapi3.types import ResponseDict
 from pydantic import BaseModel, Field
 
 from .instance import world
-from engine.drone import Drone
+from engine.world import Company, Drone, Package, ChargingStation
 
 api = APIBlueprint("public api", __name__, url_prefix="/api")
 
@@ -40,8 +40,8 @@ responses: ResponseDict = {
 @api.get("/state")
 def state():
     """Get world state"""
-    print(world.status("Foo", {Drone}))
-    return world.status("Foo", {Drone})
+    # TODO authentication for private data
+    return world.status("", {Drone, Company, Package, ChargingStation})
 
 
 @api.post("/move")

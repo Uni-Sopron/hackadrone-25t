@@ -1,3 +1,4 @@
+from datetime import datetime
 from http import HTTPStatus
 
 from flask_openapi3.blueprint import APIBlueprint
@@ -6,6 +7,8 @@ from flask_openapi3.types import ResponseDict
 from pydantic import BaseModel, Field
 
 from .instance import world
+from engine.charging_station import DEFAULT_CHARGING_SPEED__W
+from engine.package import Package
 from engine.utils import Coordinate
 
 ADMIN_APIDOC_VISIBLE = True
@@ -31,6 +34,21 @@ class CompanyBody(BaseModel):
 
 class DroneBody(BaseModel):
     company_id: str = Field(..., min_length=1)
+
+
+class PackageBody(BaseModel):
+    origin: Coordinate
+    destination: Coordinate
+    weight_kg: float
+    revenue_HUF: int
+    latest_delivery_datetime: datetime = datetime(2025, 4, 18, 0, 0, 0)
+
+
+class StationBody(BaseModel):
+    location: Coordinate
+    max_charging_speed_W: float = Field(
+        DEFAULT_CHARGING_SPEED__W, ge=0, description="Charging speed in W"
+    )
 
 
 responses: ResponseDict = {
@@ -68,16 +86,33 @@ def add_drone(body: DroneBody):
 
 
 @admin.post("/add_package")
-def add_package(body):
+def add_package(body: PackageBody):
     """Add a new package"""
-    # TODO
-    return {"message": "Package added"}
+    if body.origin == body.destination:
+        return {
+            "message": "Origin and destination cannot be the same"
+        }, HTTPStatus.BAD_REQUEST
+    package = Package(
+        origin=body.origin,
+        destination=body.destination,
+        weight_kg=body.weight_kg,
+        revenue_HUF=body.revenue_HUF,
+        latest_delivery_datetime=body.latest_delivery_datetime,
+    )
+    try:
+        world.try_to_advertise_package(package)
+    except ValueError as e:
+        return {"message": str(e)}, HTTPStatus.BAD_REQUEST
+    return {"message": f"Package {package._id} added"}
 
 
 @admin.post("/add_station")
-def add_station():
+def add_station(body: StationBody):
     """Add a new charging station"""
-    # TODO
+    try:
+        world.try_to_add_charging_station(body.location, body.max_charging_speed_W)
+    except ValueError as e:
+        return {"message": str(e)}, HTTPStatus.BAD_REQUEST
     return {"message": "Station added"}
 
 

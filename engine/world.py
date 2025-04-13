@@ -8,7 +8,7 @@ from .utils import Coordinate, log, log_try, log_outcome
 from .entity import Entity
 
 class World:
-    __entity_types = {Drone, Company, Package, ChargingStation} # TODO Charging stations
+    __entity_types = {Drone, Company, Package, ChargingStation}
     _entities: dict[type,dict[str,Entity]]
     _last_event: datetime
 
