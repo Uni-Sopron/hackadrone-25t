@@ -17,6 +17,7 @@ class Company(Entity):
     _secret : str
 
     def __init__(self, name:str, base_location:Coordinate):
+        super().__init__()
         self._base_location = base_location
         self._name = name
         self._balance_HUF = INITIAL_BALANCE__HUF
@@ -45,7 +46,7 @@ class Company(Entity):
         self._base_location = new_location
 
     def _can_access_private(self, **kargs) -> bool:
-        return "comapny_id" in kargs and kargs["comapany_id"] == self._name
+        return "company_id" in kargs and kargs["company_id"] == self._name
     
     def _public_status(self) -> dict:
         return {
@@ -57,11 +58,3 @@ class Company(Entity):
         return {
             "money (HUF)" : self._balance_HUF
         }
-    
-
-    
-
-
-
-
-        
