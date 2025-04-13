@@ -1,17 +1,18 @@
 import os
 import pickle
 
-from engine.world import World, BACKUP_FILE
+from engine.world import World, BACKUP_DIR
 
-os.makedirs(os.path.dirname(BACKUP_FILE), exist_ok=True)
+os.makedirs(BACKUP_DIR, exist_ok=True)
 
-try:
-    with open(BACKUP_FILE, "rb") as file:
+backups = [f for f in os.scandir(BACKUP_DIR)]
+if backups:
+    backups.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+    print(f"Loading world state from backup: {backups[0].name}")
+    with open(backups[0], "rb") as file:
         world: World = pickle.load(file)
     print("World state loaded from backup.")
-except FileNotFoundError:
+else:
     print("No backup file found, starting with a new world.")
     world = World()
     print("World initialized.")
-except Exception as e:
-    print(f"Error loading world state: {e}")
