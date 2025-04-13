@@ -15,8 +15,8 @@ class Coordinate(namedtuple('Coordinate', ['latitude', 'longitude'])):
 
 def distance_in_meters(pos1:Coordinate, pos2:Coordinate) -> float:
     return (
-        (LATITUDE_SECOND_DISTANCE_M * (pos1.latitude - pos2.latitude)) ** 2 +
-        (LONGITUDE_SECOND_DISTANCE_M * (pos1.longitude - pos2.longitude)) ** 2
+        (LATITUDE_SECOND_DISTANCE_M * (pos1.latitude - pos2.latitude) * 3600) ** 2 +
+        (LONGITUDE_SECOND_DISTANCE_M * (pos1.longitude - pos2.longitude) * 3600) ** 2
     ) ** 0.5
 
 def inbetween_coordinate(pos1:Coordinate, pos2:Coordinate, progress:float) -> Coordinate:
