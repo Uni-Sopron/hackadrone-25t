@@ -10,3 +10,8 @@ services:
     environment:
       - SERVER_URL=127.0.0.1
       - SERVER_PORT=8000
+    secrets:
+      - my_secret
+secrets:
+  my_secret:
+    file: ./.env

@@ -8,6 +8,8 @@ logs
 *.pyo
 *.pyd
 instance
+.env
+.env.sample
 .git
 .mypy_cache
 .vscode
