@@ -1,3 +1,4 @@
 flask-openapi3[swagger,redoc,rapidoc,rapipdf,scalar,elements]
 mkdocs
 mkdocs-autorefs
+pyopenssl

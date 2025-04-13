@@ -10,35 +10,21 @@ from engine.drone import Drone
 api = APIBlueprint("public api", __name__, url_prefix="/api")
 
 
-@api.get("/state")
-def state():
-    """Get world state"""
-    return world.status("Foo", { Drone })
-
-
 class DroneBody(BaseModel):
-    """Drone operation request body"""
-
-    company_id: int = Field(..., ge=0)
-    drone_id: int = Field(..., ge=0)
+    company_id: str = Field(..., min_length=1)
+    drone_id: str = Field(..., min_length=1)
 
 
 class MoveBody(DroneBody):
-    """Move request body"""
-
     latitude: float = Field(..., ge=47, le=48)
     longitude: float = Field(..., ge=16, le=17)
 
 
 class PackageBody(DroneBody):
-    """Package operation request body"""
-
     package_id: int = Field(..., ge=0)
 
 
 class StationBody(DroneBody):
-    """Station operation request body"""
-
     station_id: int = Field(..., ge=0)
 
 
@@ -49,6 +35,13 @@ responses: ResponseDict = {
     HTTPStatus.UNAUTHORIZED: None,
     HTTPStatus.FORBIDDEN: None,
 }
+
+
+@api.get("/state")
+def state():
+    """Get world state"""
+    print(world.status("Foo", {Drone}))
+    return world.status("Foo", {Drone})
 
 
 @api.post("/move")
