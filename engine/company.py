@@ -4,12 +4,13 @@ from .utils import Coordinate
 from .package import Package
 from .entity import Entity
 
-DRONE_PRICE__HUF = 40000
-INITIAL_BALANCE__HUF = 100000
-FAILURE_PENALTY__PERCENT = 120 
-DRONE_RESCUE_COST__HUF = 10000
-RELOCATION_COST__HUF = 5000
- 
+DRONE_PRICE__HUF = 0
+INITIAL_BALANCE__HUF = 10_000
+FAILURE_PENALTY__PERCENT = 120
+DRONE_RESCUE_COST__HUF = 10_000
+RELOCATION_COST__HUF = 5_000
+
+
 class Company(Entity):
     _balance_HUF : int
     _name : str
