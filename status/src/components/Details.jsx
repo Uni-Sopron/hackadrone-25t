@@ -15,8 +15,11 @@ const Details = ({ details }) => {
 
   const isDrone = details.drone_id
   const isPackage = details.package_id
-  const weight = details?.weight || details?.current_payload
+  const weight =
+    details?.weight?.toFixed(2) ||
+    details?.packages.reduce((acc, c) => acc + c.weight, 0)
   const battery = (details?.battery * 100).toFixed(2)
+  const state = details?.operational ? 'operational' : 'dead'
 
   return (
     <div
@@ -30,7 +33,7 @@ const Details = ({ details }) => {
         borderRadius: 5,
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
         zIndex: 1000,
-        minWidth: 220,
+        minWidth: 250,
         backdropFilter: 'blur(5px)',
       }}
     >
@@ -99,7 +102,7 @@ const Details = ({ details }) => {
           </div>
           <div className="detail-line">
             <strong>Status:</strong>
-            <span>{details.status}</span>
+            <span>{state}</span>
           </div>
 
           <div className="detail-line">
@@ -114,16 +117,34 @@ const Details = ({ details }) => {
         </>
       )}
 
+      <div className="detail-line">
+        <strong>Package weight:</strong>
+        <span>{weight} kg</span>
+      </div>
+
       {isPackage && (
         <div className="detail-line">
           <strong>Package reward:</strong>
-          <span>{details.reward}</span>
+          <span>{details.reward} HUF</span>
         </div>
       )}
 
+      <div className="detail-line">
+        <strong>Position:</strong>
+        <br />
+        <span>
+          {`${details.position.latitude.toFixed(8)},
+            ${details.position.longitude.toFixed(8)}`}
+        </span>
+      </div>
+
       <div className="detail-line" style={{ marginBottom: 0 }}>
-        <strong>Package weight:</strong>
-        <span>{weight} kg</span>
+        <strong>Destination:</strong>
+        <br />
+        <span>
+          {`${details.destination.latitude.toFixed(8)},
+            ${details.destination.longitude.toFixed(8)}`}
+        </span>
       </div>
     </div>
   )
