@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
+from random import uniform, randint
 
 from .utils import Coordinate, LATITUDE_SECOND_DISTANCE_M, LONGITUDE_SECOND_DISTANCE_M
 from .entity import Entity
@@ -41,8 +42,7 @@ class Package(Entity):
             "delivery_deadline": self.latest_delivery_datetime.isoformat(),
         }
 
-from random import randrange, uniform, randint
-from datetime import datetime, timedelta
+
 def generate_random_package(
         center:Coordinate = Coordinate(47.6800454, 16.5795934),
         max_distance_origin_m:float = 20000,
@@ -70,6 +70,26 @@ def generate_random_package(
 
 
 if __name__ == "__main__":
-    print(generate_random_package().get_status())
-    print(generate_random_package().get_status())
-    print(generate_random_package().get_status())
+    package = generate_random_package()
+    print(package.get_status())
+
+    import requests
+
+    url = "https://hackadrone.gazd.info/admin/add_package"
+
+    payload = {
+        "destination": package.destination,
+        "origin": package.origin,
+        "latest_delivery_datetime": package.latest_delivery_datetime.isoformat(),
+        "revenue_HUF": package.revenue_HUF,
+        "weight_kg": package.weight_kg
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Api-Key": "5d8733d2-cc9b-48b2-9011-46ce3b1585b1"
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+
+    print(response.json())

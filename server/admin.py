@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 
 from .instance import world
 from engine.charging_station import DEFAULT_CHARGING_SPEED__W
-from engine.package import Package
+from engine.package import Package, generate_random_package
 from engine.utils import Coordinate
 
 ADMIN_APIDOC_VISIBLE = False
@@ -48,6 +48,18 @@ class PackageBody(BaseModel):
     weight_kg: float
     revenue_HUF: int
     latest_delivery_datetime: datetime = datetime(2025, 4, 18, 0, 0, 0)
+
+
+class GenPackageBody(BaseModel):
+    center: Coordinate
+    max_distance_origin_m: float = Field(20000)
+    max_distance_destination_m: float = Field(20000)
+    min_weight_kg: float = Field(1)
+    max_weight_kg: float = Field(5)
+    min_revenue_huf: int = Field(500)
+    max_revenue_huf: int = Field(5000)
+    min_delay_s: int = Field(1800)
+    max_delay_s: int = Field(7200)
 
 
 class StationBody(BaseModel):
@@ -126,6 +138,30 @@ def add_package(body: PackageBody):
     except ValueError as e:
         return {"message": str(e)}, HTTPStatus.BAD_REQUEST
     return {"message": f"Package {package._id} added"}
+
+
+
+@admin.post("/gen_packages", responses=responses)
+def gen_packages(body: GenPackageBody):
+    """Generate packages based on the provided parameters."""
+    if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
+        return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
+    try:
+        package = generate_random_package(
+            center=body.center,
+            max_distance_origin_m=body.max_distance_origin_m,
+            max_distance_destination_m=body.max_distance_destination_m,
+            min_weight_kg=body.min_weight_kg,
+            max_weight_kg=body.max_weight_kg,
+            min_revenue_huf=body.min_revenue_huf,
+            max_revenue_huf=body.max_revenue_huf,
+            min_delay_s=body.min_delay_s,
+            max_delay_s=body.max_delay_s
+        )
+        world.try_to_advertise_package(package)
+    except ValueError as e:
+        return {"message": str(e)}, HTTPStatus.BAD_REQUEST
+    return {"message": f"Package {package._id} generated and added"}
 
 
 @admin.post("/add_station", responses=responses)
