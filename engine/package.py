@@ -38,5 +38,5 @@ class Package(Entity):
             "drop_off_location": self.destination,
             "weight_kg": self.weight_kg,
             "revenue_HUF": self.revenue_HUF,
-            "delivery_deadline": self.latest_delivery_datetime.strftime(TIMEFORMAT),
+            "delivery_deadline": self.latest_delivery_datetime.isoformat(),
         }
