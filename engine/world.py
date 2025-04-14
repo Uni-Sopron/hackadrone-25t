@@ -41,6 +41,77 @@ class World:
             ]
             for entity in entities
         }
+    
+    def admin_status(self):
+        return {
+            "teams": [
+                { "teams_id": team_id, "name": team_id, "score": team._balance_HUF }
+                for team_id, team in self._entities[Company].items()
+            ],
+            "drones": [
+                {
+                "drone_id": drone_id,
+                "team_id": drone._company._id,
+                "operational" : drone.is_operational(),
+                "position": {
+                    "latitude": drone._position[0],
+                    "longitude": drone._position[1]
+                },
+                "source": {
+                    "latitude": drone._position[0],
+                    "longitude": drone._position[1]
+                },
+                "destination": {
+                    "latitude": drone._target[0] if drone._status == Drone.Status.MOVING else drone._position[0],
+                    "longitude": drone._target[1] if drone._status == Drone.Status.MOVING else drone._position[1]
+                },
+                "battery": drone._battery_J / drone.battery_max_J,
+                "payload_capacity": drone._max_load_kg,
+                "current_payload": drone._total_weight_kg(),
+                "packages": [
+                    {
+                    "package_id": package._id,
+                    "weight": package.weight_kg,
+                    "destination": {
+                        "latitude": package.destination[0],
+                        "longitude": package.destination[1]
+                    },
+                    "reward": package.revenue_HUF
+                    }
+                    for package in drone._packages
+                ]
+                }
+                for drone_id, drone in self._entities[Drone].items()
+            ],
+            "packages": [
+                {
+                "package_id": package_id,
+                "weight": package.weight_kg,
+                "position": {
+                    "latitude": package.origin[0],
+                    "longitude": package.origin[1]
+                },
+                "destination": {
+                    "latitude": package.destination[0],
+                    "longitude": package.destination[1]
+                },
+                "reward": package.revenue_HUF
+                }
+                for package_id, package in self._entities[Package]
+                if package.status == Package.Status.AVAILABLE
+            ],
+            "chargingStations": [
+                {
+                "station_id": station_id,
+                "position": {
+                    "latitude": station.location[0],
+                    "longitude": station.location[1]
+                },
+                "charging_speed": station.charging_speed_W()
+                }
+                for station_id, station in self._entities[ChargingStation].items()
+            ]
+            }
 
     def try_to_register_company(self, name: str, location: Coordinate) -> str:
         log_try(f" WORLD | REGISTER | trying to register {name} at {location}")
