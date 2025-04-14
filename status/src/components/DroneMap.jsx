@@ -237,25 +237,40 @@ const DroneMap = ({ data }) => {
             />
           </Overlay>
         ))}
-        {data?.drones.map((drone) => (
-          <Overlay
-            key={drone.drone_id}
-            anchor={[drone.position.latitude, drone.position.longitude]}
-            offset={[getDroneSize(ZOOM) / 2, getDroneSize(ZOOM) / 2]}
-          >
-            <Selectable
-              id={drone.drone_id}
-              icon={DroneIcon}
-              size={getDroneSize(ZOOM)}
-              colorId={drone.team_id}
-              onHover={handleHover}
-              onPin={handlePin}
-              pinned={drone.drone_id === pinnedId}
-              hasBox={drone.packages.length > 0}
-              padding
-            />
-          </Overlay>
-        ))}
+        {data?.drones.map((drone, index) => {
+          const droneIdNum = parseInt(
+            drone.drone_id.replace(/\D/g, '') || index
+          )
+          const offsetMultiplier = 0.0001
+
+          const angle = (droneIdNum % 8) * (Math.PI / 4)
+          const latOffset = Math.sin(angle) * offsetMultiplier
+          const lngOffset = Math.cos(angle) * offsetMultiplier
+
+          return (
+            <Overlay
+              key={drone.drone_id}
+              anchor={[
+                drone.position.latitude + latOffset,
+                drone.position.longitude + lngOffset,
+              ]}
+              offset={[getDroneSize(ZOOM) / 2, getDroneSize(ZOOM) / 2]}
+            >
+              <Selectable
+                id={drone.drone_id}
+                icon={DroneIcon}
+                size={getDroneSize(ZOOM)}
+                colorId={drone.team_id}
+                onHover={handleHover}
+                onPin={handlePin}
+                pinned={drone.drone_id === pinnedId}
+                hasBox={drone.packages.length > 0}
+                padding
+                isOperational={drone.operational}
+              />
+            </Overlay>
+          )
+        })}
       </Map>
       <Details details={details} />
       <Teams teams={teams} />
