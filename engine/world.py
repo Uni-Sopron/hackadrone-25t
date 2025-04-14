@@ -98,7 +98,7 @@ class World:
                 },
                 "reward": package.revenue_HUF
                 }
-                for package_id, package in self._entities[Package]
+                for package_id, package in self._entities[Package].items()
                 if isinstance(package, Package) and package.status == Package.Status.AVAILABLE
             ],
             "chargingStations": [
