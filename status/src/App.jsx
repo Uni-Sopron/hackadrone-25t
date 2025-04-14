@@ -5,12 +5,13 @@ import DroneMap from './components/DroneMap'
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
-const URL = `${import.meta.env.VITE_BACKEND_URL}/`
+const URL = `${import.meta.env.VITE_BACKEND_URL}/admin/status`
+const REFRESH_INTERVAL = `${import.meta.env.VITE_REFRESH_INTERVAL}`
 
 function App() {
   const handle = useFullScreenHandle()
   const { data, error, isLoading } = useSWR(URL, fetcher, {
-    refreshInterval: 200,
+    refreshInterval: REFRESH_INTERVAL,
   })
 
   if (isLoading) {

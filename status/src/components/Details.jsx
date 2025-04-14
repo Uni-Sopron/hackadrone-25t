@@ -16,6 +16,7 @@ const Details = ({ details }) => {
   const isDrone = details.drone_id
   const isPackage = details.package_id
   const weight = details?.weight || details?.current_payload
+  const battery = (details?.battery * 100).toFixed(2)
 
   return (
     <div
@@ -70,21 +71,21 @@ const Details = ({ details }) => {
                 <span
                   style={{
                     zIndex: 10,
-                    color: details.battery < 30 ? 'white' : 'black',
+                    color: battery < 30 ? 'white' : 'black',
                     fontSize: 13,
                     marginTop: 2,
                     fontWeight: 'bold',
                     textShadow:
-                      details.battery < 30 ? '0 0 2px rgba(0,0,0,0.5)' : 'none',
+                      battery < 30 ? '0 0 2px rgba(0,0,0,0.5)' : 'none',
                   }}
                 >
-                  {details.battery}%
+                  {battery}%
                 </span>
                 <div
                   style={{
-                    width: `${details.battery}%`,
+                    width: `${battery}%`,
                     height: '100%',
-                    backgroundColor: battery_color(details.battery),
+                    backgroundColor: battery_color(battery),
                     position: 'absolute',
                     left: 0,
                     top: 0,

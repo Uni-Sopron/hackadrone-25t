@@ -40,7 +40,6 @@ const DroneMap = ({ data }) => {
       geometry: {
         type: 'LineString',
         coordinates: [
-          [drone.source.longitude, drone.source.latitude],
           [drone.position.longitude, drone.position.latitude],
           [drone.destination.longitude, drone.destination.latitude],
         ],
@@ -51,8 +50,8 @@ const DroneMap = ({ data }) => {
   const getDroneSize = (zoom) => {
     const minZoom = 13
     const maxZoom = 18
-    const minSize = 40
-    const maxSize = 120
+    const minSize = 100
+    const maxSize = 200
 
     const t = (zoom - minZoom) / (maxZoom - minZoom)
     const clampedT = Math.max(0, Math.min(1, t))
@@ -75,7 +74,7 @@ const DroneMap = ({ data }) => {
   const getPackageSize = (zoom) => {
     const minZoom = 13
     const maxZoom = 18
-    const minSize = 30
+    const minSize = 90
     const maxSize = 120
 
     const t = (zoom - minZoom) / (maxZoom - minZoom)
