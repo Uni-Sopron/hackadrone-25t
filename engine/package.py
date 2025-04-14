@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import Enum
 
-from .utils import Coordinate, TIMEFORMAT
+from .utils import Coordinate
 from .entity import Entity
 
 
