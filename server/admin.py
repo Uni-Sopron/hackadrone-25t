@@ -65,6 +65,16 @@ responses: ResponseDict = {
 }
 
 
+@admin.get("/status", responses=responses)
+def status():
+    """Get admin status"""
+    try:
+        state = world.admin_status()
+    except ValueError as e:
+        return {"message": str(e)}, HTTPStatus.BAD_REQUEST
+    return state, HTTPStatus.OK
+
+
 @admin.post("/add_company", responses=responses)
 def add_company(body: CompanyBody):
     """Add a new company"""
@@ -130,9 +140,7 @@ def add_station(body: StationBody):
     return {"message": "Station added"}
 
 
-@admin.post(
-    "/set_scoreboard_visibility/<int:visible>", responses=responses
-)
+@admin.post("/set_scoreboard_visibility/<int:visible>", responses=responses)
 def set_scoreboard_visibility(visible: int):
     """Set scoreboard visibility"""
     if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
