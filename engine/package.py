@@ -56,14 +56,14 @@ def generate_random_package(
 ) -> Package:
     return Package(
         Coordinate(
-            center[0]+uniform(-1,1) * max_distance_origin_m / LATITUDE_SECOND_DISTANCE_M / 3600,
-            center[1]+uniform(-1,1) * max_distance_origin_m / LONGITUDE_SECOND_DISTANCE_M / 3600
+            round(center[0] + uniform(-1, 1) * max_distance_origin_m / LATITUDE_SECOND_DISTANCE_M / 3600, 7),
+            round(center[1] + uniform(-1, 1) * max_distance_origin_m / LONGITUDE_SECOND_DISTANCE_M / 3600, 7)
         ),
         Coordinate(
-            center[0]+uniform(-1,1) * max_distance_destination_m / LATITUDE_SECOND_DISTANCE_M / 3600,
-            center[1]+uniform(-1,1) * max_distance_destination_m / LONGITUDE_SECOND_DISTANCE_M / 3600
+            round(center[0] + uniform(-1, 1) * max_distance_destination_m / LATITUDE_SECOND_DISTANCE_M / 3600, 7),
+            round(center[1] + uniform(-1, 1) * max_distance_destination_m / LONGITUDE_SECOND_DISTANCE_M / 3600, 7)
         ),
-        uniform(min_weight_kg, max_weight_kg),
+        round(uniform(min_weight_kg, max_weight_kg), 2),
         randint(min_revenue_huf, max_revenue_huf),
         datetime.now().replace(microsecond=0) + timedelta(seconds=randint(min_delay_s, max_delay_s))
     )
