@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import Enum
 
-from .utils import Coordinate
+from .utils import Coordinate, LATITUDE_SECOND_DISTANCE_M, LONGITUDE_SECOND_DISTANCE_M
 from .entity import Entity
 
 
@@ -40,3 +40,36 @@ class Package(Entity):
             "revenue_HUF": self.revenue_HUF,
             "delivery_deadline": self.latest_delivery_datetime.isoformat(),
         }
+
+from random import randrange, uniform, randint
+from datetime import datetime, timedelta
+def generate_random_package(
+        center:Coordinate = Coordinate(47.6800454, 16.5795934),
+        max_distance_origin_m:float = 20000,
+        max_distance_destination_m:float = 20000,
+        min_weight_kg:float = 1,
+        max_weight_kg:float = 5,
+        min_revenue_huf:int = 500,
+        max_revenue_huf:int = 5000,
+        min_delay_s:int = 1800,
+        max_delay_s:int = 7200
+) -> Package:
+    return Package(
+        Coordinate(
+            center[0]+uniform(-1,1) * max_distance_origin_m / LATITUDE_SECOND_DISTANCE_M / 3600,
+            center[1]+uniform(-1,1) * max_distance_origin_m / LONGITUDE_SECOND_DISTANCE_M / 3600
+        ),
+        Coordinate(
+            center[0]+uniform(-1,1) * max_distance_destination_m / LATITUDE_SECOND_DISTANCE_M / 3600,
+            center[1]+uniform(-1,1) * max_distance_destination_m / LONGITUDE_SECOND_DISTANCE_M / 3600
+        ),
+        uniform(min_weight_kg, max_weight_kg),
+        randint(min_revenue_huf, max_revenue_huf),
+        datetime.now().replace(microsecond=0) + timedelta(seconds=randint(min_delay_s, max_delay_s))
+    )
+
+
+if __name__ == "__main__":
+    print(generate_random_package().get_status())
+    print(generate_random_package().get_status())
+    print(generate_random_package().get_status())
