@@ -6,7 +6,7 @@ A cél a legtöbb pontszám elérése a Hackathon végéig, [Csomagok](#csomagok
 
 A virtuális világot egy szerver szimulálja, amit a megadott [API](https://hackadrone.gazd.info/openapi/)-n keresztül lehet elérni információk lekérdezéséhez és utasítások kiadásához.
 
-A szimulált világ egy téglalap alakú terület a 47°39'N 16°33'E és 47°42'N 16°38'E koordináták között.
+A szimulált világ egy téglalap alakú terület a 47°N,16°E és 47°N,16°E koordináták között.
 A Föld görbületét elhanyagoljuk.
 
 ## Entitások
