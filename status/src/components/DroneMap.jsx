@@ -40,12 +40,54 @@ const DroneMap = ({ data }) => {
       geometry: {
         type: 'LineString',
         coordinates: [
+          [drone.source.longitude, drone.position.latitude],
           [drone.position.longitude, drone.position.latitude],
           [drone.destination.longitude, drone.destination.latitude],
         ],
       },
     },
   }))
+
+  const package_line = (() => {
+    const pkg = search(data.packages, 'package_id')
+    if (!pkg) return null
+
+    return {
+      id: pkg.package_id,
+      path: {
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: [
+            [pkg.position.longitude, pkg.position.latitude],
+            [pkg.destination.longitude, pkg.destination.latitude],
+          ],
+        },
+      },
+    }
+  })()
+
+  const dronePackagesCorrectLocation = (() => {
+    if (!data?.drones || !data?.packages || data?.packages.length === 0)
+      return null
+
+    const drone = search(data.drones, 'drone_id')
+    if (!drone || drone.drone_id !== pinnedId) return null
+
+    return drone.packages.map((pkg) => ({
+      id: pkg.package_id,
+      path: {
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: [
+            [drone.position.longitude, drone.position.latitude],
+            [pkg.destination.longitude, pkg.destination.latitude],
+          ],
+        },
+      },
+    }))
+  })()
 
   const getDroneSize = (zoom) => {
     const minZoom = 13
@@ -111,6 +153,41 @@ const DroneMap = ({ data }) => {
         attribution={false}
         zoomSnap={false}
       >
+        {package_line && (
+          <GeoJson
+            svgAttributes={{
+              strokeWidth: 5,
+              stroke: colorgenerator.get(package_line.id),
+              strokeDasharray: '12, 6',
+              strokeOpacity: 0.8,
+              strokeLinecap: 'round',
+              filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.2))',
+              pathLength: '1',
+              className: pinnedId !== package_line.id ? 'drone-path' : '',
+            }}
+          >
+            <GeoJsonFeature feature={package_line.path} />
+          </GeoJson>
+        )}
+        {dronePackagesCorrectLocation &&
+          dronePackagesCorrectLocation.map((line) => (
+            <GeoJson
+              key={line.id}
+              svgAttributes={{
+                strokeWidth: 5,
+                stroke: '#22c55e',
+                strokeDasharray: '12, 6',
+                strokeOpacity: 0.8,
+                strokeLinecap: 'round',
+                filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.2))',
+                pathLength: '1',
+                className: '',
+                opacity: '0.7',
+              }}
+            >
+              <GeoJsonFeature feature={line.path} />
+            </GeoJson>
+          ))}
         {lines.map((line) => (
           <GeoJson
             key={line.id}
@@ -118,7 +195,7 @@ const DroneMap = ({ data }) => {
               strokeWidth: 5,
               stroke: colorgenerator.get(line.id),
               strokeDasharray: '12, 6',
-              strokeOpacity: 0.8,
+              strokeOpacity: 1,
               strokeLinecap: 'round',
               filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.2))',
               pathLength: '1',
@@ -128,7 +205,7 @@ const DroneMap = ({ data }) => {
             <GeoJsonFeature feature={line.path} />
           </GeoJson>
         ))}
-        {data?.chargingStations.map((station) => (
+        {[...(data?.chargingStations || [])].map((station) => (
           <Overlay
             key={station.station_id}
             anchor={[station.position.latitude, station.position.longitude]}
