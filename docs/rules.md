@@ -85,7 +85,7 @@ A gyorsítás/lassítás is azonnal megtörténik 0-ról maxra, vagy fordítva.
     - A csomagnak a drón tulajdonában kell lennie
     - A csomag úticéljától kellő távolságon belül kell lennie
     - Ha határidőn belül lett leszállítva, akkor a cég megkapja a jutalmat
-    - Ha a határidő lejárt, akkor a jutalom 120%-a kerül levonásra büntetésként
+    - Ha a határidő lejárt, vagy rossz helyen lett lerakva, akkor a jutalom 120%-a kerül levonásra büntetésként
 - Töltés indítása megadott állomáson
     - A drónnak a töltőállomás felett kell lennie
     - Lehet csomag a drónnál
