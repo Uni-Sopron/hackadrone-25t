@@ -62,8 +62,8 @@ class World:
                     "longitude": drone._position[1]
                 },
                 "destination": {
-                    "latitude": drone._target[0] if drone._status == Drone.Status.MOVING else drone._position[0],
-                    "longitude": drone._target[1] if drone._status == Drone.Status.MOVING else drone._position[1]
+                    "latitude": drone._target[0] if drone._state == Drone.Status.MOVING else drone._position[0],
+                    "longitude": drone._target[1] if drone._state == Drone.Status.MOVING else drone._position[1]
                 },
                 "battery": drone._battery_J / drone.battery_max_J,
                 "payload_capacity": drone._max_load_kg,
