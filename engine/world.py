@@ -52,7 +52,7 @@ class World:
             "drones": [
                 {
                 "drone_id": drone_id,
-                "team_id": drone._company._id,
+                "team_id": drone._company._name,
                 "operational" : drone.is_operational(),
                 "position": {
                     "latitude": drone._position[0],
