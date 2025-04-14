@@ -34,9 +34,9 @@ class Package(Entity):
         return {
             "id": self._id,
             "status": self.status.value,
-            "pick-up location": self.origin,
-            "drop-off location": self.destination,
-            "weight (kg)": self.weight_kg,
-            "revenue (HUF)": self.revenue_HUF,
-            "delivery deadline": self.latest_delivery_datetime.strftime(TIMEFORMAT),
+            "pick_up_location": self.origin,
+            "drop_off_location": self.destination,
+            "weight_kg": self.weight_kg,
+            "revenue_HUF": self.revenue_HUF,
+            "delivery_deadline": self.latest_delivery_datetime.strftime(TIMEFORMAT),
         }

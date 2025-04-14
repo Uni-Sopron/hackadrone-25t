@@ -70,7 +70,7 @@ class Drone(Entity):
     def _public_status(self) -> dict:
         return {
             "company" : self._company._name,
-            "position" : str(self._position),
+            "position" : self._position,
             "operational" : self.is_operational()
         }
 
@@ -78,12 +78,12 @@ class Drone(Entity):
         return {
             "id" : self._id,
             "status" : str(self._state),
-            "battery (Wh)" : J_to_Wh(self._battery_J),
+            "battery_Wh" : J_to_Wh(self._battery_J),
             "packages" : [package.get_status() for package in self._packages],
-            "moving towards" : str(self._target) if self._target is not None else None,
-            "charging speed (W)" : 0 if self._charging_station is None else self._charging_station.charging_speed_W(),
-            "discharging speed (W)" : BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg(),
-            "load capacity (kg)" : self._max_load_kg,
+            "moving_towards" : self._target if self._target is not None else None,
+            "charging_speed_W" : 0 if self._charging_station is None else self._charging_station.charging_speed_W(),
+            "discharging_speed_W" : BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg(),
+            "load_capacity_kg" : self._max_load_kg,
         }
 
     def apply_time_pass(self, seconds:int, conditions = None) -> None:

@@ -51,11 +51,11 @@ class Company(Entity):
     
     def _public_status(self) -> dict:
         return {
-            "company name" : self._name,
-            "base location" : str(self._base_location)
+            "company_name" : self._name,
+            "base_location" : self._base_location
         }
     
     def _private_status(self) -> dict:
         return {
-            "money (HUF)" : self._balance_HUF
+            "money_HUF" : self._balance_HUF
         }
