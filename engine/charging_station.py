@@ -23,6 +23,6 @@ class ChargingStation(Entity):
     def _public_status(self) -> dict:
         return {
             "id" : self._id,
-            "location" : str(self.location),
-            "max charging speed (W)": self.max_charging_speed_W
+            "location" : self.location,
+            "max_charging_speed_W": self.max_charging_speed_W
         }
