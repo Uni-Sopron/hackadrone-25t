@@ -6,7 +6,7 @@ const app = express()
 
 app.use(cors())
 
-app.get('/', (req, res) => {
+app.get('/admin/status', (req, res) => {
   const file = fs.readFileSync('./mock.json', 'utf-8')
   const mock = JSON.parse(file)
   res.json(mock)
