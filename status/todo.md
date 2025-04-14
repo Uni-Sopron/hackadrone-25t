@@ -1,0 +1,8 @@
+- battery 2 point precision
+- package destination
+- company as chargingstation
+- team id fix
+- isoperational -> dead
+- status
+- idle no animation -> status
+- package correct destination display
