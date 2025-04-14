@@ -1,179 +1,353 @@
 {
-  "teams": [
-    { "teams_id": "team_red", "name": "Red Team", "score": 0 },
-    { "teams_id": "team_blue", "name": "Blue Team", "score": 0 }
+  "chargingStations": [
+    {
+      "charging_speed": 120,
+      "position": {
+        "latitude": 47.6800454,
+        "longitude": 16.5795934
+      },
+      "station_id": "S0001"
+    }
   ],
   "drones": [
     {
-      "drone_id": "drone_01",
-      "team_id": "team_red",
-      "position": {
-        "latitude": 47.680267,
-        "longitude": 16.575547
-      },
+      "battery": 1,
+      "current_payload": 10,
       "destination": {
-        "latitude": 47.6825,
-        "longitude": 16.569
+        "latitude": 47.71666567483299,
+        "longitude": 16.62761684855235
       },
-      "source": {
-        "latitude": 47.6826,
-        "longitude": 16.5732
-      },
-      "status": "flying",
-      "speed": 25.0,
-      "battery": 70,
-      "payload_capacity": 10.0,
-      "current_payload": 3.2,
+      "drone_id": "D0002",
+      "operational": true,
       "packages": [
         {
-          "package_id": "pkg_102",
-          "weight": 3.2,
           "destination": {
-            "latitude": 47.665,
-            "longitude": 16.5599
+            "latitude": 47.689012,
+            "longitude": 16.597775
           },
-          "reward": 12
+          "package_id": "P0004",
+          "reward": 1000,
+          "weight": 5
         }
-      ]
-    },
-    {
-      "drone_id": "drone_02",
-      "team_id": "team_blue",
+      ],
+      "payload_capacity": 5,
       "position": {
-        "latitude": 47.68241,
-        "longitude": 16.57392
-      },
-      "destination": {
-        "latitude": 47.6783,
-        "longitude": 16.5805
+        "latitude": 47.71666567483299,
+        "longitude": 16.62761684855235
       },
       "source": {
-        "latitude": 47.6835,
-        "longitude": 16.5712
+        "latitude": 47.71666567483299,
+        "longitude": 16.62761684855235
       },
-      "status": "delivering",
-      "speed": 22.5,
-      "battery": 85,
-      "payload_capacity": 8.0,
-      "current_payload": 6.7,
-      "packages": [
-        {
-          "package_id": "pkg_203",
-          "weight": 4.2,
-          "destination": {
-            "latitude": 47.6783,
-            "longitude": 16.5805
-          },
-          "reward": 18
-        },
-        {
-          "package_id": "pkg_204",
-          "weight": 2.5,
-          "destination": {
-            "latitude": 47.6768,
-            "longitude": 16.5823
-          },
-          "reward": 11
-        }
-      ]
+      "team_id": "0004"
     },
     {
-      "drone_id": "drone_03",
-      "team_id": "team_red",
-      "position": {
-        "latitude": 47.6785,
-        "longitude": 16.5778
-      },
+      "battery": 0.853,
+      "current_payload": 5,
       "destination": {
-        "latitude": 47.6751,
-        "longitude": 16.5762
+        "latitude": 47.6800454,
+        "longitude": 16.5795934
+      },
+      "drone_id": "D0004",
+      "operational": true,
+      "packages": [],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6800454,
+        "longitude": 16.5795934
       },
       "source": {
-        "latitude": 47.6812,
-        "longitude": 16.5789
+        "latitude": 47.6800454,
+        "longitude": 16.5795934
       },
-      "status": "returning",
-      "speed": 28.5,
-      "battery": 42,
-      "payload_capacity": 12.0,
-      "current_payload": 0.0,
-      "packages": []
+      "team_id": "0003"
+    },
+    {
+      "battery": 0.7036666666666667,
+      "current_payload": 5,
+      "destination": {
+        "latitude": 47.775557684249,
+        "longitude": 16.5155812734658
+      },
+      "drone_id": "D0006",
+      "operational": true,
+      "packages": [],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.76334195004032,
+        "longitude": 16.52376823213839
+      },
+      "source": {
+        "latitude": 47.76334195004032,
+        "longitude": 16.52376823213839
+      },
+      "team_id": "0002"
+    },
+    {
+      "battery": 0.3288333333333333,
+      "current_payload": 5,
+      "destination": {
+        "latitude": 47.6800454,
+        "longitude": 16.5795934
+      },
+      "drone_id": "D0008",
+      "operational": true,
+      "packages": [],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6800454,
+        "longitude": 16.5795934
+      },
+      "source": {
+        "latitude": 47.6800454,
+        "longitude": 16.5795934
+      },
+      "team_id": "0001"
     }
   ],
   "packages": [
     {
-      "package_id": "pkg_301",
-      "weight": 4.5,
-      "position": {
-        "latitude": 47.67905,
-        "longitude": 16.57321
-      },
       "destination": {
-        "latitude": 47.6845,
-        "longitude": 16.581
+        "latitude": 47.653896,
+        "longitude": 16.487458
       },
-      "reward": 15
+      "package_id": "P0002",
+      "position": {
+        "latitude": 47.754018,
+        "longitude": 16.538753
+      },
+      "reward": 1000,
+      "weight": 5
     },
     {
-      "package_id": "pkg_302",
-      "weight": 2.8,
-      "position": {
-        "latitude": 47.6773,
-        "longitude": 16.5801
-      },
       "destination": {
-        "latitude": 47.6765,
-        "longitude": 16.5715
+        "latitude": 47.85350041451102,
+        "longitude": 16.649023319195326
       },
-      "reward": 9
+      "package_id": "P0005",
+      "position": {
+        "latitude": 47.6537944407741,
+        "longitude": 16.71714322669631
+      },
+      "reward": 2261,
+      "weight": 1.1537221834837101
     },
     {
-      "package_id": "pkg_303",
-      "weight": 6.2,
-      "position": {
-        "latitude": 47.6812,
-        "longitude": 16.5785
-      },
       "destination": {
-        "latitude": 47.685,
-        "longitude": 16.5741
+        "latitude": 47.71658584154706,
+        "longitude": 16.37869471384527
       },
-      "reward": 22
+      "package_id": "P0006",
+      "position": {
+        "latitude": 47.50240689292647,
+        "longitude": 16.462094966659723
+      },
+      "reward": 3713,
+      "weight": 3.632969533769739
     },
     {
-      "package_id": "pkg_304",
-      "weight": 1.5,
-      "position": {
-        "latitude": 47.6769,
-        "longitude": 16.5755
-      },
       "destination": {
-        "latitude": 47.68321,
-        "longitude": 16.58261
+        "latitude": 47.530012876540916,
+        "longitude": 16.797004370066638
       },
-      "reward": 7
+      "package_id": "P0007",
+      "position": {
+        "latitude": 47.73773768111829,
+        "longitude": 16.692992691519425
+      },
+      "reward": 1118,
+      "weight": 2.5954557797969415
+    },
+    {
+      "destination": {
+        "latitude": 47.50468695593152,
+        "longitude": 16.670946783347834
+      },
+      "package_id": "P0008",
+      "position": {
+        "latitude": 47.566388686517016,
+        "longitude": 16.369421809141684
+      },
+      "reward": 1325,
+      "weight": 3.013582199583324
+    },
+    {
+      "destination": {
+        "latitude": 47.844628075920845,
+        "longitude": 16.651727495718532
+      },
+      "package_id": "P0009",
+      "position": {
+        "latitude": 47.536035177977965,
+        "longitude": 16.714816761090063
+      },
+      "reward": 1407,
+      "weight": 3.925582154763578
+    },
+    {
+      "destination": {
+        "latitude": 47.76942165915009,
+        "longitude": 16.662998412653383
+      },
+      "package_id": "P0010",
+      "position": {
+        "latitude": 47.76445920989286,
+        "longitude": 16.5348022134452
+      },
+      "reward": 3495,
+      "weight": 4.99345590361683
+    },
+    {
+      "destination": {
+        "latitude": 47.5835017253087,
+        "longitude": 16.367452410056245
+      },
+      "package_id": "P0011",
+      "position": {
+        "latitude": 47.67744898614009,
+        "longitude": 16.341600447305083
+      },
+      "reward": 4112,
+      "weight": 1.7479063123691474
+    },
+    {
+      "destination": {
+        "latitude": 47.78245438044404,
+        "longitude": 16.31880847643812
+      },
+      "package_id": "P0012",
+      "position": {
+        "latitude": 47.52481925086344,
+        "longitude": 16.845655314949926
+      },
+      "reward": 4319,
+      "weight": 1.4328379865197824
+    },
+    {
+      "destination": {
+        "latitude": 47.62945730780002,
+        "longitude": 16.465110340341997
+      },
+      "package_id": "P0013",
+      "position": {
+        "latitude": 47.66604518661975,
+        "longitude": 16.667019951466738
+      },
+      "reward": 953,
+      "weight": 2.2104228370673944
+    },
+    {
+      "destination": {
+        "latitude": 47.61075488416091,
+        "longitude": 16.358883870002966
+      },
+      "package_id": "P0014",
+      "position": {
+        "latitude": 47.62887849994121,
+        "longitude": 16.342881021201297
+      },
+      "reward": 3887,
+      "weight": 4.178666224303424
+    },
+    {
+      "destination": {
+        "latitude": 47.76793684386868,
+        "longitude": 16.766756296844218
+      },
+      "package_id": "P0015",
+      "position": {
+        "latitude": 47.51767861258698,
+        "longitude": 16.702546301843086
+      },
+      "reward": 3880,
+      "weight": 3.844432460589149
+    },
+    {
+      "destination": {
+        "latitude": 47.81802477768169,
+        "longitude": 16.564407446141395
+      },
+      "package_id": "P0016",
+      "position": {
+        "latitude": 47.85567669774616,
+        "longitude": 16.350569977309313
+      },
+      "reward": 1220,
+      "weight": 2.117367358144642
+    },
+    {
+      "destination": {
+        "latitude": 47.75639828673054,
+        "longitude": 16.829029719378713
+      },
+      "package_id": "P0017",
+      "position": {
+        "latitude": 47.57349798031101,
+        "longitude": 16.72854473087649
+      },
+      "reward": 1493,
+      "weight": 3.1819398482969623
+    },
+    {
+      "destination": {
+        "latitude": 47.71933749166689,
+        "longitude": 16.83828403015898
+      },
+      "package_id": "P0018",
+      "position": {
+        "latitude": 47.66428408326669,
+        "longitude": 16.550750455742676
+      },
+      "reward": 3566,
+      "weight": 1.9389877897678014
+    },
+    {
+      "destination": {
+        "latitude": 47.73962956926293,
+        "longitude": 16.491349015909215
+      },
+      "package_id": "P0019",
+      "position": {
+        "latitude": 47.77555768424901,
+        "longitude": 16.51558127346576
+      },
+      "reward": 2990,
+      "weight": 3.6928208785423275
+    },
+    {
+      "destination": {
+        "latitude": 47.72613607519489,
+        "longitude": 16.809264885572276
+      },
+      "package_id": "P0020",
+      "position": {
+        "latitude": 47.81265760085396,
+        "longitude": 16.805364009382256
+      },
+      "reward": 1254,
+      "weight": 1.8782902484555133
     }
   ],
-  "chargingStations": [
+  "teams": [
     {
-      "station_id": "station_01",
-      "position": {
-        "latitude": 47.680268,
-        "longitude": 16.577
-      },
-      "capacity": 3,
-      "available_slots": 2,
-      "charging_speed": 10.0
+      "name": "Hubertus",
+      "score": 10000,
+      "teams_id": "Hubertus"
     },
     {
-      "station_id": "station_02",
-      "position": {
-        "latitude": 47.6772,
-        "longitude": 16.5753
-      },
-      "capacity": 2,
-      "available_slots": 1,
-      "charging_speed": 8.5
+      "name": "FoxDrone",
+      "score": 11000,
+      "teams_id": "FoxDrone"
+    },
+    {
+      "name": "Karesz",
+      "score": 11000,
+      "teams_id": "Karesz"
+    },
+    {
+      "name": "RoadRunnerExpress",
+      "score": 0,
+      "teams_id": "RoadRunnerExpress"
     }
   ]
 }
