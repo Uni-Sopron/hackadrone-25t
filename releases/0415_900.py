@@ -22,26 +22,26 @@ requests.post(
 # Short, cheap jobs around GT
 for _ in range(10):
     send_package_to_api(generate_random_package(
-        GT, 5000, 5000, 1, 2, 1000, 1200, 3600, 5400
+        GT, 4000, 4000, 1, 2, 1000, 1200, 3600, 5400
     ))
 
 # Longer, more expensive jobs around GT
 for _ in range(5):
     send_package_to_api(generate_random_package(
-        GT, 10000, 10000, 2, 3, 3000, 3500, 5400, 7200
+        GT, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200
     ))
 
 # Short cheap jobs around NC (with longer deadlines)
 for _ in range(5):
     send_package_to_api(generate_random_package(
-        NC, 5000, 5000, 1, 2, 1000, 1200, 5400, 7200
+        NC, 4000, 4000, 1, 2, 1000, 1200, 5400, 7200
     ))
 
 # Expensive jobs, where origin is close to GT, destination is close to NC
 # Weight is minimal, otherwise impossible
 for _ in range(7):
     p = generate_random_package(
-        GT, 1500, 1500, 0, 0.1, 5000, 6000, 7500, 9000
+        GT, 1000, 1000, 0, 0.1, 5000, 6000, 7500, 9000
     )
     p.destination[0] += NC[0]-GT[0]
     p.destination[1] += NC[1]-GT[1]
@@ -50,7 +50,7 @@ for _ in range(7):
 # Same, just backwards
 for _ in range(3):
     p = generate_random_package(
-        NC, 1500, 1500, 0, 0.1, 5000, 6000, 7500, 9000
+        NC, 1000, 1000, 0, 0.1, 5000, 6000, 7500, 9000
     )
     p.destination[0] += GT[0]-NC[0]
     p.destination[1] += GT[1]-NC[1]
