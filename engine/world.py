@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
 import os
 from typing import cast
+from random import choice, uniform
 import pickle
 
 from .company import Company
 from .drone import Drone
-from .package import Package
+from .package import Package, generate_random_package
 from .charging_station import ChargingStation
 from .utils import Coordinate, log, log_try, log_outcome, TIMEFORMAT
 from .entity import Entity
@@ -35,6 +36,7 @@ class World:
 
     def status(self, company_name: str, entities: set[type]) -> dict[str, list[dict]]:
         self._apply_time_delay()
+        self._maintain_minimum_package_count()
         return {
             entity.__name__: [
                 item.get_status(company_id=company_name)
@@ -160,6 +162,25 @@ class World:
             raise ValueError("Deadline already over.")
         self._entities[Package][package._id] = package
         log_outcome(True)
+    
+    def _generate_random_package(self) -> Package:
+        roll:float = uniform(0,10)
+        station:Coordinate = cast(ChargingStation, choice(list(self._entities[ChargingStation].values()))).location
+        if roll < 3: # small local package
+            return generate_random_package(station, 4000, 4000, 1, 2, 1000, 1200, 3600, 5400)
+        elif roll < 6: # large local package
+            return generate_random_package(station, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200)
+        else: # package between charging stations
+            station2:Coordinate = cast(ChargingStation, choice(list(self._entities[ChargingStation].values()))).location
+            p = generate_random_package(station, 1000, 1000, 1, 4, 5000, 6000, 7500, 9000)
+            p.destination = Coordinate(p.destination[0] + station2[0] - station[0], p.destination[1] + station2[1] - station[1])
+            return p
+    
+    def _maintain_minimum_package_count(self):
+        package_count:int = len(self._entities[Package])
+        if package_count < self._min_package_count:
+            for _ in range(int(self._min_package_count*1.2) - package_count):
+                self.try_to_advertise_package(self._generate_random_package())
 
     def action(self, action: dict) -> None:
         self._apply_time_delay()
@@ -260,3 +281,5 @@ class World:
             package = cast(Package, package)
             if not hasattr(package, 'contractor'):
                 package.contractor = None
+        if not hasattr(self, "_min_package_count"):
+            self._min_package_count:int = 30
