@@ -84,6 +84,7 @@ class Drone(Entity):
             "charging_speed_W" : 0 if self._charging_station is None else self._charging_station.charging_speed_W(),
             "discharging_speed_W" : BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg(),
             "load_capacity_kg" : self._max_load_kg,
+            "swapping_time_remaining_s" : self._swap_time_remaining_s if self._swap_time_remaining_s is not None else None,
         }
 
     def apply_time_pass(self, seconds:int, conditions = None) -> None:
