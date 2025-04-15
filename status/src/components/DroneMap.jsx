@@ -53,22 +53,24 @@ const DroneMap = ({ data }) => {
     return drone || pkg
   })()
 
-  const lines = data?.drones.map((drone) => ({
-    id: drone.drone_id,
-    color: drone.team_id,
-    team_id: drone.team_id,
-    path: {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [drone.source.longitude, drone.position.latitude],
-          [drone.position.longitude, drone.position.latitude],
-          [drone.destination.longitude, drone.destination.latitude],
-        ],
+  const lines = data?.drones
+    .filter((drone) => drone.operational)
+    .map((drone) => ({
+      id: drone.drone_id,
+      color: drone.team_id,
+      team_id: drone.team_id,
+      path: {
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: [
+            [drone.source.longitude, drone.position.latitude],
+            [drone.position.longitude, drone.position.latitude],
+            [drone.destination.longitude, drone.destination.latitude],
+          ],
+        },
       },
-    },
-  }))
+    }))
 
   const package_line = (() => {
     const pkg = search(data.packages, 'package_id')
