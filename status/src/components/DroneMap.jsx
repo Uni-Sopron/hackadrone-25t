@@ -34,7 +34,7 @@ const DroneMap = ({ data }) => {
   })()
 
   const lines = data?.drones.map((drone) => ({
-    id: drone.drone_id,
+    id: drone.team_id,
     path: {
       type: 'Feature',
       geometry: {
