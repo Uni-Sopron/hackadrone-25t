@@ -35,7 +35,7 @@ const DroneMap = ({ data }) => {
   })()
 
   const lines = data?.drones.map((drone) => ({
-    id: `${drone.team_id}_line_${Math.random()}`,
+    id: drone.drone_id,
     color: drone.team_id,
     path: {
       type: 'Feature',
