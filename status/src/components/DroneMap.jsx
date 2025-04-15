@@ -8,6 +8,7 @@ import ChargingStation from './ChargingStation'
 import PackageIcon from './PackageIcon'
 import DroneIcon from './DroneIcon'
 import MailBoxIcon from './MailBoxIcon.jsx'
+import Stats from './Stats.jsx'
 
 const DroneMap = ({ data }) => {
   const [ZOOM, setZoom] = useState(15)
@@ -323,7 +324,21 @@ const DroneMap = ({ data }) => {
         })}
       </Map>
       <Details details={details} onClose={handleDetailClose} />
-      <Teams teams={teams} />
+
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          zIndex: 1000,
+          pointerEvents: 'none',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Stats stats={data} />
+        <Teams teams={teams} />
+      </div>
     </>
   )
 }
