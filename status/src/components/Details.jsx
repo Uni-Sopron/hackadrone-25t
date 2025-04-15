@@ -140,28 +140,30 @@ const Details = ({ details, onClose }) => {
             <span>{details.packages.length}</span>
           </div>
 
-          <div className="detail-line">
-            <strong>Packages reward:</strong>
-            <span>{rewards}</span>
-          </div>
-
-          <div className="detail-line">
-            <strong>Package deadlines:</strong>
-            {details.packages.map((pkg) => (
-              <>
+          {details.packages.length > 0 && (
+            <>
+              <div className="detail-line">
+                <strong>Packages reward:</strong>
+                <span>{rewards}</span>
+              </div>
+              <div className="detail-line">
+                <strong>Package weight:</strong>
+                <span>{weight} kg</span>
+              </div>
+              <div className="detail-line">
+                <strong>Package deadlines:</strong>
+                {details.packages.map((pkg) => (
+                  <>
+                    <br />
+                    <span>{new Date(pkg.deadline).toLocaleTimeString()}</span>
+                  </>
+                ))}
                 <br />
-                <span>{new Date(pkg.deadline).toLocaleTimeString()}</span>
-              </>
-            ))}
-            <br />
-          </div>
+              </div>
+            </>
+          )}
         </>
       )}
-
-      <div className="detail-line">
-        <strong>Package weight:</strong>
-        <span>{weight} kg</span>
-      </div>
 
       {isPackage && (
         <>
