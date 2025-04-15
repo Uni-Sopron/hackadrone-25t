@@ -13,7 +13,7 @@ from engine.charging_station import DEFAULT_CHARGING_SPEED__W
 from engine.package import Package, generate_random_package
 from engine.utils import Coordinate
 
-ADMIN_APIDOC_VISIBLE = False
+ADMIN_APIDOC_VISIBLE = bool(int(os.getenv("ADMIN_APIDOC_VISIBLE", "0")))
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
 if not ADMIN_API_KEY:
     raise ValueError("ADMIN_API_KEY environment variable is not set.")
