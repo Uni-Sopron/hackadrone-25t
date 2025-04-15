@@ -1,5 +1,12 @@
 import { getDistance } from 'geolib'
 import { XMarkIcon } from '@heroicons/react/24/solid'
+import {
+  formatDistanceToNow,
+  isPast,
+  formatDuration,
+  intervalToDuration,
+} from 'date-fns'
+import { hu } from 'date-fns/locale'
 
 const battery_color = (percentage) => {
   if (percentage < 20) {
@@ -14,6 +21,30 @@ const battery_color = (percentage) => {
 const calculateDistance = (source, destination) => {
   const distance = getDistance(source, destination, 0.1)
   return distance
+}
+
+const formatRemainingTime = (deadline) => {
+  const deadlineDate = new Date(deadline)
+
+  if (isPast(deadlineDate)) {
+    return 'Lejárt'
+  }
+
+  return formatDistanceToNow(deadlineDate, {
+    addSuffix: true,
+    includeSeconds: true,
+    locale: hu,
+  })
+}
+
+const formatSeconds = (seconds) => {
+  const duration = intervalToDuration({ start: 0, end: seconds * 1000 })
+
+  return formatDuration(duration, {
+    format: ['minutes', 'seconds'],
+    locale: hu,
+    delimiter: ' ',
+  })
 }
 
 const Details = ({ details, onClose }) => {
@@ -126,7 +157,12 @@ const Details = ({ details, onClose }) => {
           {state === 'swapping' && (
             <div className="detail-line">
               <strong>Swap remaining time:</strong>
-              <span>{details.swapping_time_remaining_s}</span>
+              <br />
+              <span>
+                {formatSeconds(details.swapping_time_remaining_s)}&nbsp; (
+                {details.swapping_time_remaining_s}s)
+              </span>
+              <br />
             </div>
           )}
 
@@ -155,7 +191,10 @@ const Details = ({ details, onClose }) => {
                 {details.packages.map((pkg) => (
                   <>
                     <br />
-                    <span>{new Date(pkg.deadline).toLocaleTimeString()}</span>
+                    <span>
+                      {new Date(pkg.deadline).toLocaleTimeString('hu-HU')} (
+                      {formatRemainingTime(pkg.deadline)})
+                    </span>
                   </>
                 ))}
                 <br />
@@ -174,7 +213,13 @@ const Details = ({ details, onClose }) => {
 
           <div className="detail-line">
             <strong>Package deadline:</strong>
-            <span>{new Date(details.deadline).toLocaleTimeString()}</span>
+            <span>
+              {new Date(details.deadline).toLocaleTimeString('hu-HU')}
+            </span>
+          </div>
+          <div className="detail-line">
+            <strong>Expires:</strong>
+            <span>{formatRemainingTime(details.deadline)}</span>
           </div>
 
           {details.contractor && (

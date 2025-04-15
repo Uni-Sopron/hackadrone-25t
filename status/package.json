@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "date-fns": "^4.1.0",
     "geolib": "^3.3.4",
     "id-to-color": "^1.0.6",
     "pigeon-maps": "^0.22.1",
