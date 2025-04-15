@@ -68,28 +68,31 @@ def generate_random_package(
         datetime.now().replace(microsecond=0) + timedelta(seconds=randint(min_delay_s, max_delay_s))
     )
 
+def send_package_to_api(package:Package):
+    import requests
+
+    print("Trying to advertize package: ", package.get_status())
+    
+    response = requests.post(
+        "https://hackadrone.gazd.info/admin/add_package", 
+        json={
+            "destination": package.destination,
+            "origin": package.origin,
+            "latest_delivery_datetime": package.latest_delivery_datetime.isoformat(),
+            "revenue_HUF": package.revenue_HUF,
+            "weight_kg": package.weight_kg
+        }, headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Api-Key": "5d8733d2-cc9b-48b2-9011-46ce3b1585b1"
+        }
+    )
+
+    print(response.json())
+
 
 if __name__ == "__main__":
     package = generate_random_package()
-    print(package.get_status())
+    send_package_to_api(package)
 
-    import requests
 
-    url = "https://hackadrone.gazd.info/admin/add_package"
-
-    payload = {
-        "destination": package.destination,
-        "origin": package.origin,
-        "latest_delivery_datetime": package.latest_delivery_datetime.isoformat(),
-        "revenue_HUF": package.revenue_HUF,
-        "weight_kg": package.weight_kg
-    }
-    headers = {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Api-Key": "5d8733d2-cc9b-48b2-9011-46ce3b1585b1"
-    }
-
-    response = requests.post(url, json=payload, headers=headers)
-
-    print(response.json())
