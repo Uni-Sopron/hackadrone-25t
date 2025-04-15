@@ -42,7 +42,7 @@ for station in stations:
 for station in stations:
     for _ in range(randint(2,4)):
         send_package_to_api(generate_random_package(
-            GT, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200
+            station, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200
         ))
 
 for _ in range(randint(4,6)):
