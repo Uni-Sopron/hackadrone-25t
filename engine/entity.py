@@ -1,13 +1,12 @@
+from uuid import uuid4
+
 class Entity:
     _id: str
     ENTITY_ID_PREFIX = ""
 
-    __next_id = 0
-
     @classmethod
     def _generate_next_id(cls) -> str:
-        cls.__next_id += 1
-        return f"{cls.ENTITY_ID_PREFIX}{cls.__next_id:04}"
+        return cls.ENTITY_ID_PREFIX + "_" + uuid4().hex[:8]
 
     def __init__(self, **_):
         self._id = self._generate_next_id()
