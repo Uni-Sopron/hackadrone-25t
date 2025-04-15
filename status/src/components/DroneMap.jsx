@@ -4,7 +4,7 @@ import Teams from './Teams'
 import { colorgenerator } from '../utils'
 import Details from './Details'
 import Selectable from './Selectable.jsx'
-import ChargingStation from './ChargingStation'
+import ChargingStationIcon from './ChargingStationIcon.jsx'
 import PackageIcon from './PackageIcon'
 import DroneIcon from './DroneIcon'
 import MailBoxIcon from './MailBoxIcon.jsx'
@@ -287,7 +287,7 @@ const DroneMap = ({ data }) => {
               getCharginStationSize(ZOOM) / 2,
             ]}
           >
-            <ChargingStation
+            <ChargingStationIcon
               size={getCharginStationSize(ZOOM)}
               color="#1E88E5"
             />

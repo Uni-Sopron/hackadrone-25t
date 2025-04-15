@@ -1,4 +1,4 @@
-import ChargingStation from './ChargingStation'
+import ChargingStationIcon from './ChargingStationIcon'
 import DroneIcon from './DroneIcon'
 import PackageIcon from './PackageIcon'
 
@@ -97,7 +97,7 @@ const Stats = ({ stats, drones }) => {
         <span>{packageCount}</span>
       </div>
       <div className="stat-line">
-        <ChargingStation size={30} />
+        <ChargingStationIcon size={30} color="#1E88E5" />
         <span>{stationCount}</span>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ChargingStation = ({
+const ChargingStationIcon = ({
   size = 32,
   color = '#4CAF50',
   strokeColor = '#333',
@@ -155,4 +155,4 @@ const ChargingStation = ({
   )
 }
 
-export default ChargingStation
+export default ChargingStationIcon
