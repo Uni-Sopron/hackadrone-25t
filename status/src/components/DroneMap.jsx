@@ -146,6 +146,18 @@ const DroneMap = ({ data }) => {
     return minSize + clampedT * (maxSize - minSize)
   }
 
+  const getPackageDestinationSize = (zoom) => {
+    const minZoom = 13
+    const maxZoom = 18
+    const minSize = 60
+    const maxSize = 150
+
+    const t = (zoom - minZoom) / (maxZoom - minZoom)
+    const clampedT = Math.max(0, Math.min(1, t))
+
+    return minSize + clampedT * (maxSize - minSize)
+  }
+
   const getPackageSize = (zoom) => {
     const minZoom = 13
     const maxZoom = 18
@@ -256,11 +268,14 @@ const DroneMap = ({ data }) => {
               key={pkg.package_id}
               anchor={[pkg.destination.latitude, pkg.destination.longitude]}
               offset={[
-                getCharginStationSize(ZOOM) / 2,
-                getCharginStationSize(ZOOM) / 2,
+                getPackageDestinationSize(ZOOM) / 2,
+                getPackageDestinationSize(ZOOM) / 2,
               ]}
             >
-              <MailBoxIcon size={getCharginStationSize(ZOOM)} color="#1E88E5" />
+              <MailBoxIcon
+                size={getPackageDestinationSize(ZOOM)}
+                color="#1E88E5"
+              />
             </Overlay>
           ))}
         {data?.chargingStations.map((station) => (
