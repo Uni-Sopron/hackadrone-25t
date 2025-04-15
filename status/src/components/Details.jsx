@@ -1,3 +1,4 @@
+import { getDistance } from 'geolib'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
 const battery_color = (percentage) => {
@@ -8,6 +9,11 @@ const battery_color = (percentage) => {
   } else {
     return '#81c784'
   }
+}
+
+const calculateDistance = (source, destination) => {
+  const distance = getDistance(source, destination, 0.1)
+  return distance
 }
 
 const Details = ({ details, onClose }) => {
@@ -23,6 +29,7 @@ const Details = ({ details, onClose }) => {
   const battery = (details?.battery * 100).toFixed(2)
   const state = details?.state
   const rewards = details?.packages?.reduce((acc, c) => acc + c.reward, 0)
+  const distance = calculateDistance(details?.position, details?.destination)
 
   return (
     <div
@@ -186,13 +193,18 @@ const Details = ({ details, onClose }) => {
         </span>
       </div>
 
-      <div className="detail-line" style={{ marginBottom: 0 }}>
+      <div className="detail-line">
         <strong>Destination:</strong>
         <br />
         <span>
           {`${details.destination.latitude.toFixed(8)},
             ${details.destination.longitude.toFixed(8)}`}
         </span>
+      </div>
+
+      <div className="detail-line" style={{ marginBottom: 0 }}>
+        <strong>Distance to target:</strong>
+        <span>{distance.toFixed(2)} m</span>
       </div>
     </div>
   )

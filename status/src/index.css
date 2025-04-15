@@ -106,3 +106,21 @@ body {
 .detail-line > span {
   float: right;
 }
+
+.stat-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.stat-line > span {
+  font-size: 18px;
+  font-weight: bold;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #4fc3f7;
+}
