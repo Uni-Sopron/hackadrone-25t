@@ -2,7 +2,7 @@ from enum import Enum
 from datetime import datetime
 
 from .company import Company
-from .utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J, J_to_Wh
+from .utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J, J_to_Wh, log
 from .package import Package
 from .charging_station import ChargingStation
 from .entity import Entity
@@ -93,6 +93,7 @@ class Drone(Entity):
                 assert self._swap_time_remaining_s is not None
                 self._swap_time_remaining_s -= seconds
                 if self._swap_time_remaining_s <= 0:
+                    log(f"Drone {self._id} has completed swapping.")
                     self._state = Drone.State.IDLE
                     self._swap_time_remaining_s = None
                     self._battery_J = self._battery_max_J
@@ -102,6 +103,7 @@ class Drone(Entity):
                 if self._battery_J > self._battery_max_J:
                     self._battery_J = self._battery_max_J
                     self._state = Drone.State.IDLE
+                    log(f"Drone {self._id} has finished charging.")
             case Drone.State.MOVING:
                 # TODO weather conditions logic
                 assert self._target is not None
@@ -113,13 +115,15 @@ class Drone(Entity):
                     self._position = self._target
                     self._target = None
                     self._state = Drone.State.IDLE
+                    log(f"Drone {self._id} has arrived to target {self._position}.")
                 else: 
                     self._position = inbetween_coordinate(self._position,self._target,seconds_to_apply/seconds_to_target)
                     if seconds_to_apply == seconds_to_discharge:
                         self._state = Drone.State.DEAD
                         self._battery_max_J *= 1 - BATTERY_CAPACITY_DAMAGE__PERCENT/100
                         self._target = None
-                        self._battery_J = 0          
+                        self._battery_J = 0
+                        log(f"Drone {self._id} has run out of battery.")
                 
     def _current_load_kg(self) -> float:
         return sum(package.weight_kg for package in self._packages)
@@ -132,12 +136,14 @@ class Drone(Entity):
 
     def try_to_pickup_package(self, package:Package) -> None:
         self.__check_operational()
-        if self._position != package.origin: raise ValueError(f"Cannot pick up package {package._id}: it is not here.")
+        if self._state != Drone.State.IDLE: raise ValueError(f"Cannot pick up package {package._id}: drone is not idle. State is {self._state}.")
+        if self._position != package.origin: raise ValueError(f"Cannot pick up package {package._id}: it is not here. Drone is at {self._position}, package is at {package.origin}.")
         if package.status != Package.Status.AVAILABLE: raise ValueError(f"Cannot pick up package {package._id}: already taken.")
-        if package.weight_kg + self._current_load_kg() > self._max_load_kg: raise ValueError(f"Cannot pick up package {package._id}: too heavy.")
+        if package.weight_kg + self._current_load_kg() > self._max_load_kg: raise ValueError(f"Cannot pick up package {package._id}: too heavy. Max load is {self._max_load_kg}, current load is {self._current_load_kg()}, package weight is {package.weight_kg}.")
         package.status = Package.Status.TAKEN
         package.contractor = self._company
         self._packages.add(package)
+        log(f"Drone {self._id} has picked up package {package._id}.")
     
     def try_to_drop_off_package(self, package:Package) -> None:
         self.__check_operational()
@@ -162,9 +168,9 @@ class Drone(Entity):
     def try_to_land_to_charger(self, charger:ChargingStation) -> None:
         self.__check_operational()
         if self._position != charger.location:
-            raise ValueError(f"Cannot start charging at {charger._id}: not there.")
+            raise ValueError(f"Cannot start charging at {charger._id}: not there. Drone is at {self._position}, charger is at {charger.location}.")
         if len(self._packages) != 0:
-            raise ValueError(f"Cannot start charging with packages.")
+            raise ValueError("Cannot start charging with packages.")
         self._state = Drone.State.CHARGING
         self._charging_station = charger
 

@@ -146,7 +146,7 @@ class World:
         )
         if name not in self._entities[ChargingStation]:
             log_outcome(False, "Station does not exist.")
-            raise ValueError(f"Charging station with name {name} does not exist.")
+            raise ValueError(f"Charging station with id {name} does not exist.")
         del self._entities[ChargingStation][name]
         log_outcome(True)
 
