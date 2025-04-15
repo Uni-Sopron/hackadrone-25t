@@ -78,6 +78,7 @@ class World:
                             "latitude": package.destination[0],
                             "longitude": package.destination[1]
                         },
+                        "deadline": package.latest_delivery_datetime.isoformat(),
                         "reward": package.revenue_HUF,
                         "contractor": package.contractor._name if isinstance(package.contractor, Company) else None,
                     }
@@ -88,17 +89,19 @@ class World:
             ],
             "packages": [
                 {
-                "package_id": package_id,
-                "weight": package.weight_kg,
-                "position": {
-                    "latitude": package.origin[0],
-                    "longitude": package.origin[1]
-                },
-                "destination": {
-                    "latitude": package.destination[0],
-                    "longitude": package.destination[1]
-                },
-                "reward": package.revenue_HUF
+                    "package_id": package_id,
+                    "weight": package.weight_kg,
+                    "position": {
+                        "latitude": package.origin[0],
+                        "longitude": package.origin[1]
+                    },
+                    "destination": {
+                        "latitude": package.destination[0],
+                        "longitude": package.destination[1]
+                    },
+                    "reward": package.revenue_HUF,
+                    "deadline": package.latest_delivery_datetime.isoformat(),
+                    "contractor": package.contractor._name if isinstance(package.contractor, Company) else None,
                 }
                 for package_id, package in self._entities[Package].items()
                 if isinstance(package, Package) and package.status == Package.Status.AVAILABLE
