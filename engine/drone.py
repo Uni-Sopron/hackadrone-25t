@@ -163,6 +163,8 @@ class Drone(Entity):
         self.__check_operational()
         if self._position != charger.location:
             raise ValueError(f"Cannot start charging at {charger._id}: not there.")
+        if len(self._packages) != 0:
+            raise ValueError(f"Cannot start charging with packages.")
         self._state = Drone.State.CHARGING
         self._charging_station = charger
 
