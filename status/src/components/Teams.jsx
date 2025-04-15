@@ -66,7 +66,7 @@ const Teams = ({ teams }) => {
               style={{
                 marginLeft: '4px',
                 fontSize: '18px',
-                marginTop: 2,
+                marginTop: 0,
                 color: '#4fc3f7',
               }}
             >
