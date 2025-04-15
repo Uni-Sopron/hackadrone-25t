@@ -192,10 +192,17 @@ class World:
                 cast(Drone, drone).apply_time_pass(int(time_delay.total_seconds()))
             for id in list(self._entities[Package]):
                 package: Package = cast(Package,self._entities[Package][id])
-                if (package.status in {Package.Status.FAILED, Package.Status.DELIVERED}): del self._entities[Package][id]
-                elif (package.status == Package.Status.AVAILABLE and package.latest_delivery_datetime < World.now()):
-                    if (package.contractor is not None): package.contractor.pay_for_failed_delivery(package)
+                if (package.status in {Package.Status.FAILED, Package.Status.DELIVERED}): 
                     del self._entities[Package][id]
+                elif (package.status == Package.Status.AVAILABLE and package.latest_delivery_datetime < World.now()):
+                    if (package.contractor is not None): 
+                        cast(Company, package.contractor).pay_for_failed_delivery(package)
+                    del self._entities[Package][id]
+                elif (package.status == Package.Status.AVAILABLE and package.latest_delivery_datetime < World.now() + timedelta(minutes = 45)):
+                    if not hasattr(package, "increased_revenue"):
+                        setattr(package, "increased_revenue", True)
+                        package.revenue_HUF *= 3
+                        package.latest_delivery_datetime += timedelta(minutes=20)
             self.backup()
 
     def _try_to_get_coordinates(self, action: dict) -> Coordinate:
