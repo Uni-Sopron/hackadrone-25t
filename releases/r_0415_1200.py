@@ -1,13 +1,7 @@
 from engine.package import generate_random_package, send_package_to_api
 from engine.utils import Coordinate
 from random import sample, randint
-import requests
 
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Api-Key": "5d8733d2-cc9b-48b2-9011-46ce3b1585b1"
-}
 
 GT = Coordinate(47.6800402, 16.5787537)
 NC = Coordinate(47.6072494, 16.7054558) 
@@ -24,7 +18,7 @@ for station in stations:
 for station in stations:
     for _ in range(randint(2,4)):
         send_package_to_api(generate_random_package(
-            GT, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200
+            station, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200
         ))
 
 for _ in range(randint(4,6)):
