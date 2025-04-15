@@ -178,8 +178,9 @@ class World:
     
     def _maintain_minimum_package_count(self):
         package_count:int = len(self._entities[Package])
-        if package_count < self._min_package_count:
-            for _ in range(int(self._min_package_count*1.2) - package_count):
+        needed_packages:int =  3 * len(self._entities[Drone])
+        if package_count <  needed_packages:
+            for _ in range(int(needed_packages*1.2) - package_count):
                 self.try_to_advertise_package(self._generate_random_package())
 
     def action(self, action: dict) -> None:
