@@ -72,13 +72,14 @@ class World:
                 "current_payload": drone._total_weight_kg(),
                 "packages": [
                     {
-                    "package_id": package._id,
-                    "weight": package.weight_kg,
-                    "destination": {
-                        "latitude": package.destination[0],
-                        "longitude": package.destination[1]
-                    },
-                    "reward": package.revenue_HUF
+                        "package_id": package._id,
+                        "weight": package.weight_kg,
+                        "destination": {
+                            "latitude": package.destination[0],
+                            "longitude": package.destination[1]
+                        },
+                        "reward": package.revenue_HUF,
+                        "contractor": package.contractor._name if isinstance(package.contractor, Company) else None,
                     }
                     for package in drone._packages if isinstance(package, Package)
                 ]
