@@ -138,6 +138,10 @@ const DroneMap = ({ data }) => {
     return minSize + clampedT * (maxSize - minSize)
   }
 
+  const handleDetailClose = () => {
+    setPinnedId()
+  }
+
   const handleHover = (id) => {
     if (id) {
       setSelectedId(id)
@@ -257,7 +261,7 @@ const DroneMap = ({ data }) => {
               icon={PackageIcon}
               size={getPackageSize(ZOOM)}
               colorId={pkg.contractor || pkg.package_id}
-              overrideColor="#FFD54F"
+              overrideColor={pkg.contractor || '#FFD54F'}
               onHover={handleHover}
               onPin={handlePin}
               pinned={pkg.package_id === pinnedId}
@@ -303,7 +307,7 @@ const DroneMap = ({ data }) => {
           )
         })}
       </Map>
-      <Details details={details} />
+      <Details details={details} onClose={handleDetailClose} />
       <Teams teams={teams} />
     </>
   )

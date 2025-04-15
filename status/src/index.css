@@ -50,6 +50,17 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+.close-button {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: 0;
+  border: 0;
+  background: transparent;
+  color: #4fc3f7;
+}
+
 .drone-path {
   stroke-dasharray: 1;
   stroke-dashoffset: 0;

@@ -1,3 +1,5 @@
+import { XMarkIcon } from '@heroicons/react/24/solid'
+
 const battery_color = (percentage) => {
   if (percentage < 20) {
     return '#ff5252'
@@ -8,7 +10,7 @@ const battery_color = (percentage) => {
   }
 }
 
-const Details = ({ details }) => {
+const Details = ({ details, onClose }) => {
   if (!details) {
     return null
   }
@@ -45,9 +47,17 @@ const Details = ({ details }) => {
           borderBottom: '1px solid rgba(255,255,255,0.2)',
           paddingBottom: 5,
           marginBottom: 10,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        {isDrone ? 'Drone Status' : 'Package Details'}
+        <span>{isDrone ? 'Drone Status' : 'Package Details'}</span>
+        <span>
+          <button onClick={onClose} className="close-button">
+            <XMarkIcon width={20} height={20} />
+          </button>
+        </span>
       </h3>
 
       <div className="detail-line">
@@ -119,6 +129,17 @@ const Details = ({ details }) => {
           <div className="detail-line">
             <strong>Packages reward:</strong>
             <span>{rewards}</span>
+          </div>
+
+          <div className="detail-line">
+            <strong>Package deadlines:</strong>
+            {details.packages.map((pkg) => (
+              <>
+                <br />
+                <span>{new Date(pkg.deadline).toLocaleTimeString()}</span>
+              </>
+            ))}
+            <br />
           </div>
         </>
       )}
