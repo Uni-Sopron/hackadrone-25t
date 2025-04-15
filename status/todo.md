@@ -1,2 +1,0 @@
-- company as chargingstation
-- idle no animation -> status
