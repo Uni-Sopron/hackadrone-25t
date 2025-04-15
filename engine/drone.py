@@ -136,6 +136,7 @@ class Drone(Entity):
         if package.status != Package.Status.AVAILABLE: raise ValueError(f"Cannot pick up package {package._id}: already taken.")
         if package.weight_kg + self._current_load_kg() > self._max_load_kg: raise ValueError(f"Cannot pick up package {package._id}: too heavy.")
         package.status = Package.Status.TAKEN
+        package.contractor = self._company
         self._packages.add(package)
     
     def try_to_drop_off_package(self, package:Package) -> None:
@@ -145,9 +146,12 @@ class Drone(Entity):
         if datetime.now() < package.latest_delivery_datetime and self._position == package.destination:
             package.status = Package.Status.DELIVERED
             self._company.earn_for_successful_delivery(package)
-        else:
+        elif datetime.now() > package.latest_delivery_datetime:
             package.status = Package.Status.FAILED
             self._company.pay_for_failed_delivery(package)
+        else:
+            package.status = Package.Status.AVAILABLE
+            package.origin = self._position
     
     def try_to_set_destination(self, position:Coordinate) -> None:
         self.__check_operational()
@@ -159,6 +163,8 @@ class Drone(Entity):
         self.__check_operational()
         if self._position != charger.location:
             raise ValueError(f"Cannot start charging at {charger._id}: not there.")
+        if len(self._packages) != 0:
+            raise ValueError(f"Cannot start charging with packages.")
         self._state = Drone.State.CHARGING
         self._charging_station = charger
 

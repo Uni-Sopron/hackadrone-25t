@@ -72,13 +72,14 @@ class World:
                 "current_payload": drone._total_weight_kg(),
                 "packages": [
                     {
-                    "package_id": package._id,
-                    "weight": package.weight_kg,
-                    "destination": {
-                        "latitude": package.destination[0],
-                        "longitude": package.destination[1]
-                    },
-                    "reward": package.revenue_HUF
+                        "package_id": package._id,
+                        "weight": package.weight_kg,
+                        "destination": {
+                            "latitude": package.destination[0],
+                            "longitude": package.destination[1]
+                        },
+                        "reward": package.revenue_HUF,
+                        "contractor": package.contractor._name if isinstance(package.contractor, Company) else None,
                     }
                     for package in drone._packages if isinstance(package, Package)
                 ]
@@ -188,11 +189,9 @@ class World:
                 cast(Drone, drone).apply_time_pass(int(time_delay.total_seconds()))
             for id in list(self._entities[Package]):
                 package: Package = cast(Package,self._entities[Package][id])
-                if (
-                    package.status in {Package.Status.FAILED, Package.Status.DELIVERED}
-                    or package.status == Package.Status.AVAILABLE
-                    and package.latest_delivery_datetime < World.now()
-                ):
+                if (package.status in {Package.Status.FAILED, Package.Status.DELIVERED}): del self._entities[Package][id]
+                elif (package.status == Package.Status.AVAILABLE and package.latest_delivery_datetime < World.now()):
+                    if (package.contractor is not None): package.contractor.pay_for_failed_delivery(package)
                     del self._entities[Package][id]
             self.backup()
 
@@ -209,7 +208,7 @@ class World:
         assert "company_id" in action
         log_try(f" WORLD | ACTION | trying {action}")
         try: 
-            company:Company = self._try_to_get_entity(Company, action["company_id"])
+            company:Company = cast(Company,self._try_to_get_entity(Company, action["company_id"]))
             match action:
                 case {"action_type": "company", "company_id": c_id, "action": a}:
                     match a:
@@ -220,7 +219,7 @@ class World:
                         case "relocate":
                             company.try_to_relocate(self._try_to_get_coordinates(action))
                 case {"action_type":"drone", "company_id": c_id, "drone_id" : d_id, "action" : a}:
-                    drone:Drone = self._try_to_get_entity(Drone, d_id)
+                    drone:Drone = cast(Drone,self._try_to_get_entity(Drone, d_id))
                     if not drone.is_owned_by(company):
                         raise ValueError(
                             f"Drone {d_id} is not owned by company {c_id}."
@@ -239,7 +238,7 @@ class World:
                                 p_id: str = action["package_id"]
                             except KeyError:
                                 raise ValueError("Missing package id.")
-                            package:Package = self._try_to_get_entity(Package, p_id)
+                            package:Package = cast(Package,self._try_to_get_entity(Package, p_id))
                             if a == "pickup_package": drone.try_to_pickup_package(package)
                             elif a == "drop_package": drone.try_to_drop_off_package(package)
                         case "charge":
@@ -247,8 +246,14 @@ class World:
                                 ch_id: str = action["charging_station_id"]
                             except KeyError:
                                 raise ValueError("Missing charging station id.")
-                            drone.try_to_land_to_charger(self._try_to_get_entity(ChargingStation, ch_id))
+                            drone.try_to_land_to_charger(cast(ChargingStation,self._try_to_get_entity(ChargingStation, ch_id)))
         except ValueError as e:
             log_outcome(False, e.args[0])
             raise e
         log_outcome(True)
+    
+    def migrate(self):
+        for package in self._entities[Package].values():
+            package = cast(Package, package)
+            if not hasattr(package, 'contractor'):
+                package.contractor = None

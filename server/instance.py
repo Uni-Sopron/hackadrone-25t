@@ -11,6 +11,7 @@ if backups:
     print(f"Loading world state from backup: {backups[0].name}")
     with open(backups[0], "rb") as file:
         world: World = pickle.load(file)
+    world.migrate()
     print("World state loaded from backup.")
 else:
     print("No backup file found, starting with a new world.")
