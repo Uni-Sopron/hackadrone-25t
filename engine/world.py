@@ -54,7 +54,7 @@ class World:
                 "drone_id": drone_id,
                 "team_id": drone._company._name,
                 "operational" : drone.is_operational(),
-                "state" : drone._state.value(),
+                "state" : drone._state.value,
                 "position": {
                     "latitude": drone._position[0],
                     "longitude": drone._position[1]
