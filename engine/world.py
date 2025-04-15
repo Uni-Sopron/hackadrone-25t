@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import os
 from typing import cast
-from random import choice, uniform
+from random import choice, uniform, sample
 import pickle
 
 from .company import Company
@@ -171,7 +171,7 @@ class World:
         elif roll < 6: # large local package
             return generate_random_package(station, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200)
         else: # package between charging stations
-            station2:Coordinate = cast(ChargingStation, choice(list(self._entities[ChargingStation].values()))).location
+            [station, station2] = [cast(ChargingStation, s).location for s in sample(list(self._entities[ChargingStation].values()), k=2)]
             p = generate_random_package(station, 1000, 1000, 1, 4, 5000, 6000, 7500, 9000)
             p.destination = Coordinate(p.destination[0] + station2[0] - station[0], p.destination[1] + station2[1] - station[1])
             return p
