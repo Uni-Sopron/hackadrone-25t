@@ -116,6 +116,13 @@ const Details = ({ details, onClose }) => {
             <span>{state}</span>
           </div>
 
+          {state === 'swapping' && (
+            <div className="detail-line">
+              <strong>Swap remaining time:</strong>
+              <span>{details.swapping_time_remaining_s}</span>
+            </div>
+          )}
+
           <div className="detail-line">
             <strong>Team ID:</strong>
             <span>{details.team_id}</span>
