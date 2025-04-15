@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GeoJson, GeoJsonFeature, Map, Overlay } from 'pigeon-maps'
 import Teams from './Teams'
 import { colorgenerator } from '../utils'
@@ -13,6 +13,21 @@ const DroneMap = ({ data }) => {
   const [ZOOM, setZoom] = useState(15)
   const [selectedId, setSelectedId] = useState(false)
   const [pinnedId, setPinnedId] = useState(null)
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setPinnedId(null)
+        setSelectedId(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   const teams = data?.teams
 
