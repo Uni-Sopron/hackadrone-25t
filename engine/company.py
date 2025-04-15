@@ -28,7 +28,6 @@ class Company(Entity):
         return self._base_location
     
     def try_to_pay_for_new_drone(self) -> None:
-        if self._balance_HUF < DRONE_PRICE__HUF : raise ValueError("Cannot buy drone: not enough money.")
         self._balance_HUF -= DRONE_PRICE__HUF
     
     def earn_for_successful_delivery(self, package:Package) -> None:
