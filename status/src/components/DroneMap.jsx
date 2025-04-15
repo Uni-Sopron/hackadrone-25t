@@ -159,6 +159,7 @@ const DroneMap = ({ data }) => {
   }
 
   const handleDetailClose = () => {
+    setSelectedId()
     setPinnedId()
   }
 
@@ -183,6 +184,8 @@ const DroneMap = ({ data }) => {
       setSelectedTeam()
     } else {
       setSelectedTeam(team)
+      setSelectedId()
+      setPinnedId()
     }
   }
 

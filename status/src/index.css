@@ -59,6 +59,10 @@ body {
   border: 0;
   background: transparent;
   color: #4fc3f7;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+
 }
 
 .drone-path {

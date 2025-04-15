@@ -91,11 +91,9 @@ const Details = ({ details, onClose }) => {
         }}
       >
         <span>{isDrone ? 'Drone Status' : 'Package Details'}</span>
-        <span>
-          <button onClick={onClose} className="close-button">
-            <XMarkIcon width={20} height={20} />
-          </button>
-        </span>
+        <button onClick={onClose} className="close-button">
+          <XMarkIcon width={25} height={25} />
+        </button>
       </h3>
 
       <div className="detail-line">
@@ -183,7 +181,7 @@ const Details = ({ details, onClose }) => {
                 <span>{rewards}</span>
               </div>
               <div className="detail-line">
-                <strong>Package weight:</strong>
+                <strong>Packages weight:</strong>
                 <span>{weight} kg</span>
               </div>
               <div className="detail-line">
@@ -240,7 +238,7 @@ const Details = ({ details, onClose }) => {
         </span>
       </div>
 
-      <div className="detail-line">
+      <div className="detail-line" style={{ marginBottom: 0 }}>
         <strong>Destination:</strong>
         <br />
         <span>
@@ -249,10 +247,12 @@ const Details = ({ details, onClose }) => {
         </span>
       </div>
 
-      <div className="detail-line" style={{ marginBottom: 0 }}>
-        <strong>Distance to target:</strong>
-        <span>{distance.toFixed(2)} m</span>
-      </div>
+      {distance > 0 && (
+        <div className="detail-line" style={{ marginBottom: 0 }}>
+          <strong>Distance to target:</strong>
+          <span>{distance.toFixed(2)} m</span>
+        </div>
+      )}
     </div>
   )
 }
