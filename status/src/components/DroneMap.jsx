@@ -277,7 +277,9 @@ const DroneMap = ({ data }) => {
               icon={PackageIcon}
               size={getPackageSize(ZOOM)}
               colorId={pkg.contractor || pkg.package_id}
-              overrideColor={pkg.contractor || '#FFD54F'}
+              overrideColor={
+                pkg.contractor ? colorgenerator.get(pkg.contractor) : '#FFD54F'
+              }
               onHover={handleHover}
               onPin={handlePin}
               pinned={pkg.package_id === pinnedId}
@@ -317,6 +319,7 @@ const DroneMap = ({ data }) => {
                 hasBox={drone.packages.length > 0}
                 padding
                 isOperational={drone.operational}
+                charging={drone.state === 'charging'}
                 moving={drone.state === 'moving'}
               />
             </Overlay>
