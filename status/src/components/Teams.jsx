@@ -17,7 +17,7 @@ const Color = ({ id }) => {
   )
 }
 
-const Teams = ({ teams }) => {
+const Teams = ({ teams, onTeamSelect, selectedTeam }) => {
   const sortedTeams = [...teams].sort((a, b) => b.score - a.score)
 
   return (
@@ -39,41 +39,67 @@ const Teams = ({ teams }) => {
         boxShadow: '0 -4px 12px rgba(0, 0, 0, 0.2)',
       }}
     >
-      {sortedTeams.map((team) => (
-        <div
-          key={team.teams_id}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 10,
-            padding: 6,
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <Color id={team.teams_id} />
+      {sortedTeams.map((team) => {
+        const isSelected = selectedTeam === team.name
+
+        return (
           <div
+            key={team.teams_id}
             style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: 2,
+              marginBottom: 10,
+              padding: 6,
+              transition: 'all 0.2s ease',
+              cursor: 'pointer',
+              backgroundColor: isSelected
+                ? 'rgba(79, 195, 247, 0.2)'
+                : 'transparent',
+              borderRadius: '8px',
+              border: isSelected
+                ? '1px solid rgba(79, 195, 247, 0.5)'
+                : '1px solid transparent',
+              transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+              boxShadow: isSelected
+                ? '0 0 8px rgba(79, 195, 247, 0.5)'
+                : 'none',
+            }}
+            onClick={() => {
+              onTeamSelect(team.name)
             }}
           >
-            <span style={{ fontWeight: 500 }}>{team.name}:</span>
-            <strong
+            <Color id={team.teams_id} />
+            <div
               style={{
-                marginLeft: '4px',
-                fontSize: '18px',
-                marginTop: 0,
-                color: '#4fc3f7',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 2,
               }}
             >
-              {team.score}
-            </strong>
+              <span
+                style={{
+                  fontWeight: isSelected ? 700 : 500,
+                  color: isSelected ? '#ffffff' : '#fff',
+                }}
+              >
+                {team.name}:
+              </span>
+              <strong
+                style={{
+                  marginLeft: '4px',
+                  fontSize: '18px',
+                  marginTop: 0,
+                  color: isSelected ? '#ffffff' : '#4fc3f7',
+                }}
+              >
+                {team.score}
+              </strong>
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

@@ -14,12 +14,14 @@ const DroneMap = ({ data }) => {
   const [ZOOM, setZoom] = useState(15)
   const [selectedId, setSelectedId] = useState(false)
   const [pinnedId, setPinnedId] = useState(null)
+  const [selectedTeam, setSelectedTeam] = useState(null)
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         setPinnedId(null)
         setSelectedId(false)
+        setSelectedTeam(null)
       }
     }
 
@@ -53,6 +55,7 @@ const DroneMap = ({ data }) => {
   const lines = data?.drones.map((drone) => ({
     id: drone.drone_id,
     color: drone.team_id,
+    team_id: drone.team_id,
     path: {
       type: 'Feature',
       geometry: {
@@ -174,6 +177,24 @@ const DroneMap = ({ data }) => {
     }
   }
 
+  const handleTeamSelect = (team) => {
+    if (team === selectedTeam) {
+      setSelectedTeam()
+    } else {
+      setSelectedTeam(team)
+    }
+  }
+
+  const teamFilter = (item) => {
+    if (!selectedTeam) {
+      return true
+    }
+
+    if (item.team_id === selectedTeam) {
+      return true
+    }
+  }
+
   return (
     <>
       <Map
@@ -234,23 +255,6 @@ const DroneMap = ({ data }) => {
               <MailBoxIcon size={getCharginStationSize(ZOOM)} color="#1E88E5" />
             </Overlay>
           ))}
-        {lines.map((line) => (
-          <GeoJson
-            key={line.id}
-            svgAttributes={{
-              strokeWidth: 5,
-              stroke: colorgenerator.get(line.color),
-              strokeDasharray: '12, 6',
-              strokeOpacity: 1,
-              strokeLinecap: 'round',
-              filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.2))',
-              pathLength: '1',
-              className: pinnedId !== line.id ? 'drone-path' : '',
-            }}
-          >
-            <GeoJsonFeature feature={line.path} />
-          </GeoJson>
-        ))}
         {data?.chargingStations.map((station) => (
           <Overlay
             key={station.station_id}
@@ -286,7 +290,24 @@ const DroneMap = ({ data }) => {
             />
           </Overlay>
         ))}
-        {data?.drones.map((drone, index) => {
+        {lines.filter(teamFilter).map((line) => (
+          <GeoJson
+            key={line.id}
+            svgAttributes={{
+              strokeWidth: 5,
+              stroke: colorgenerator.get(line.color),
+              strokeDasharray: '12, 6',
+              strokeOpacity: 1,
+              strokeLinecap: 'round',
+              filter: 'drop-shadow(0px 0px 3px rgba(0,0,0,0.2))',
+              pathLength: '1',
+              className: pinnedId !== line.id ? 'drone-path' : '',
+            }}
+          >
+            <GeoJsonFeature feature={line.path} />
+          </GeoJson>
+        ))}
+        {data?.drones.filter(teamFilter).map((drone, index) => {
           const droneIdNum = parseInt(
             drone.drone_id.replace(/\D/g, '') || index
           )
@@ -333,14 +354,20 @@ const DroneMap = ({ data }) => {
           position: 'absolute',
           bottom: 0,
           zIndex: 1000,
-          pointerEvents: 'none',
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
+          pointerEvents: 'none',
         }}
       >
-        <Stats stats={data} />
-        <Teams teams={teams} />
+        <Stats stats={data} drones={data?.drones.filter(teamFilter)} />
+        <div style={{ pointerEvents: 'auto' }}>
+          <Teams
+            teams={teams}
+            onTeamSelect={handleTeamSelect}
+            selectedTeam={selectedTeam}
+          />
+        </div>
       </div>
     </>
   )

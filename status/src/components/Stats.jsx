@@ -2,32 +2,32 @@ import ChargingStation from './ChargingStation'
 import DroneIcon from './DroneIcon'
 import PackageIcon from './PackageIcon'
 
-const Stats = ({ stats }) => {
+const Stats = ({ stats, drones }) => {
   const packageCount = stats?.packages.length
   const stationCount = stats?.chargingStations.length
 
-  const packageDroneCount = stats?.drones.filter(
+  const packageDroneCount = drones.filter(
     (drone) => drone.packages.length > 0 && drone.state === 'moving'
   ).length
-  const emptyDroneCount = stats?.drones.filter(
+  const emptyDroneCount = drones.filter(
     (drone) => drone.packages.length === 0 && drone.state === 'moving'
   ).length
 
-  const idleWithPackageCount = stats?.drones.filter(
+  const idleWithPackageCount = drones.filter(
     (drone) => drone.state === 'idle' && drone.packages.length > 0
   ).length
-  const idleEmptyCount = stats?.drones.filter(
+  const idleEmptyCount = drones.filter(
     (drone) => drone.state === 'idle' && drone.packages.length === 0
   ).length
 
-  const diedWithPackageDroneCount = stats?.drones.filter(
+  const diedWithPackageDroneCount = drones.filter(
     (drone) => !drone.operational && drone.packages.length > 0
   ).length
-  const diedEmptyDroneCount = stats?.drones.filter(
+  const diedEmptyDroneCount = drones.filter(
     (drone) => !drone.operational && drone.packages.length === 0
   ).length
 
-  const chargingDronesCount = stats?.drones.filter(
+  const chargingDronesCount = drones.filter(
     (drone) => drone.state === 'charging'
   ).length
 
