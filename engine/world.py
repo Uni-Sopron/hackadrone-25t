@@ -167,7 +167,7 @@ class World:
         roll:float = uniform(0,10)
         station:Coordinate = cast(ChargingStation, choice(list(self._entities[ChargingStation].values()))).location
         if roll < 3: # small local package
-            return generate_random_package(station, 4000, 4000, 1, 2, 1000, 1200, 3600, 5400)
+            return generate_random_package(station, 4000, 4000, 1, 2, 2000, 2400, 3600, 5400)
         elif roll < 6: # large local package
             return generate_random_package(station, 7000, 7000, 2, 3, 3000, 3500, 5400, 7200)
         else: # package between charging stations
