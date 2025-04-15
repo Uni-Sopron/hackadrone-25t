@@ -252,7 +252,7 @@ class World:
         log_outcome(True)
     
     def migrate(self):
-        for package in self._entities[Package]:
+        for package in self._entities[Package].values():
             package = cast(Package, package)
             if not hasattr(package, 'contractor'):
                 package.contractor = None
