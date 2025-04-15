@@ -1,4 +1,5 @@
 import { colorgenerator } from '../utils'
+import PackageIcon from './PackageIcon'
 
 const Color = ({ id }) => {
   const color = colorgenerator.get(id)
@@ -17,7 +18,13 @@ const Color = ({ id }) => {
   )
 }
 
-const Teams = ({ teams, onTeamSelect, selectedTeam }) => {
+const Teams = ({
+  teams,
+  onTeamSelect,
+  selectedTeam,
+  showPackages,
+  onPackageSelect,
+}) => {
   const sortedTeams = [...teams].sort((a, b) => b.score - a.score)
 
   return (
@@ -28,9 +35,7 @@ const Teams = ({ teams, onTeamSelect, selectedTeam }) => {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         color: '#fff',
         width: '100%',
-        paddingTop: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
+        padding: 10,
         display: 'flex',
         justifyContent: 'space-evenly',
         flexWrap: 'wrap',
@@ -49,7 +54,6 @@ const Teams = ({ teams, onTeamSelect, selectedTeam }) => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              marginBottom: 10,
               padding: 6,
               transition: 'all 0.2s ease',
               cursor: 'pointer',
@@ -100,6 +104,31 @@ const Teams = ({ teams, onTeamSelect, selectedTeam }) => {
           </div>
         )
       })}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          aspectRatio: 1,
+          width: 40,
+          transition: 'all 0.2s ease',
+          cursor: 'pointer',
+          backgroundColor: showPackages
+            ? 'rgba(255, 213, 79, 0.2)'
+            : 'transparent',
+          borderRadius: '8px',
+          border: showPackages
+            ? '1px solid rgba(255, 213, 79, 0.5)'
+            : '1px solid transparent',
+        }}
+        onClick={onPackageSelect}
+        title={showPackages ? 'Hide Packages' : 'Show Packages'}
+      >
+        <PackageIcon
+          size={32}
+          color={showPackages ? '#FFD54F' : 'rgba(255, 255, 255, 0.6)'}
+        />
+      </div>
     </div>
   )
 }

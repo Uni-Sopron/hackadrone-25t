@@ -15,6 +15,7 @@ const DroneMap = ({ data }) => {
   const [selectedId, setSelectedId] = useState(false)
   const [pinnedId, setPinnedId] = useState(null)
   const [selectedTeam, setSelectedTeam] = useState(null)
+  const [showPackages, setShowPackages] = useState(true)
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -195,6 +196,10 @@ const DroneMap = ({ data }) => {
     }
   }
 
+  const handlePackageSelect = () => {
+    setShowPackages((old) => !old)
+  }
+
   return (
     <>
       <Map
@@ -270,26 +275,29 @@ const DroneMap = ({ data }) => {
             />
           </Overlay>
         ))}
-        {data?.packages.map((pkg) => (
-          <Overlay
-            key={pkg.package_id}
-            anchor={[pkg.position.latitude, pkg.position.longitude]}
-            offset={[getPackageSize(ZOOM) / 2, getPackageSize(ZOOM) / 2]}
-          >
-            <Selectable
-              id={pkg.package_id}
-              icon={PackageIcon}
-              size={getPackageSize(ZOOM)}
-              colorId={pkg.contractor || pkg.package_id}
-              overrideColor={
-                pkg.contractor ? colorgenerator.get(pkg.contractor) : '#FFD54F'
-              }
-              onHover={handleHover}
-              onPin={handlePin}
-              pinned={pkg.package_id === pinnedId}
-            />
-          </Overlay>
-        ))}
+        {showPackages &&
+          data?.packages.map((pkg) => (
+            <Overlay
+              key={pkg.package_id}
+              anchor={[pkg.position.latitude, pkg.position.longitude]}
+              offset={[getPackageSize(ZOOM) / 2, getPackageSize(ZOOM) / 2]}
+            >
+              <Selectable
+                id={pkg.package_id}
+                icon={PackageIcon}
+                size={getPackageSize(ZOOM)}
+                colorId={pkg.contractor || pkg.package_id}
+                overrideColor={
+                  pkg.contractor
+                    ? colorgenerator.get(pkg.contractor)
+                    : '#FFD54F'
+                }
+                onHover={handleHover}
+                onPin={handlePin}
+                pinned={pkg.package_id === pinnedId}
+              />
+            </Overlay>
+          ))}
         {lines.filter(teamFilter).map((line) => (
           <GeoJson
             key={line.id}
@@ -366,6 +374,8 @@ const DroneMap = ({ data }) => {
             teams={teams}
             onTeamSelect={handleTeamSelect}
             selectedTeam={selectedTeam}
+            showPackages={showPackages}
+            onPackageSelect={handlePackageSelect}
           />
         </div>
       </div>
