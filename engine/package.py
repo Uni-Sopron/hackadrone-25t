@@ -4,7 +4,6 @@ from random import uniform, randint
 
 from .utils import Coordinate, LATITUDE_SECOND_DISTANCE_M, LONGITUDE_SECOND_DISTANCE_M
 from .entity import Entity
-from .company import Company
 
 
 class Package(Entity):
@@ -31,7 +30,7 @@ class Package(Entity):
         self.revenue_HUF = revenue_HUF
         self.latest_delivery_datetime = latest_delivery_datetime
         self.status = Package.Status.AVAILABLE
-        self.contractor:Company|None = None
+        self.contractor: Entity|None = None
 
     def _public_status(self) -> dict:
         return {
@@ -96,5 +95,3 @@ def send_package_to_api(package:Package):
 if __name__ == "__main__":
     package = generate_random_package()
     send_package_to_api(package)
-
-
