@@ -290,9 +290,3 @@ class World:
                 package.contractor = None
         if not hasattr(self, "_min_package_count"):
             self._min_package_count:int = 30
-        if not hasattr(self, "_time_adjustment"):
-            for package in self._entities[Package].values():
-                package = cast(Package, package)
-                if hasattr(package, 'latest_delivery_datetime'):
-                    package.latest_delivery_datetime += timedelta(hours=2)
-            self._time_adjustment = timedelta(hours=2)
