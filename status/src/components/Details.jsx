@@ -20,6 +20,7 @@ const Details = ({ details }) => {
     details?.packages.reduce((acc, c) => acc + c.weight, 0)
   const battery = (details?.battery * 100).toFixed(2)
   const state = details?.state
+  const rewards = details?.packages?.reduce((acc, c) => acc + c.reward, 0)
 
   return (
     <div
@@ -33,7 +34,7 @@ const Details = ({ details }) => {
         borderRadius: 5,
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
         zIndex: 1000,
-        minWidth: 250,
+        minWidth: 280,
         backdropFilter: 'blur(5px)',
       }}
     >
@@ -114,6 +115,11 @@ const Details = ({ details }) => {
             <strong>Package count:</strong>
             <span>{details.packages.length}</span>
           </div>
+
+          <div className="detail-line">
+            <strong>Packages reward:</strong>
+            <span>{rewards}</span>
+          </div>
         </>
       )}
 
@@ -123,10 +129,24 @@ const Details = ({ details }) => {
       </div>
 
       {isPackage && (
-        <div className="detail-line">
-          <strong>Package reward:</strong>
-          <span>{details.reward} HUF</span>
-        </div>
+        <>
+          <div className="detail-line">
+            <strong>Package reward:</strong>
+            <span>{details.reward} HUF</span>
+          </div>
+
+          <div className="detail-line">
+            <strong>Package deadline:</strong>
+            <span>{new Date(details.deadline).toLocaleTimeString()}</span>
+          </div>
+
+          {details.contractor && (
+            <div className="detail-line">
+              <strong>Package contractor:</strong>
+              <span>{details.contractor}</span>
+            </div>
+          )}
+        </>
       )}
 
       <div className="detail-line">

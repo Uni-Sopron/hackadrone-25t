@@ -7,6 +7,7 @@ import Selectable from './Selectable.jsx'
 import ChargingStation from './ChargingStation'
 import PackageIcon from './PackageIcon'
 import DroneIcon from './DroneIcon'
+import MailBoxIcon from './MailBoxIcon.jsx'
 
 const DroneMap = ({ data }) => {
   const [ZOOM, setZoom] = useState(15)
@@ -34,7 +35,8 @@ const DroneMap = ({ data }) => {
   })()
 
   const lines = data?.drones.map((drone) => ({
-    id: drone.team_id,
+    id: `${drone.team_id}_line_${Math.random()}`,
+    color: drone.team_id,
     path: {
       type: 'Feature',
       geometry: {
@@ -87,6 +89,17 @@ const DroneMap = ({ data }) => {
         },
       },
     }))
+  })()
+
+  const correctPackageDestination = (() => {
+    if (!data.drones) {
+      return null
+    }
+
+    const drone = search(data.drones, 'drone_id')
+    if (!drone || drone.drone_id !== pinnedId) return null
+
+    return drone.packages
   })()
 
   const getDroneSize = (zoom) => {
@@ -188,12 +201,25 @@ const DroneMap = ({ data }) => {
               <GeoJsonFeature feature={line.path} />
             </GeoJson>
           ))}
+        {correctPackageDestination &&
+          correctPackageDestination.map((pkg) => (
+            <Overlay
+              key={pkg.package_id}
+              anchor={[pkg.destination.latitude, pkg.destination.longitude]}
+              offset={[
+                getCharginStationSize(ZOOM) / 2,
+                getCharginStationSize(ZOOM) / 2,
+              ]}
+            >
+              <MailBoxIcon size={getCharginStationSize(ZOOM)} color="#1E88E5" />
+            </Overlay>
+          ))}
         {lines.map((line) => (
           <GeoJson
             key={line.id}
             svgAttributes={{
               strokeWidth: 5,
-              stroke: colorgenerator.get(line.id),
+              stroke: colorgenerator.get(line.color),
               strokeDasharray: '12, 6',
               strokeOpacity: 1,
               strokeLinecap: 'round',
@@ -230,7 +256,8 @@ const DroneMap = ({ data }) => {
               id={pkg.package_id}
               icon={PackageIcon}
               size={getPackageSize(ZOOM)}
-              colorId={pkg.package_id}
+              colorId={pkg.contractor || pkg.package_id}
+              overrideColor="#FFD54F"
               onHover={handleHover}
               onPin={handlePin}
               pinned={pkg.package_id === pinnedId}
@@ -270,6 +297,7 @@ const DroneMap = ({ data }) => {
                 hasBox={drone.packages.length > 0}
                 padding
                 isOperational={drone.operational}
+                moving={drone.state === 'moving'}
               />
             </Overlay>
           )

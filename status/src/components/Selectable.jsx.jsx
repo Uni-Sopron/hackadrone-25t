@@ -7,6 +7,7 @@ const Selectable = ({
   onPin,
   onHover,
   colorId,
+  overrideColor,
   padding,
   icon: Icon,
   ...rest
@@ -49,7 +50,11 @@ const Selectable = ({
         paddingTop: padding ? (size / 10) * 2 : 0,
       }}
     >
-      <Icon size={size * 0.85} color={color} {...rest} />
+      <Icon
+        size={size * 0.85}
+        color={overrideColor ? overrideColor : color}
+        {...rest}
+      />
     </div>
   )
 }

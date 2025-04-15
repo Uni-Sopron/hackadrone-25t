@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="fullscreen">
       <button className="fullscreen-button" onClick={handle.enter}>
-        <ArrowsPointingOutIcon />
+        <ArrowsPointingOutIcon width={32} height={32} />
       </button>
       <FullScreen handle={handle}>
         <DroneMap data={data} />
