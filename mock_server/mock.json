@@ -1,352 +1,846 @@
 {
   "chargingStations": [
     {
-      "charging_speed": 120,
+      "charging_speed": 140,
       "position": {
-        "latitude": 47.6800454,
-        "longitude": 16.5795934
+        "latitude": 47.6072494,
+        "longitude": 16.7054558
       },
       "station_id": "S0001"
+    },
+    {
+      "charging_speed": 30,
+      "position": {
+        "latitude": 47.6455318,
+        "longitude": 16.6039671
+      },
+      "station_id": "S0002"
+    },
+    {
+      "charging_speed": 120,
+      "position": {
+        "latitude": 47.6800402,
+        "longitude": 16.5787537
+      },
+      "station_id": "S0003"
+    },
+    {
+      "charging_speed": 130,
+      "position": {
+        "latitude": 47.6203015,
+        "longitude": 16.8718423
+      },
+      "station_id": "S_84937648"
     }
   ],
   "drones": [
     {
-      "battery": 1,
-      "current_payload": 10,
-      "destination": {
-        "latitude": 47.71666567483299,
-        "longitude": 16.62761684855235
-      },
-      "drone_id": "D0002",
-      "operational": true,
-      "packages": [
-        {
-          "destination": {
-            "latitude": 47.689012,
-            "longitude": 16.597775
-          },
-          "package_id": "P0004",
-          "reward": 1000,
-          "weight": 5
-        }
-      ],
-      "payload_capacity": 5,
-      "position": {
-        "latitude": 47.71666567483299,
-        "longitude": 16.62761684855235
-      },
-      "source": {
-        "latitude": 47.71666567483299,
-        "longitude": 16.62761684855235
-      },
-      "team_id": "0004"
-    },
-    {
-      "battery": 0.853,
+      "battery": 0.6945494736841564,
       "current_payload": 5,
       "destination": {
-        "latitude": 47.6800454,
-        "longitude": 16.5795934
+        "latitude": 47.68581689999999,
+        "longitude": 16.583395399999997
       },
-      "drone_id": "D0004",
+      "drone_id": "D0002",
       "operational": true,
       "packages": [],
       "payload_capacity": 5,
       "position": {
-        "latitude": 47.6800454,
-        "longitude": 16.5795934
+        "latitude": 47.68581689999999,
+        "longitude": 16.583395399999997
       },
       "source": {
-        "latitude": 47.6800454,
-        "longitude": 16.5795934
+        "latitude": 47.68581689999999,
+        "longitude": 16.583395399999997
       },
-      "team_id": "0003"
+      "state": "idle",
+      "team_id": "Hubertus"
     },
     {
-      "battery": 0.7036666666666667,
+      "battery": 0.49584288888885153,
+      "current_payload": 8.45,
+      "destination": {
+        "latitude": 47.6072494,
+        "longitude": 16.7054558
+      },
+      "drone_id": "D0004",
+      "operational": true,
+      "packages": [
+        {
+          "contractor": "Karesz",
+          "deadline": "2025-04-15T13:33:30",
+          "destination": {
+            "latitude": 47.624926,
+            "longitude": 16.7731422
+          },
+          "package_id": "P_1af5070a",
+          "reward": 3389,
+          "weight": 2.31
+        },
+        {
+          "contractor": "Karesz",
+          "deadline": "2025-04-15T15:07:46",
+          "destination": {
+            "latitude": 47.6268221,
+            "longitude": 16.676073
+          },
+          "package_id": "P_7ec402ef",
+          "reward": 1061,
+          "weight": 1.14
+        }
+      ],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6072494,
+        "longitude": 16.7054558
+      },
+      "source": {
+        "latitude": 47.6072494,
+        "longitude": 16.7054558
+      },
+      "state": "charging",
+      "team_id": "Karesz"
+    },
+    {
+      "battery": 0.5394583333333334,
       "current_payload": 5,
       "destination": {
-        "latitude": 47.775557684249,
-        "longitude": 16.5155812734658
+        "latitude": 47.6203015,
+        "longitude": 16.8718423
       },
       "drone_id": "D0006",
       "operational": true,
       "packages": [],
       "payload_capacity": 5,
       "position": {
-        "latitude": 47.76334195004032,
-        "longitude": 16.52376823213839
+        "latitude": 47.64872250835864,
+        "longitude": 16.774339134346473
       },
       "source": {
-        "latitude": 47.76334195004032,
-        "longitude": 16.52376823213839
+        "latitude": 47.64872250835864,
+        "longitude": 16.774339134346473
       },
-      "team_id": "0002"
+      "state": "moving",
+      "team_id": "FoxDrone"
     },
     {
-      "battery": 0.3288333333333333,
+      "battery": 0.20163813888885856,
       "current_payload": 5,
       "destination": {
-        "latitude": 47.6800454,
-        "longitude": 16.5795934
+        "latitude": 47.6800402,
+        "longitude": 16.5787537
       },
       "drone_id": "D0008",
       "operational": true,
       "packages": [],
       "payload_capacity": 5,
       "position": {
-        "latitude": 47.6800454,
-        "longitude": 16.5795934
+        "latitude": 47.6800402,
+        "longitude": 16.5787537
       },
       "source": {
-        "latitude": 47.6800454,
-        "longitude": 16.5795934
+        "latitude": 47.6800402,
+        "longitude": 16.5787537
       },
-      "team_id": "0001"
+      "state": "charging",
+      "team_id": "Hubertus"
+    },
+    {
+      "battery": 0.6337025833333504,
+      "current_payload": 5,
+      "destination": {
+        "latitude": 47.6800402,
+        "longitude": 16.5787537
+      },
+      "drone_id": "D77328aad",
+      "operational": true,
+      "packages": [],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6800402,
+        "longitude": 16.5787537
+      },
+      "source": {
+        "latitude": 47.6800402,
+        "longitude": 16.5787537
+      },
+      "state": "charging",
+      "team_id": "Karesz"
+    },
+    {
+      "battery": 0.972,
+      "current_payload": 5,
+      "destination": {
+        "latitude": 47.6805196,
+        "longitude": 16.5916563
+      },
+      "drone_id": "Def548229",
+      "operational": true,
+      "packages": [],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6805196,
+        "longitude": 16.5916563
+      },
+      "source": {
+        "latitude": 47.6805196,
+        "longitude": 16.5916563
+      },
+      "state": "idle",
+      "team_id": "FoxDrone"
+    },
+    {
+      "battery": 0.98425,
+      "current_payload": 5,
+      "destination": {
+        "latitude": 47.6241252,
+        "longitude": 16.7344752
+      },
+      "drone_id": "Dbb017eba",
+      "operational": true,
+      "packages": [],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6104246376307,
+        "longitude": 16.710915896167247
+      },
+      "source": {
+        "latitude": 47.6104246376307,
+        "longitude": 16.710915896167247
+      },
+      "state": "moving",
+      "team_id": "RoadRunnerExpress"
+    },
+    {
+      "battery": 0.29418550000007354,
+      "current_payload": 5.01,
+      "destination": {
+        "latitude": 47.6011562,
+        "longitude": 16.704636700000002
+      },
+      "drone_id": "Dfc6cb3fa",
+      "operational": true,
+      "packages": [
+        {
+          "contractor": "RoadRunnerExpress",
+          "deadline": "2025-04-15T15:48:12",
+          "destination": {
+            "latitude": 47.6011562,
+            "longitude": 16.704636700000002
+          },
+          "package_id": "P_7009f968",
+          "reward": 5832,
+          "weight": 0.01
+        }
+      ],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6011562,
+        "longitude": 16.704636700000002
+      },
+      "source": {
+        "latitude": 47.6011562,
+        "longitude": 16.704636700000002
+      },
+      "state": "idle",
+      "team_id": "RoadRunnerExpress"
+    },
+    {
+      "battery": 0.6138245833333199,
+      "current_payload": 5,
+      "destination": {
+        "latitude": 47.6410581,
+        "longitude": 16.6345731
+      },
+      "drone_id": "D_f7771957",
+      "operational": true,
+      "packages": [],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.65637371151296,
+        "longitude": 16.606176541832433
+      },
+      "source": {
+        "latitude": 47.65637371151296,
+        "longitude": 16.606176541832433
+      },
+      "state": "moving",
+      "team_id": "Hubertus"
+    },
+    {
+      "battery": 0.6941443333333113,
+      "current_payload": 7.37,
+      "destination": {
+        "latitude": 47.6760207,
+        "longitude": 16.5878242
+      },
+      "drone_id": "D_2671be4a",
+      "operational": true,
+      "packages": [
+        {
+          "contractor": "FoxDrone",
+          "deadline": "2025-04-15T15:37:48",
+          "destination": {
+            "latitude": 47.6760207,
+            "longitude": 16.5878242
+          },
+          "package_id": "P_71b54ce9",
+          "reward": 3026,
+          "weight": 2.37
+        }
+      ],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.6760207,
+        "longitude": 16.5878242
+      },
+      "source": {
+        "latitude": 47.6760207,
+        "longitude": 16.5878242
+      },
+      "state": "idle",
+      "team_id": "FoxDrone"
+    },
+    {
+      "battery": 0.5333333333333333,
+      "current_payload": 5,
+      "destination": {
+        "latitude": 47.62706549999999,
+        "longitude": 16.8839312
+      },
+      "drone_id": "D_c3efb185",
+      "operational": true,
+      "packages": [
+        {
+          "contractor": "Karesz",
+          "deadline": "2025-04-15T15:55:44",
+          "destination": {
+            "latitude": 47.62706549999999,
+            "longitude": 16.8839312
+          },
+          "package_id": "P_f167c2a7",
+          "reward": 5584,
+          "weight": 0
+        }
+      ],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.64813508352356,
+        "longitude": 16.755654228058805
+      },
+      "source": {
+        "latitude": 47.64813508352356,
+        "longitude": 16.755654228058805
+      },
+      "state": "moving",
+      "team_id": "Karesz"
+    },
+    {
+      "battery": 0.5226163333333299,
+      "current_payload": 5.02,
+      "destination": {
+        "latitude": 47.59893979999999,
+        "longitude": 16.6938265
+      },
+      "drone_id": "D_57987fcf",
+      "operational": true,
+      "packages": [
+        {
+          "contractor": "RoadRunnerExpress",
+          "deadline": "2025-04-15T16:03:35",
+          "destination": {
+            "latitude": 47.59893979999999,
+            "longitude": 16.6938265
+          },
+          "package_id": "P_e7468db4",
+          "reward": 5129,
+          "weight": 0.02
+        }
+      ],
+      "payload_capacity": 5,
+      "position": {
+        "latitude": 47.59893979999999,
+        "longitude": 16.6938265
+      },
+      "source": {
+        "latitude": 47.59893979999999,
+        "longitude": 16.6938265
+      },
+      "state": "idle",
+      "team_id": "RoadRunnerExpress"
     }
   ],
   "packages": [
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:07:30",
       "destination": {
-        "latitude": 47.653896,
-        "longitude": 16.487458
+        "latitude": 47.7135684,
+        "longitude": 16.6013609
       },
-      "package_id": "P0002",
+      "package_id": "P_cae9d608",
       "position": {
-        "latitude": 47.754018,
-        "longitude": 16.538753
+        "latitude": 47.6584088,
+        "longitude": 16.5927397
       },
-      "reward": 1000,
-      "weight": 5
+      "reward": 1083,
+      "weight": 1.06
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:04:15",
       "destination": {
-        "latitude": 47.85350041451102,
-        "longitude": 16.649023319195326
+        "latitude": 47.6497244,
+        "longitude": 16.6099918
       },
-      "package_id": "P0005",
+      "package_id": "P_716d5fba",
       "position": {
-        "latitude": 47.6537944407741,
-        "longitude": 16.71714322669631
+        "latitude": 47.7087746,
+        "longitude": 16.6131729
       },
-      "reward": 2261,
-      "weight": 1.1537221834837101
+      "reward": 1021,
+      "weight": 1.17
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:00:46",
       "destination": {
-        "latitude": 47.71658584154706,
-        "longitude": 16.37869471384527
+        "latitude": 47.6005567,
+        "longitude": 16.7505554
       },
-      "package_id": "P0006",
+      "package_id": "P_95ab82e5",
       "position": {
-        "latitude": 47.50240689292647,
-        "longitude": 16.462094966659723
+        "latitude": 47.6307238,
+        "longitude": 16.7462404
       },
-      "reward": 3713,
-      "weight": 3.632969533769739
+      "reward": 1088,
+      "weight": 1.92
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:17:15",
       "destination": {
-        "latitude": 47.530012876540916,
-        "longitude": 16.797004370066638
+        "latitude": 47.5837152,
+        "longitude": 16.7152226
       },
-      "package_id": "P0007",
+      "package_id": "P_c198a8cb",
       "position": {
-        "latitude": 47.73773768111829,
-        "longitude": 16.692992691519425
+        "latitude": 47.6151006,
+        "longitude": 16.7113843
       },
-      "reward": 1118,
-      "weight": 2.5954557797969415
+      "reward": 1082,
+      "weight": 1.27
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:08:10",
       "destination": {
-        "latitude": 47.50468695593152,
-        "longitude": 16.670946783347834
+        "latitude": 47.634142,
+        "longitude": 16.5752
       },
-      "package_id": "P0008",
+      "package_id": "P_51321813",
       "position": {
-        "latitude": 47.566388686517016,
-        "longitude": 16.369421809141684
+        "latitude": 47.6704625,
+        "longitude": 16.6430269
       },
-      "reward": 1325,
-      "weight": 3.013582199583324
+      "reward": 1097,
+      "weight": 1.7
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:23:15",
       "destination": {
-        "latitude": 47.844628075920845,
-        "longitude": 16.651727495718532
+        "latitude": 47.6121088,
+        "longitude": 16.61574
       },
-      "package_id": "P0009",
+      "package_id": "P_3522b289",
       "position": {
-        "latitude": 47.536035177977965,
-        "longitude": 16.714816761090063
+        "latitude": 47.6385993,
+        "longitude": 16.5951479
       },
-      "reward": 1407,
-      "weight": 3.925582154763578
+      "reward": 1169,
+      "weight": 1.55
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:08:28",
       "destination": {
-        "latitude": 47.76942165915009,
-        "longitude": 16.662998412653383
+        "latitude": 47.6144056,
+        "longitude": 16.6311841
       },
-      "package_id": "P0010",
+      "package_id": "P_1d96546f",
       "position": {
-        "latitude": 47.76445920989286,
-        "longitude": 16.5348022134452
+        "latitude": 47.6517655,
+        "longitude": 16.5648219
       },
-      "reward": 3495,
-      "weight": 4.99345590361683
+      "reward": 1129,
+      "weight": 1.26
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:30:45",
       "destination": {
-        "latitude": 47.5835017253087,
-        "longitude": 16.367452410056245
+        "latitude": 47.6685019,
+        "longitude": 16.5126893
       },
-      "package_id": "P0011",
+      "package_id": "P_b7c8a84d",
       "position": {
-        "latitude": 47.67744898614009,
-        "longitude": 16.341600447305083
+        "latitude": 47.7247788,
+        "longitude": 16.522185
       },
-      "reward": 4112,
-      "weight": 1.7479063123691474
+      "reward": 3198,
+      "weight": 2.16
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T13:40:35",
       "destination": {
-        "latitude": 47.78245438044404,
-        "longitude": 16.31880847643812
+        "latitude": 47.6944092,
+        "longitude": 16.54769
       },
-      "package_id": "P0012",
+      "package_id": "P_bad64d9b",
       "position": {
-        "latitude": 47.52481925086344,
-        "longitude": 16.845655314949926
+        "latitude": 47.6767383,
+        "longitude": 16.6652879
       },
-      "reward": 4319,
-      "weight": 1.4328379865197824
+      "reward": 3212,
+      "weight": 2.95
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T14:53:26",
       "destination": {
-        "latitude": 47.62945730780002,
-        "longitude": 16.465110340341997
+        "latitude": 47.6664212,
+        "longitude": 16.6104522
       },
-      "package_id": "P0013",
+      "package_id": "P_1d923d8f",
       "position": {
-        "latitude": 47.66604518661975,
-        "longitude": 16.667019951466738
+        "latitude": 47.6721245,
+        "longitude": 16.563499
       },
-      "reward": 953,
-      "weight": 2.2104228370673944
+      "reward": 1010,
+      "weight": 1.76
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T14:59:04",
       "destination": {
-        "latitude": 47.61075488416091,
-        "longitude": 16.358883870002966
+        "latitude": 47.6839211,
+        "longitude": 16.5364621
       },
-      "package_id": "P0014",
+      "package_id": "P_49fc4d0b",
       "position": {
-        "latitude": 47.62887849994121,
-        "longitude": 16.342881021201297
+        "latitude": 47.6498369,
+        "longitude": 16.5880165
       },
-      "reward": 3887,
-      "weight": 4.178666224303424
+      "reward": 1077,
+      "weight": 1.64
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T14:49:24",
       "destination": {
-        "latitude": 47.76793684386868,
-        "longitude": 16.766756296844218
+        "latitude": 47.6417607,
+        "longitude": 16.7303628
       },
-      "package_id": "P0015",
+      "package_id": "P_baf10ae6",
       "position": {
-        "latitude": 47.51767861258698,
-        "longitude": 16.702546301843086
+        "latitude": 47.6241252,
+        "longitude": 16.7344752
       },
-      "reward": 3880,
-      "weight": 3.844432460589149
+      "reward": 1175,
+      "weight": 1.54
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T14:52:49",
       "destination": {
-        "latitude": 47.81802477768169,
-        "longitude": 16.564407446141395
+        "latitude": 47.6195776,
+        "longitude": 16.6830977
       },
-      "package_id": "P0016",
+      "package_id": "P_e68cb9f4",
       "position": {
-        "latitude": 47.85567669774616,
-        "longitude": 16.350569977309313
+        "latitude": 47.6389089,
+        "longitude": 16.68345
       },
-      "reward": 1220,
-      "weight": 2.117367358144642
+      "reward": 1026,
+      "weight": 1.9
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T15:01:42",
       "destination": {
-        "latitude": 47.75639828673054,
-        "longitude": 16.829029719378713
+        "latitude": 47.6643813,
+        "longitude": 16.5538478
       },
-      "package_id": "P0017",
+      "package_id": "P_95f4ab5a",
       "position": {
-        "latitude": 47.57349798031101,
-        "longitude": 16.72854473087649
+        "latitude": 47.6154577,
+        "longitude": 16.5878051
       },
-      "reward": 1493,
-      "weight": 3.1819398482969623
+      "reward": 1064,
+      "weight": 1.91
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T14:49:11",
       "destination": {
-        "latitude": 47.71933749166689,
-        "longitude": 16.83828403015898
+        "latitude": 47.6658575,
+        "longitude": 16.6264604
       },
-      "package_id": "P0018",
+      "package_id": "P_c6700529",
       "position": {
-        "latitude": 47.66428408326669,
-        "longitude": 16.550750455742676
+        "latitude": 47.6699094,
+        "longitude": 16.6436045
       },
-      "reward": 3566,
-      "weight": 1.9389877897678014
+      "reward": 1160,
+      "weight": 1.4
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T15:00:44",
       "destination": {
-        "latitude": 47.73962956926293,
-        "longitude": 16.491349015909215
+        "latitude": 47.6408852,
+        "longitude": 16.9092994
       },
-      "package_id": "P0019",
+      "package_id": "P_945bc62e",
       "position": {
-        "latitude": 47.77555768424901,
-        "longitude": 16.51558127346576
+        "latitude": 47.6523404,
+        "longitude": 16.8495256
       },
-      "reward": 2990,
-      "weight": 3.6928208785423275
+      "reward": 1107,
+      "weight": 1.23
     },
     {
+      "contractor": null,
+      "deadline": "2025-04-15T15:01:43",
       "destination": {
-        "latitude": 47.72613607519489,
-        "longitude": 16.809264885572276
+        "latitude": 47.6487729,
+        "longitude": 16.8652395
       },
-      "package_id": "P0020",
+      "package_id": "P_bc7d3714",
       "position": {
-        "latitude": 47.81265760085396,
-        "longitude": 16.805364009382256
+        "latitude": 47.6367609,
+        "longitude": 16.8803942
       },
-      "reward": 1254,
-      "weight": 1.8782902484555133
+      "reward": 1190,
+      "weight": 1.31
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T14:59:02",
+      "destination": {
+        "latitude": 47.6087286,
+        "longitude": 16.8774931
+      },
+      "package_id": "P_abdc5803",
+      "position": {
+        "latitude": 47.6261511,
+        "longitude": 16.9252796
+      },
+      "reward": 1064,
+      "weight": 1.57
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:06:21",
+      "destination": {
+        "latitude": 47.5887529,
+        "longitude": 16.8780057
+      },
+      "package_id": "P_b3f573e8",
+      "position": {
+        "latitude": 47.6394648,
+        "longitude": 16.8628315
+      },
+      "reward": 1111,
+      "weight": 1.82
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:13:24",
+      "destination": {
+        "latitude": 47.726854,
+        "longitude": 16.6704206
+      },
+      "package_id": "P_cae953d6",
+      "position": {
+        "latitude": 47.7160071,
+        "longitude": 16.6211284
+      },
+      "reward": 3338,
+      "weight": 2.06
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:17:53",
+      "destination": {
+        "latitude": 47.7292464,
+        "longitude": 16.501474
+      },
+      "package_id": "P_0d6db699",
+      "position": {
+        "latitude": 47.7331228,
+        "longitude": 16.6668086
+      },
+      "reward": 3176,
+      "weight": 2.07
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:27:36",
+      "destination": {
+        "latitude": 47.7244752,
+        "longitude": 16.666879
+      },
+      "package_id": "P_9d28cc20",
+      "position": {
+        "latitude": 47.7308368,
+        "longitude": 16.4939751
+      },
+      "reward": 3275,
+      "weight": 2.66
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:35:11",
+      "destination": {
+        "latitude": 47.6946419,
+        "longitude": 16.6695936
+      },
+      "package_id": "P_ab25b4df",
+      "position": {
+        "latitude": 47.6410581,
+        "longitude": 16.6345731
+      },
+      "reward": 3439,
+      "weight": 2.36
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:19:46",
+      "destination": {
+        "latitude": 47.6396503,
+        "longitude": 16.6484188
+      },
+      "package_id": "P_96832a38",
+      "position": {
+        "latitude": 47.711161,
+        "longitude": 16.5884907
+      },
+      "reward": 3333,
+      "weight": 2.06
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:18:28",
+      "destination": {
+        "latitude": 47.6991671,
+        "longitude": 16.4981303
+      },
+      "package_id": "P_083d92e3",
+      "position": {
+        "latitude": 47.6483153,
+        "longitude": 16.626062
+      },
+      "reward": 3458,
+      "weight": 2.95
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:10:45",
+      "destination": {
+        "latitude": 47.7417659,
+        "longitude": 16.6497362
+      },
+      "package_id": "P_23e401fa",
+      "position": {
+        "latitude": 47.734612,
+        "longitude": 16.6119379
+      },
+      "reward": 3135,
+      "weight": 2.99
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:37:36",
+      "destination": {
+        "latitude": 47.6672884,
+        "longitude": 16.6575838
+      },
+      "package_id": "P_3de8514b",
+      "position": {
+        "latitude": 47.6292506,
+        "longitude": 16.5903031
+      },
+      "reward": 3123,
+      "weight": 2.9
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:27:20",
+      "destination": {
+        "latitude": 47.7211619,
+        "longitude": 16.5179414
+      },
+      "package_id": "P_63b35c56",
+      "position": {
+        "latitude": 47.6779232,
+        "longitude": 16.6247668
+      },
+      "reward": 3321,
+      "weight": 2.44
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T15:15:39",
+      "destination": {
+        "latitude": 47.6964512,
+        "longitude": 16.5084085
+      },
+      "package_id": "P_c3e931d1",
+      "position": {
+        "latitude": 47.6250541,
+        "longitude": 16.5658382
+      },
+      "reward": 3292,
+      "weight": 2.93
+    },
+    {
+      "contractor": null,
+      "deadline": "2025-04-15T16:05:28",
+      "destination": {
+        "latitude": 47.6884774,
+        "longitude": 16.5889214
+      },
+      "package_id": "P_c2407845",
+      "position": {
+        "latitude": 47.6205596,
+        "longitude": 16.8655746
+      },
+      "reward": 5641,
+      "weight": 0.04
     }
   ],
   "teams": [
     {
       "name": "Hubertus",
-      "score": 10000,
+      "score": 21589,
       "teams_id": "Hubertus"
     },
     {
       "name": "FoxDrone",
-      "score": 11000,
+      "score": 12997,
       "teams_id": "FoxDrone"
     },
     {
       "name": "Karesz",
-      "score": 11000,
+      "score": 34057,
       "teams_id": "Karesz"
     },
     {
       "name": "RoadRunnerExpress",
-      "score": 0,
+      "score": 57411,
       "teams_id": "RoadRunnerExpress"
     }
   ]
