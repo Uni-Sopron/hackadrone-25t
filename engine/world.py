@@ -70,6 +70,7 @@ class World:
                     "longitude": drone._target[1] if drone._state == Drone.State.MOVING else drone._position[1]
                 },
                 "battery": drone._battery_J / drone._battery_max_J,
+                "swapping_time_remaining_s" : drone._swap_time_remaining_s if drone._swap_time_remaining_s is not None else None,
                 "payload_capacity": drone._max_load_kg,
                 "current_payload": drone._total_weight_kg(),
                 "packages": [
