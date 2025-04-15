@@ -1,4 +1,2 @@
 - company as chargingstation
-- status
 - idle no animation -> status
-- drone team name

@@ -19,7 +19,7 @@ const Details = ({ details }) => {
     details?.weight?.toFixed(2) ||
     details?.packages.reduce((acc, c) => acc + c.weight, 0)
   const battery = (details?.battery * 100).toFixed(2)
-  const state = details?.operational ? 'operational' : 'dead'
+  const state = details?.state
 
   return (
     <div

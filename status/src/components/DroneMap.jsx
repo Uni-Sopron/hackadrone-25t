@@ -205,7 +205,7 @@ const DroneMap = ({ data }) => {
             <GeoJsonFeature feature={line.path} />
           </GeoJson>
         ))}
-        {[...(data?.chargingStations || [])].map((station) => (
+        {data?.chargingStations.map((station) => (
           <Overlay
             key={station.station_id}
             anchor={[station.position.latitude, station.position.longitude]}
@@ -254,7 +254,10 @@ const DroneMap = ({ data }) => {
                 drone.position.latitude + latOffset,
                 drone.position.longitude + lngOffset,
               ]}
-              offset={[getDroneSize(ZOOM) / 2, getDroneSize(ZOOM) / 2]}
+              offset={[
+                getDroneSize(ZOOM) / 2 + latOffset,
+                getDroneSize(ZOOM) / 2 + lngOffset,
+              ]}
             >
               <Selectable
                 id={drone.drone_id}
