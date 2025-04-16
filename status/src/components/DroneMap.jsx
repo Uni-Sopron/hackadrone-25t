@@ -11,7 +11,7 @@ import MailBoxIcon from './MailBoxIcon.jsx'
 import Stats from './Stats.jsx'
 
 const DroneMap = ({ data }) => {
-  const [ZOOM, setZoom] = useState(15)
+  const [ZOOM, setZoom] = useState(10)
   const [selectedId, setSelectedId] = useState(false)
   const [pinnedId, setPinnedId] = useState(null)
   const [selectedTeam, setSelectedTeam] = useState(null)
