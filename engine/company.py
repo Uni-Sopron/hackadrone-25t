@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from .utils import Coordinate
+from .utils import Coordinate, log
 from .package import Package
 from .entity import Entity
 
@@ -39,6 +39,12 @@ class Company(Entity):
     def try_to_pay_for_drone_rescue(self) -> None:
         if self._balance_HUF < DRONE_RESCUE_COST__HUF: raise ValueError(f"Cannot rescue drone: not enough money. Balance: {self._balance_HUF}, cost: {DRONE_RESCUE_COST__HUF}.")
         self._balance_HUF -= DRONE_RESCUE_COST__HUF
+    
+    def pay_tariff(self, amount_HUF:int, reason:str):
+        charge:int = min(self._balance_HUF, amount_HUF)
+        self._balance_HUF -= charge
+        log(f"COMPANY | TARIFF | {self._name} charged {charge} HUF for: {reason}")
+
     
     def try_to_relocate(self, new_location:Coordinate) -> None:
         if self._balance_HUF < RELOCATION_COST__HUF: raise ValueError(f"Cannot relocate: not enough money. Balance: {self._balance_HUF}, cost: {RELOCATION_COST__HUF}.")

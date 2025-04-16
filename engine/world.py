@@ -37,6 +37,7 @@ class World:
     def status(self, company_name: str, entities: set[type]) -> dict[str, list[dict]]:
         self._apply_time_delay()
         self._maintain_minimum_package_count()
+        log(f"WORLD | COMPANY | STATUS | Company {company_name} asked for status.")
         return {
             entity.__name__: [
                 item.get_status(company_id=company_name)
@@ -209,8 +210,8 @@ class World:
 
     def _apply_time_delay(self) -> None:
         time_delay: timedelta = World.now() - self._last_event
-        log(f" WORLD | DELAY | {time_delay.total_seconds()} s")
         if time_delay.total_seconds() > 0:
+            log(f" WORLD | DELAY | {time_delay.total_seconds()} s")
             self._last_event += time_delay
             for drone in self._entities[Drone].values():
                 cast(Drone, drone).apply_time_pass(int(time_delay.total_seconds()))
@@ -293,3 +294,11 @@ class World:
                 package.contractor = None
         if not hasattr(self, "_min_package_count"):
             self._min_package_count:int = 30
+        if not hasattr(self, "_charge_speed_upgrade"):
+            self._charge_speed_upgrade = [3]
+            for station in self._entities[ChargingStation].values():
+                station = cast(ChargingStation, station)
+                if station.max_charging_speed_W is not None:
+                    station.max_charging_speed_W *= 3
+                else:
+                    station.max_charging_speed_W = 300
