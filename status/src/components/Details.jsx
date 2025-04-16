@@ -64,8 +64,6 @@ const Details = ({ details, onClose }) => {
   const state = details?.state
   const rewards = details?.packages?.reduce((acc, c) => acc + c.reward, 0)
   const distance = calculateDistance(details?.position, details?.destination)
-  const remainingTime =
-    ((details?.battery * CAPACITY) / details?.discharging_speed_w) * 3600
 
   return (
     <div
@@ -156,7 +154,7 @@ const Details = ({ details, onClose }) => {
           {details.operational && (
             <div className="detail-line">
               <strong>TTD:</strong>
-              <span>{formatSeconds(remainingTime)}</span>
+              <span>{formatSeconds(details?.battery_remaining_s)}</span>
             </div>
           )}
 
@@ -268,7 +266,7 @@ const Details = ({ details, onClose }) => {
           </div>
           <div className="detail-line" style={{ marginBottom: 0 }}>
             <strong>ETA:</strong>
-            <span>{formatSeconds(distance.toFixed(2) / SPEED)}</span>
+            <span>{formatSeconds(distance / SPEED)}</span>
           </div>
         </>
       )}
