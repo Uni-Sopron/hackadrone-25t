@@ -1,4 +1,4 @@
-from utils import Wh_to_J
+from .utils import Wh_to_J
 
 API_REQUEST_COST_HUF = 10
 RESPONSE_DELAY_MIN_S = 1
