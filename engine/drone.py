@@ -110,7 +110,7 @@ class Drone(Entity):
             case Drone.State.MOVING:
                 # TODO weather conditions logic
                 assert self._target is not None
-                seconds_to_target = int(distance_in_meters(self._position, self._target) / self._speed_m_per_s)
+                seconds_to_target = int(distance_in_meters(self._position, self._target) / BASE_SPEED__M_PER_S)
                 seconds_to_discharge = int(self._battery_J / (BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg()))
                 seconds_to_apply = min(seconds, seconds_to_target, seconds_to_discharge)
                 self._battery_J -= seconds_to_apply * BATTERY_DISCHARGE__W_PER_KG * self._total_weight_kg()
