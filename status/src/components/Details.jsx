@@ -8,8 +8,7 @@ import {
 } from 'date-fns'
 import { hu } from 'date-fns/locale'
 
-const SPEED = 13
-const CAPACITY = 100
+const SPEED = 20
 
 const battery_color = (percentage) => {
   if (percentage < 20) {
