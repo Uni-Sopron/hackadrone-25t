@@ -25,14 +25,15 @@ const formatDateString = (dateString) => {
 }
 
 app.get('/', (req, res) => {
-  console.log('Current index:', counter)
   if (counter >= files.length) {
+    console.log('Reloading files')
     counter = 0
     files = fs
       .readdirSync('logs')
       .sort((a, b) => a.localeCompare(b))
       .filter((file) => file.startsWith('data_') && file.endsWith('.json'))
   }
+  console.log('Current index:', counter)
   const fileName = files[counter % files.length]
   const timeString = fileName.replace('data_', '').replace('.json', '')
   const formattedDate = formatDateString(timeString)
