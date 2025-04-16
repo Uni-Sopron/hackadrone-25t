@@ -8,7 +8,7 @@ import {
 } from 'date-fns'
 import { hu } from 'date-fns/locale'
 
-const SPEED = 10
+const SPEED = 13
 const CAPACITY = 100
 
 const battery_color = (percentage) => {
@@ -153,10 +153,12 @@ const Details = ({ details, onClose }) => {
             </span>
           </div>
 
-          <div className="detail-line">
-            <strong>TTD:</strong>
-            <span>{formatSeconds(remainingTime)}</span>
-          </div>
+          {details.operational && (
+            <div className="detail-line">
+              <strong>TTD:</strong>
+              <span>{formatSeconds(remainingTime)}</span>
+            </div>
+          )}
 
           <div className="detail-line">
             <strong>Status:</strong>
