@@ -33,6 +33,11 @@ class World:
         if id not in self._entities[entity]:
             raise ValueError(f"No {entity.__name__} with id {id}")
         return self._entities[entity][id]
+    
+    def donate(self, company_name: str, amount_HUF: int) -> None:
+        company: Company = cast(Company, self._try_to_get_entity(Company, company_name))
+        company._balance_HUF += amount_HUF
+        log(f" WORLD | COMPANY | DONATE | Balance of {company_name} increased by {amount_HUF} HUF to {company._balance_HUF} HUF.")
 
     def status(self, company_name: str, entities: set[type]) -> dict[str, list[dict]]:
         self._apply_time_delay()

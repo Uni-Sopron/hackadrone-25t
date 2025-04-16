@@ -37,6 +37,9 @@ class CompanyBody(BaseModel):
     company_name: str = Field(..., min_length=1)
     base_location: Coordinate = Field(..., description="Latitude, longitude")
 
+class DonationBody(BaseModel):
+    company_name: str = Field(..., min_length=1)
+    amount_huf: int
 
 class DroneBody(BaseModel):
     company_id: str = Field(..., min_length=1)
@@ -185,10 +188,13 @@ def set_scoreboard_visibility(visible: int):
     return {"message": "Scoreboard visibility set"}
 
 
-@admin.post("/adjust_score", responses=responses)
-def adjust_score():
-    """Adjust score of a company"""
+@admin.post("/donate", responses=responses)
+def donate(body: DonationBody):
+    """Donate money to a company"""
     if request.headers.get("Api-Key", "") != ADMIN_API_KEY:
         return {"error": "Invalid API key"}, HTTPStatus.UNAUTHORIZED
-    # TODO
-    return {"message": "Score adjusted"}
+    try:
+        world.donate(body.company_name, body.amount_huf)
+    except ValueError as e:
+        return {"message": str(e)}, HTTPStatus.BAD_REQUEST
+    return {"message": "Money donated."}
