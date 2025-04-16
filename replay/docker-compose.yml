@@ -3,10 +3,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - 8000:8000
     volumes:
       - ../fetcher/logs:/app/logs:ro
+    ports:
+      - 8000:8000
     restart: unless-stopped
     networks:
       - nginx-proxy-network
