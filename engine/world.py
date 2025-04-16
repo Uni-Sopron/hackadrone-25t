@@ -307,3 +307,26 @@ class World:
                     station.max_charging_speed_W *= 3
                 else:
                     station.max_charging_speed_W = 300
+        if not hasattr(self, "brits"):
+            self.brits = True
+            for drone in self._entities[Drone].values():
+                drone = cast(Drone, drone)
+                if drone._state == Drone.State.DEAD:
+                    drone._state = Drone.State.IDLE
+                    drone._battery_J = drone._battery_max_J / 2
+                elif drone._state == Drone.State.SWAPPING:
+                    drone._state = Drone.State.IDLE
+                    drone._battery_J = drone._battery_max_J / 2
+                    drone._swap_time_remaining_s = None
+                    drone._company._balance_HUF += 10000
+                else:
+                    drone._battery_J += drone._battery_max_J / 2
+                    drone._battery_J = min(drone._battery_J, drone._battery_max_J)
+            for company in self._entities[Company].values():
+                company = cast(Company, company)
+                company._balance_HUF += 50000
+            for package in self._entities[Package].values():
+                package = cast(Package, package)
+                package.latest_delivery_datetime += timedelta(hours=1)
+                
+
