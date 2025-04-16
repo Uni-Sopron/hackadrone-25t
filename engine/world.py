@@ -8,7 +8,7 @@ from .company import Company
 from .drone import BATTERY_DISCHARGE__W_PER_KG, Drone
 from .package import Package, generate_random_package
 from .charging_station import ChargingStation
-from .utils import Coordinate, log, log_try, log_outcome, TIMEFORMAT
+from .utils import Coordinate, Wh_to_J, log, log_try, log_outcome, TIMEFORMAT
 from .entity import Entity
 
 BACKUP_DIR = "instance"
@@ -311,22 +311,19 @@ class World:
             self.brits = True
             for drone in self._entities[Drone].values():
                 drone = cast(Drone, drone)
+                drone._battery_max_J = Wh_to_J(100)
+                drone._battery_J = drone._battery_max_J
                 if drone._state == Drone.State.DEAD:
                     drone._state = Drone.State.IDLE
-                    drone._battery_J = drone._battery_max_J / 2
                 elif drone._state == Drone.State.SWAPPING:
                     drone._state = Drone.State.IDLE
-                    drone._battery_J = drone._battery_max_J / 2
                     drone._swap_time_remaining_s = None
                     drone._company._balance_HUF += 10000
-                else:
-                    drone._battery_J += drone._battery_max_J / 2
-                    drone._battery_J = min(drone._battery_J, drone._battery_max_J)
             for company in self._entities[Company].values():
                 company = cast(Company, company)
                 company._balance_HUF += 50000
             for package in self._entities[Package].values():
                 package = cast(Package, package)
                 package.latest_delivery_datetime += timedelta(hours=1)
-                
+
 
