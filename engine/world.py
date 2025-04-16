@@ -295,7 +295,7 @@ class World:
             self._min_package_count:int = 30
         if not hasattr(self, "_charge_speed_upgrade"):
             self._charge_speed_upgrade = [3]
-            for station in self._entities[ChargingStation]:
+            for station in self._entities[ChargingStation].values():
                 station = cast(ChargingStation, station)
                 if station.max_charging_speed_W is not None:
                     station.max_charging_speed_W *= 3
