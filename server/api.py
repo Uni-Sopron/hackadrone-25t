@@ -22,8 +22,8 @@ class DroneRequest(BaseModel):
 
 
 class MoveRequest(DroneRequest):
-    latitude: float = Field(..., ge=47, le=48)
-    longitude: float = Field(..., ge=16, le=17)
+    latitude: float
+    longitude: float
 
 
 class PackageRequest(DroneRequest):

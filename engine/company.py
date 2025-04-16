@@ -42,8 +42,9 @@ class Company(Entity):
     
     def pay_tariff(self, amount_HUF:int, reason:str):
         charge:int = min(self._balance_HUF, amount_HUF)
-        self._balance_HUF -= charge
-        log(f"COMPANY | TARIFF | {self._name} charged {charge} HUF for: {reason}")
+        if charge > 0:
+            self._balance_HUF -= charge
+            log(f"COMPANY | TARIFF | {self._name} charged {charge} HUF for: {reason}")
 
     
     def try_to_relocate(self, new_location:Coordinate) -> None:
