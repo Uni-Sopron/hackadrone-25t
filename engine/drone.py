@@ -103,10 +103,10 @@ class Drone(Entity):
                 charge_J:float = self._charging_station.charging_speed_W() * seconds
                 if charge_J > self._battery_max_J - self._battery_J:
                     charge_J = self._battery_max_J - self._battery_J
-                    self._battery_J = self._battery_max_J
                     self._state = Drone.State.IDLE
                     log(f"Drone {self._id} has finished charging.")
                 self._company.pay_tariff(int(charge_J*CHARGING_COST_HUF_PER_J), f"recharging drone {self._id} with {J_to_Wh(charge_J)} Wh")
+                self._battery_J += charge_J
             case Drone.State.MOVING:
                 # TODO weather conditions logic
                 assert self._target is not None
