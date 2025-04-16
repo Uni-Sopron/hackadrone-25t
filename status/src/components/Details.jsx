@@ -1,4 +1,4 @@
-import { getDistance } from 'geolib'
+import { getPreciseDistance } from 'geolib'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import {
   formatDistanceToNow,
@@ -19,7 +19,7 @@ const battery_color = (percentage) => {
 }
 
 const calculateDistance = (source, destination) => {
-  const distance = getDistance(source, destination, 0.1)
+  const distance = getPreciseDistance(source, destination, 0.1)
   return distance
 }
 
