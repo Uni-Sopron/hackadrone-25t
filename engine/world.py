@@ -37,6 +37,7 @@ class World:
     def status(self, company_name: str, entities: set[type]) -> dict[str, list[dict]]:
         self._apply_time_delay()
         self._maintain_minimum_package_count()
+        log(f"WORLD | COMPANY | STATUS | Company {company_name} asked for status.")
         return {
             entity.__name__: [
                 item.get_status(company_id=company_name)
