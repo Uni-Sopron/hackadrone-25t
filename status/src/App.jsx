@@ -95,8 +95,8 @@ function App() {
           <div className="slider-container">
             <input
               type="range"
-              min="10"
-              max="500"
+              min="50"
+              max="1000"
               value={refreshSpeed}
               onChange={(e) => setRefreshSpeed(Number(e.target.value))}
               className="speed-slider"
