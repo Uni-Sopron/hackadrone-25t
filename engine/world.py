@@ -5,7 +5,7 @@ from random import choice, uniform, sample
 import pickle
 
 from .company import Company
-from .drone import Drone
+from .drone import BATTERY_DISCHARGE__W_PER_KG, Drone
 from .package import Package, generate_random_package
 from .charging_station import ChargingStation
 from .utils import Coordinate, log, log_try, log_outcome, TIMEFORMAT
@@ -70,6 +70,7 @@ class World:
                     "longitude": drone._target[1] if drone._state == Drone.State.MOVING else drone._position[1]
                 },
                 "battery": drone._battery_J / drone._battery_max_J,
+                "discharging_speed_w": BATTERY_DISCHARGE__W_PER_KG * drone._total_weight_kg(),
                 "swapping_time_remaining_s" : drone._swap_time_remaining_s if drone._swap_time_remaining_s is not None else None,
                 "payload_capacity": drone._max_load_kg,
                 "current_payload": drone._total_weight_kg(),
