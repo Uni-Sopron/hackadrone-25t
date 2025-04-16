@@ -9,6 +9,7 @@ import {
 import { hu } from 'date-fns/locale'
 
 const SPEED = 10
+const CAPACITY = 100
 
 const battery_color = (percentage) => {
   if (percentage < 20) {
@@ -63,6 +64,8 @@ const Details = ({ details, onClose }) => {
   const state = details?.state
   const rewards = details?.packages?.reduce((acc, c) => acc + c.reward, 0)
   const distance = calculateDistance(details?.position, details?.destination)
+  const remainingTime =
+    ((details?.battery * CAPACITY) / details?.discharging_speed_w) * 3600
 
   return (
     <div
@@ -149,6 +152,12 @@ const Details = ({ details, onClose }) => {
               </div>
             </span>
           </div>
+
+          <div className="detail-line">
+            <strong>TTD:</strong>
+            <span>{formatSeconds(remainingTime)}</span>
+          </div>
+
           <div className="detail-line">
             <strong>Status:</strong>
             <span>{state}</span>
