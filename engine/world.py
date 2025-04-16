@@ -208,8 +208,8 @@ class World:
 
     def _apply_time_delay(self) -> None:
         time_delay: timedelta = World.now() - self._last_event
-        log(f" WORLD | DELAY | {time_delay.total_seconds()} s")
         if time_delay.total_seconds() > 0:
+            log(f" WORLD | DELAY | {time_delay.total_seconds()} s")
             self._last_event += time_delay
             for drone in self._entities[Drone].values():
                 cast(Drone, drone).apply_time_pass(int(time_delay.total_seconds()))
