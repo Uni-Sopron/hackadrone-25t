@@ -6,6 +6,7 @@ from flask_openapi3.types import ResponseDict
 from pydantic import BaseModel, Field
 
 from .instance import world
+from engine.tariffs import API_REQUEST_COST_HUF
 from engine.world import Company, Drone, Package, ChargingStation
 
 api = APIBlueprint("public api", __name__, url_prefix="/api")
@@ -48,6 +49,8 @@ def authenticate(company_id: str, api_key: str):
     """Authenticate the company"""
     try:
         found_company = world._try_to_get_entity(Company, company_id)
+        assert isinstance(found_company, Company)
+        found_company.pay_tariff(API_REQUEST_COST_HUF, "API request")
     except ValueError:
         return {"error": "Company not found"}, HTTPStatus.NOT_FOUND
     assert isinstance(found_company, Company)
@@ -56,10 +59,10 @@ def authenticate(company_id: str, api_key: str):
     return HTTPStatus.OK
 
 
-@api.get("/state")
-def public_state():
-    """Get world state (public)"""
-    return world.status("", {Drone, Company, Package, ChargingStation})
+# @api.get("/state")
+# def public_state():
+#     """Get world state (public)"""
+#     return world.status("", {Drone, Company, Package, ChargingStation})
 
 
 @api.get("/state/<string:company_id>", security=security)
