@@ -54,7 +54,11 @@ const DroneMap = ({ data }) => {
   })()
 
   const lines = data?.drones
-    .filter((drone) => drone.operational)
+    .filter(
+      (drone) =>
+        drone.position.longitude !== drone.destination.longitude &&
+        drone.position.latitude !== drone.destination.latitude
+    )
     .map((drone) => ({
       id: drone.drone_id,
       color: drone.team_id,
