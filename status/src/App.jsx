@@ -23,7 +23,7 @@ function App() {
   const [replay, setReplay] = useState(false)
   const [paused, setPaused] = useState(true)
   const [time, setTime] = useState(null)
-  const [refreshSpeed, setRefreshSpeed] = useState(50)
+  const [refreshSpeed, setRefreshSpeed] = useState(500)
   const { data, error, isLoading, mutate } = useSWR(URL, fetcher, {
     refreshInterval: replay ? 0 : REFRESH_INTERVAL,
   })
