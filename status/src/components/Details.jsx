@@ -43,7 +43,7 @@ const formatSeconds = (seconds) => {
   const duration = intervalToDuration({ start: 0, end: seconds * 1000 })
 
   return formatDuration(duration, {
-    format: ['minutes', 'seconds'],
+    format: ['hours', 'minutes', 'seconds'],
     locale: hu,
     delimiter: ' ',
   })
