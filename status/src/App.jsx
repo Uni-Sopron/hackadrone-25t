@@ -24,6 +24,7 @@ function App() {
   const [paused, setPaused] = useState(true)
   const [time, setTime] = useState(null)
   const [refreshSpeed, setRefreshSpeed] = useState(500)
+  const [reachedEnd, setReachedEnd] = useState(false)
   const { data, error, isLoading, mutate } = useSWR(URL, fetcher, {
     refreshInterval: replay ? 0 : REFRESH_INTERVAL,
   })
@@ -35,14 +36,17 @@ function App() {
       if (!data || !data.time) {
         setTime(res.time)
         mutate(res, false)
+        setReachedEnd(false)
         return
       }
 
       if (!isBefore(new Date(data.time), new Date(res.time))) {
         setPaused(true)
+        setReachedEnd(true)
         return
       }
 
+      setReachedEnd(false)
       setTime(res.time)
       mutate(res, false)
     }
@@ -67,7 +71,7 @@ function App() {
 
       setTime(initialData.time)
       mutate(initialData, false)
-
+      setReachedEnd(false)
       setPaused(false)
     } catch (error) {
       console.error('Failed to restart replay:', error)
@@ -76,7 +80,7 @@ function App() {
 
   const handleReplay = () => {
     if (replay) {
-      if (data && data.time && !isBefore(new Date(data.time), new Date(time))) {
+      if (reachedEnd && paused) {
         restartReplay()
       } else {
         setPaused((old) => !old)
