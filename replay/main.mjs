@@ -2,10 +2,11 @@ import fs from 'fs'
 import express from 'express'
 import cors from 'cors'
 
-const files = fs
+let files = fs
   .readdirSync('logs')
   .sort((a, b) => a.localeCompare(b))
   .filter((file) => file.startsWith('data_') && file.endsWith('.json'))
+
 const app = express()
 
 app.use(cors())
@@ -25,6 +26,13 @@ const formatDateString = (dateString) => {
 
 app.get('/', (req, res) => {
   console.log('Current index:', counter)
+  if (counter >= files.length) {
+    counter = 0
+    files = fs
+      .readdirSync('logs')
+      .sort((a, b) => a.localeCompare(b))
+      .filter((file) => file.startsWith('data_') && file.endsWith('.json'))
+  }
   const fileName = files[counter % files.length]
   const timeString = fileName.replace('data_', '').replace('.json', '')
   const formattedDate = formatDateString(timeString)
