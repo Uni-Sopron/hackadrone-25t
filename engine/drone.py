@@ -6,6 +6,7 @@ from .utils import Coordinate, distance_in_meters, inbetween_coordinate, Wh_to_J
 from .package import Package
 from .charging_station import ChargingStation
 from .entity import Entity
+from .tariffs import CHARGING_COST_HUF_PER_J, CHARGING_COST_FIX_HUF
 
 # TODO reasonable constants
 BASE_BATTERY_CAPACITY__J = Wh_to_J(100)
@@ -99,11 +100,13 @@ class Drone(Entity):
                     self._battery_J = self._battery_max_J
             case Drone.State.CHARGING:
                 assert self._charging_station is not None
-                self._battery_J += self._charging_station.charging_speed_W() * seconds
-                if self._battery_J > self._battery_max_J:
+                charge_J:float = self._charging_station.charging_speed_W() * seconds
+                if charge_J > self._battery_max_J - self._battery_J:
+                    charge_J = self._battery_max_J - self._battery_J
                     self._battery_J = self._battery_max_J
                     self._state = Drone.State.IDLE
                     log(f"Drone {self._id} has finished charging.")
+                self._company.pay_tariff(int(charge_J*CHARGING_COST_HUF_PER_J), f"recharging drone {self._id} with {J_to_Wh(charge_J)} Wh")
             case Drone.State.MOVING:
                 # TODO weather conditions logic
                 assert self._target is not None
@@ -173,6 +176,7 @@ class Drone(Entity):
             raise ValueError("Cannot start charging with packages.")
         self._state = Drone.State.CHARGING
         self._charging_station = charger
+        self._company.pay_tariff(CHARGING_COST_FIX_HUF, f"drone {self._id} docking at station {charger._id}")
 
     def try_to_start_rescue(self) -> None:
         self._company.try_to_pay_for_drone_rescue()
