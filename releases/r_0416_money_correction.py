@@ -19,24 +19,26 @@ total_charge : dict[str,int] = {
     "RoadRunnerExpress" : 0
 }
 
-# TODO need to remove late logs
 for line in lines:
     team = line.split("COMPANY | TARIFF | ")[1].split("charged")[0].strip()
     money = int(line.split("charged")[1].split("HUF")[0])
-    print(team, money)
+    # print(team, money)
     try:
         total_charge[team] += money
+        if money < 0:
+            print(line)
     except KeyError:
         print(line)
 
+print(total_charge)
 
 exit()
 
-for company_name, amount in total_charge.items():
-    requests.post(
-        "https://hackadrone.gazd.info/admin/donate", 
-        json= {
-            "company_name": company_name, 
-            "amount_huf": amount
-        }, headers=headers    
-    )
+# for company_name, amount in total_charge.items():
+#     requests.post(
+#         "https://hackadrone.gazd.info/admin/donate", 
+#         json= {
+#             "company_name": company_name, 
+#             "amount_huf": amount
+#         }, headers=headers    
+#     )
