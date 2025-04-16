@@ -31,10 +31,18 @@ function App() {
   useEffect(() => {
     const refetch = async () => {
       const res = await fetcher(REPLAY_URL)
-      if (isBefore(new Date(res.time), new Date(data.time))) {
+
+      if (!data || !data.time) {
+        setTime(res.time)
+        mutate(res, false)
+        return
+      }
+
+      if (!isBefore(new Date(data.time), new Date(res.time))) {
         setPaused(true)
         return
       }
+
       setTime(res.time)
       mutate(res, false)
     }
@@ -51,11 +59,32 @@ function App() {
     return () => {
       clearInterval(interval)
     }
-  }, [replay, paused, refreshSpeed, mutate, data?.time])
+  }, [replay, paused, refreshSpeed, mutate, data?.time, data])
+
+  const restartReplay = async () => {
+    try {
+      const initialData = await fetcher(REPLAY_URL)
+
+      setTime(initialData.time)
+      mutate(initialData, false)
+
+      setPaused(false)
+    } catch (error) {
+      console.error('Failed to restart replay:', error)
+    }
+  }
 
   const handleReplay = () => {
-    setReplay(true)
-    setPaused((old) => !old)
+    if (replay) {
+      if (data && data.time && !isBefore(new Date(data.time), new Date(time))) {
+        restartReplay()
+      } else {
+        setPaused((old) => !old)
+      }
+    } else {
+      setReplay(true)
+      setPaused(false)
+    }
   }
 
   const clearReplay = () => {
