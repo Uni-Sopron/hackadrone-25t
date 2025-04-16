@@ -8,6 +8,8 @@ import {
 } from 'date-fns'
 import { hu } from 'date-fns/locale'
 
+const SPEED = 10
+
 const battery_color = (percentage) => {
   if (percentage < 20) {
     return '#ff5252'
@@ -248,10 +250,16 @@ const Details = ({ details, onClose }) => {
       </div>
 
       {distance > 0 && (
-        <div className="detail-line" style={{ marginBottom: 0 }}>
-          <strong>Distance to target:</strong>
-          <span>{distance.toFixed(2)} m</span>
-        </div>
+        <>
+          <div className="detail-line">
+            <strong>Distance to target:</strong>
+            <span>{distance.toFixed(2)} m</span>
+          </div>
+          <div className="detail-line" style={{ marginBottom: 0 }}>
+            <strong>ETA:</strong>
+            <span>{formatSeconds(distance.toFixed(2) / SPEED)}</span>
+          </div>
+        </>
       )}
     </div>
   )
