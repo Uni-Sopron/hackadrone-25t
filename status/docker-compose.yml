@@ -1,0 +1,13 @@
+services:
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    restart: unless-stopped
+    networks:
+      - nginx-proxy-network
+
+networks:
+  nginx-proxy-network:
+    external:
+      true
