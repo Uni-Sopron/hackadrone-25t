@@ -1,0 +1,5 @@
+flask-openapi3[dotenv,swagger,redoc,rapidoc,rapipdf,scalar,elements]
+flask-cors
+mkdocs
+mkdocs-autorefs
+pyopenssl
