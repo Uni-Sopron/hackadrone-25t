@@ -1,0 +1,14 @@
+{
+  "name": "hackadrone-replay-server",
+  "version": "1.0.0",
+  "description": "Replay server for drone data",
+  "main": "main.mjs",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "scripts": {
+    "dev": "node --watch main.mjs"
+  }
+}

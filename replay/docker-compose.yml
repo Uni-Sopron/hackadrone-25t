@@ -1,0 +1,16 @@
+services:
+  replay-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../fetcher/logs:/app/logs:ro
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+    networks:
+      - nginx-proxy-network
+
+networks:
+  nginx-proxy-network:
+    external: true
